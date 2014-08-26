@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<constraints xmlns="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema ../qosconstraints/qos_constraints_schema.xsd">
+	<!--the average response time for component with id:_GdmYEMhsEeKON4DtRoKCMw 
+		should be lower than 2000ms -->
+	<constraint id="c1" name="ResponseTime">
+		<targetResourceIDRef>_GdmYEMhsEeKON4DtRoKCMw</targetResourceIDRef>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>2000</hasMaxValue>
+		</range>
+	</constraint>
+	<!--the 95th percentile of response time for component with id:_GdmYEMhsEeKON4DtRoKCMw 
+		should be lower than 3000ms -->
+	<constraint id="c2" name="ResponseTime">
+		<targetResourceIDRef>_GdmYEMhsEeKON4DtRoKCMw</targetResourceIDRef>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Percentile">
+			<parameter name="thPercentile">95</parameter>
+		</metricAggregation>
+		<range>
+			<hasMaxValue>3000</hasMaxValue>
+		</range>
+	</constraint>
+	<!-- meaning: the application should not run on Azure -->
+	<constraint id="c3" name="notAzure">
+		<targetResourceIDRef>m1</targetResourceIDRef>
+		<metric>Provider</metric>
+		<range>
+			<outSet>
+				<value>Azure</value>
+			</outSet>
+		</range>
+	</constraint>
+	<!-- meaning: the application should run only on Amazon or Flexi (or both) -->
+	<constraint id="c4" name="choice of providers">
+		<targetResourceIDRef>m1</targetResourceIDRef>
+		<metric>Provider</metric>
+		<range>
+			<inSet>
+				<value>Amazon</value>
+				<value>Flexiscale</value>
+			</inSet>
+		</range>
+	</constraint>
+	<!-- meaning: each chosen provider should process at least 20% of the incoming 
+		traffic. -->
+	<constraint id="c6" name="minimum Workload partitioning">
+		<targetResourceIDRef>m1</targetResourceIDRef>
+		<metric>WorkloadDistribution</metric>
+		<range>
+			<hasMinValue>20</hasMinValue>
+		</range>
+		<priority>2</priority>
+	</constraint>
+	<!-- meaning: the application should run at least on 2 providers -->
+	<constraint id="c7" name="minimum providers">
+		<targetResourceIDRef>m1</targetResourceIDRef>
+		<metric>Provider</metric>
+		<range>
+			<hasMinValue>2</hasMinValue>
+		</range>
+	</constraint>
+	<!-- meaning: the application should run at most on 3 providers -->
+	<constraint id="c8" name="minimum providers">
+		<targetResourceIDRef>m1</targetResourceIDRef>
+		<metric>Provider</metric>
+		<range>
+			<hasMaxValue>3</hasMaxValue>
+		</range>
+	</constraint>
+	<!-- meaning: at least 30% of the workload has to be processed by Amazon -->
+	<constraint id="c9" name="Minimum workload on Amazon">
+		<targetResourceIDRef>Amazon</targetResourceIDRef>
+		<metric>WorkloadDistribution</metric>
+		<range>
+			<hasMinValue>30</hasMinValue>
+		</range>
+	</constraint>
+</constraints>

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿Gibbo (GB) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:multiex="http://www.modaclouds.eu/xsd/2013/6/multi-cloud-extension" targetNamespace="http://www.modaclouds.eu/xsd/2013/6/multi-cloud-extension" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"  elementFormDefault="qualified" jaxb:version="2.1">
+	<!--The root-->
+	<xs:element name="multiCloudExtensions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="multiCloudExtension" type="multiex:multiCloudExtension" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:appinfo>
+							<jaxb:property name="multiCloudExtensions"/>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="workloadPartition">
+		<xs:attribute name="hour" type="xs:int" use="required"/>
+		<xs:attribute name="value" type="multiex:percentage" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="percentage">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="multiCloudExtension">
+		<xs:sequence>
+			<xs:element name="provider" type="multiex:provider" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="provider">
+		<xs:sequence>
+			<xs:element name="workloadPartition" type="multiex:workloadPartition" minOccurs="24" maxOccurs="24"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:schema>

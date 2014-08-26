@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿marco (polimi) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cons="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema"
+	targetNamespace="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema"
+	xmlns:pa="http://www.modaclouds.eu/xsd/1.0/parameter_schema" 
+	elementFormDefault="qualified" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	jaxb:version="2.1">
+	<xs:import namespace="http://www.modaclouds.eu/xsd/1.0/parameter_schema"
+		schemaLocation="../commons/parameter_schema.xsd" />
+	<xs:element name="constraints">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="constraint" type="cons:constraint"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:appinfo>
+							<jaxb:property name="constraints" />
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="set">
+		<xs:sequence>
+			<xs:element name="value" type="xs:string" minOccurs="1"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="values" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="constraint">
+		<xs:sequence>
+			<xs:element name="targetResourceIDRef" type="xs:string" />
+			<xs:element name="targetClass" type="xs:string" minOccurs="0"/>
+			<xs:element name="metric" type="xs:string" />
+			<xs:element name="metricAggregation" type="cons:qosMetricAggregation"
+				minOccurs="0" />
+			<xs:element name="range" type="cons:range" />
+			<xs:element name="priority" type="xs:nonNegativeInteger"
+				minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" />
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>
+	<xs:complexType name="qosMetricAggregation">
+		<xs:sequence>
+			<xs:element name="parameter" type="pa:parameter" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="parameters" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="aggregateFunction" type="xs:string" />
+	</xs:complexType>
+	<xs:complexType name="range">
+		<xs:sequence>
+			<xs:element name="hasMaxValue" type="xs:float" minOccurs="0" />
+			<xs:element name="hasMinValue" type="xs:float" minOccurs="0" />
+			<xs:element name="inSet" type="cons:set" minOccurs="0" />
+			<xs:element name="outSet" type="cons:set" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

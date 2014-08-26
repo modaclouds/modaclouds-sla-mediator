@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<constraints xmlns="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema https://raw.githubusercontent.com/deib-polimi/modaclouds-qos-models/master/metamodels/qosconstraints/qos_constraints_schema.xsd"	>
+	<!--the average response time for the quickadd functionality lower than 2 seconds -->
+	<constraint id="c1" name="quickaddRT">
+		<targetResourceIDRef>_EkA9EMhoEeKON4DtRoKCMw</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>2</hasMaxValue>
+		</range>
+	</constraint>
+	<!--the average response time for all the functionalities of the request handler component lower than 5 seconds -->
+	<constraint id="c2" name="requestHandlerRT">
+		<targetResourceIDRef>__o5G4MhnEeKON4DtRoKCMw</targetResourceIDRef>
+		<targetClass>InternalComponent</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>5</hasMaxValue>
+		</range>
+	</constraint>
+		<!--the average response time of the query functionality lower than 1 second -->
+	<constraint id="c3" name="requestHandlerRT">
+		<targetResourceIDRef>_lpzSMMhoEeKON4DtRoKCMw</targetResourceIDRef>
+		<targetClass>InternalComponent</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>1</hasMaxValue>
+		</range>
+	</constraint>
+	
+<!--the average cpu load of the backend lower than 80% -->
+	<constraint id="c4" name="requestHandlerRT">
+		<targetResourceIDRef>_ervoQKhyEeOVLLp4qCj_jg</targetResourceIDRef>
+		<targetClass>VM</targetClass>
+		<metric>CPUUtilization</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>0.8</hasMaxValue>
+		</range>
+	</constraint>
+</constraints>

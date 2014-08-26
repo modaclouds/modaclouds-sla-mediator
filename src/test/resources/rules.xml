@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<monitoringRules xmlns="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
+    <monitoringRule id="2bcadcc0-8444-446d-b509-76689641012f" relatedQosConstraintId="c1" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget id="_EkA9EMhoEeKON4DtRoKCMw" class="Method"/>
+        </monitoredTargets>
+        <collectedMetric inherited="false" metricName="ResponseTime">
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition inherited="false">METRIC &gt; 2.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="name">qosConstraint_c1_Violated</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="b888c51d-4bbd-49fe-bc7b-8d0002d15fab" relatedQosConstraintId="c2" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget id="__o5G4MhnEeKON4DtRoKCMw" class="InternalComponent"/>
+        </monitoredTargets>
+        <collectedMetric inherited="false" metricName="ResponseTime">
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition inherited="false">METRIC &gt; 5.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="name">qosConstraint_c2_Violated</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="a2c2106c-83d1-45ad-ac82-c0e997ae5cb2" relatedQosConstraintId="c3" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget id="_lpzSMMhoEeKON4DtRoKCMw" class="InternalComponent"/>
+        </monitoredTargets>
+        <collectedMetric inherited="false" metricName="ResponseTime">
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition inherited="false">METRIC &gt; 1.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="name">qosConstraint_c3_Violated</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="efd2cbd2-7fe8-45d1-b265-75278f17f681" relatedQosConstraintId="c4" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget id="_ervoQKhyEeOVLLp4qCj_jg" class="VM"/>
+        </monitoredTargets>
+        <collectedMetric inherited="false" metricName="CPUUtilization">
+            <parameter name="samplingTime">20</parameter>
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition inherited="false">METRIC &gt; 0.8</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="name">qosConstraint_c4_Violated</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+</monitoringRules>

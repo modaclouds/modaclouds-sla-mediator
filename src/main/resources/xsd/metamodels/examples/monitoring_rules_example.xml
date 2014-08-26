@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<monitoringRules
+	xmlns="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema
+	https://raw.githubusercontent.com/deib-polimi/modaclouds-qos-models/master/metamodels/monitoringrules/monitoring_rules_schema.xsd">
+	<monitoringRule id="mr_1" label="CPU Utilization Rule"
+		startEnabled="true" timeStep="60" timeWindow="60">
+		<monitoredTargets>
+			<monitoredTarget id="tr_1" class="VM"/>
+		</monitoredTargets>
+		<collectedMetric inherited="false" metricName="CPUUtilization">
+			<parameter name="samplingProbability">1</parameter>
+			<parameter name="samplingTime">10</parameter>
+		</collectedMetric>
+		<metricAggregation groupingClass="Region"
+			aggregateFunction="Average">
+		</metricAggregation>
+		<condition>METRIC &gt;= 0.6</condition>
+		<actions>
+			<action name="OutputMetric">
+				<parameter name="name">CpuUtilizationViolation</parameter>
+			</action>
+		</actions>
+	</monitoringRule>
+</monitoringRules>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿marco (polimi) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:mo="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:pa="http://www.modaclouds.eu/xsd/1.0/parameter_schema"
+	targetNamespace="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema"
+	elementFormDefault="qualified" jaxb:version="2.1">
+	<xs:import namespace="http://www.modaclouds.eu/xsd/1.0/parameter_schema"
+		schemaLocation="../commons/parameter_schema.xsd" />
+	<xs:element name="monitoringRules">
+		<xs:annotation>
+			<xs:documentation>A list of Monitoring Rules</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="monitoringRule" type="mo:monitoringRule"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:appinfo>
+							<jaxb:property name="monitoringRules" />
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="monitoringRule">
+		<xs:sequence>
+			<xs:element name="monitoredTargets" type="mo:monitoredTargets"
+				minOccurs="0" />
+			<xs:element name="collectedMetric" type="mo:collectedMetric" />
+			<xs:element name="metricAggregation" type="mo:monitoringMetricAggregation"
+				minOccurs="0" />
+			<xs:element name="condition" type="mo:condition"
+				minOccurs="0" />
+			<xs:element name="actions" type="mo:actions" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required" />
+		<xs:attribute name="label" type="xs:string" use="required" />
+		<xs:attribute name="relatedQosConstraintId" type="xs:string" />
+		<xs:attribute name="parentMonitoringRuleId" type="xs:IDREF">
+			<xs:annotation>
+				<xs:appinfo>
+					<jaxb:property name="parentMonitoringRule">
+						<jaxb:baseType name="MonitoringRule" />
+					</jaxb:property>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="startEnabled" type="xs:boolean" />
+		<xs:attribute name="timeStep" type="xs:string" />
+		<xs:attribute name="timeWindow" type="xs:string" />
+	</xs:complexType>
+	<xs:simpleType name="probability">
+		<xs:restriction base="xs:float">
+			<xs:maxInclusive value="1" />
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="monitoredTargets">
+		<xs:sequence>
+			<xs:element name="monitoredTarget" type="mo:monitoredTarget"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="monitoredTargets" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="inherited" type="xs:boolean" use="optional"
+			default="false" />
+	</xs:complexType>
+	<xs:complexType name="condition">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="inherited" type="xs:boolean"
+					default="false" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="monitoredTarget">
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="class" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="collectedMetric">
+		<xs:sequence>
+			<xs:element name="parameter" type="pa:parameter"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="parameters" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="inherited" type="xs:boolean" use="optional"
+			default="false" />
+		<xs:attribute name="metricName" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="monitoringMetricAggregation">
+		<xs:sequence>
+			<xs:element name="parameter" type="pa:parameter"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="parameters" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="inherited" type="xs:boolean" use="optional"
+			default="false" />
+		<xs:attribute name="groupingClass" type="xs:string" />
+		<xs:attribute name="aggregateFunction" type="xs:string" />
+	</xs:complexType>
+	<xs:complexType name="actions">
+		<xs:sequence>
+			<xs:element name="action" type="mo:action" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="actions" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="inherited" type="xs:boolean" use="optional"
+			default="false" />
+	</xs:complexType>
+	<xs:complexType name="action">
+		<xs:sequence>
+			<xs:element name="parameter" type="pa:parameter"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property name="parameters" />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="targetRuleID" type="xs:IDREF" use="optional">
+			<xs:annotation>
+				<xs:appinfo>
+					<jaxb:property name="targetRule">
+						<jaxb:baseType name="MonitoringRule" />
+					</jaxb:property>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+We will have:
+* application provider
+* customer (consumer, user)
+* application (the application that AP provides; it offers a service, and it is guaranteed to have some QoS)
+* template (the application template: any c_ap agreement will be based on this template of the application)
+
+The QoS in constraint.xml are at ap_cp level. The customer will need to fill its own desired QoS.
+ -->
+<wsag:Agreement xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement"
+    AgreemendId="${any_unique_(customer,application)_identifier}">
+    <wsag:Name>${any_description}</wsag:Name>
+    <wsag:Context>
+        <wsag:AgreementInitiator>RandomClient</wsag:AgreementInitiator>
+        <wsag:AgreementResponder>${application_provider_identifier}</wsag:AgreementResponder>
+        <!-- The AgreementResponder (in this case) is mandatory if sla is multi 
+            service provider -->
+        <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+        <wsag:ExpirationTime>${creation_time + agreement_duration}</wsag:ExpirationTime>
+        <wsag:TemplateId>${application_template_identifier}</wsag:TemplateId>
+    </wsag:Context>
+    <wsag:Terms>
+        <wsag:All>
+            <!-- FUNCTIONAL DESCRIPTION -->
+            <!--
+                The functional blocks may be here as information, but not needed to work. 
+             -->
+             <components name="RequestHandler"/>  <!--  from default.repository.xml (palladio) -->
+
+            <!-- OPTIONAL SERVICE REFERENCE -->
+
+            <!-- OPTIONAL SERVICE PROPERTIES : non functional properties -->
+            <!-- 
+             -->
+            <wsag:ServiceProperties wsag:Name="{uuid}"
+                wsag:ServiceName="RequestHandler">
+                <wsag:Variables>
+                    <wsag:Variable wsag:Name="ResponseTime" wsag:Metric="xs:double">
+                        <wsag:Location>??</wsag:Location>
+                    </wsag:Variable>
+                </wsag:Variables>
+            </wsag:ServiceProperties>
+            <wsag:GuaranteeTerm wsag:Name="quickaddRT"> <!--  the same as constraint/name; is it unique? -->
+                <!--
+                Only consider targetClass in {InternalComponent, Method} for c_ap 
+                 -->
+                <wsag:ServiceScope wsag:ServiceName="?">RequestHandler/methodname)</wsag:ServiceScope>
+                <wsag:ServiceLevelObjective>
+                    <wsag:KPITarget>
+                        <wsag:KPIName>ResponseTime</wsag:KPIName> <!-- same name as constraint/metric -->
+                        <wsag:CustomServiceLevel>
+                            {
+                                "policies": [ { count: 2, interval: 3600} ],
+                                "constraint" : {"hasMaxValue":2.0,"hasMinValue":null,"inSet":null,"outSet":null}
+                            }
+                            <!--  constraint: json representation of constraint/range (not interpreted by sla -->
+                        </wsag:CustomServiceLevel>
+                    </wsag:KPITarget>
+                    <!-- 3Y -->
+                    <wsag:BusinessValueList>
+                        <wsag:Penalty>
+                            <AsessmentInterval><wsag:TimeInterval>1 month</wsag:TimeInterval></AsessmentInterval>
+                            <wsag:ValueExpr>10%</wsag:ValueExpr>
+                        </wsag:Penalty>
+                    </wsag:BusinessValueList>
+                </wsag:ServiceLevelObjective>
+            </wsag:GuaranteeTerm>
+        </wsag:All>
+    </wsag:Terms>
+</wsag:Agreement>

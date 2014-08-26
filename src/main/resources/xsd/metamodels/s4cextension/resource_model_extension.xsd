@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿Gibbo (GB) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:resex="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension" targetNamespace="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension" elementFormDefault="qualified">
+	<!--The root-->
+	<xs:element name="resourceModelExtension">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="resourceContainer" type="resex:resourceContainer" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="iaasService">
+		<xs:sequence>
+			<xs:element name="resourceSizeID" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<!--The name of specific IaaS resource (e.g. On-Demand Extra Large Instance) should we list them all with an enumeration?-->
+			<xs:element name="location" type="resex:location" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="replicas" type="resex:replica" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="serviceType" type="xs:string" use="required"/>
+		<xs:attribute name="serviceName" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="paasService">
+		<xs:attribute name="serviceType" type="xs:string" use="required"/>
+		<xs:attribute name="serviceName" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="location">
+		<xs:attribute name="region" type="xs:string" use="optional"/>
+		<xs:attribute name="zone" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="replica">
+		<xs:sequence>
+			<xs:element name="replicaElement" type="resex:replicaElement" minOccurs="24" maxOccurs="24"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="resourceContainer">
+		<xs:sequence>
+			<xs:choice>
+				<!--Either a PaaS or a IaaS-->
+				<xs:element name="cloudPlatform" type="resex:paasService"/>
+				<xs:element name="cloudResource" type="resex:iaasService"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="provider" type="xs:string" use="optional"/>
+		<!--Must be the same  ID of the resourceContainer in Palladio-->
+	</xs:complexType>
+	<xs:complexType name="replicaElement">
+		<xs:attribute name="hour" type="xs:int" use="required"/>
+		<xs:attribute name="value" type="xs:int" use="required"/>
+	</xs:complexType>
+</xs:schema>

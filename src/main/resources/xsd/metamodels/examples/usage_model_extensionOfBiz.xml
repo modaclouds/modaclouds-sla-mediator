@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2014 deib-polimi
+    Contact: deib-polimi <marco.miglierina@polimi.it>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<usageModelExtensions xmlns="http://www.modaclouds.eu/xsd/2013/6/usage-model-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.modaclouds.eu/xsd/2013/6/usage-model-ext ../s4cextension/usage_model_extension.xsd">
+<usageModelExtension scenarioId="_JhRkcMhsEeKON4DtRoKCMw">
+<closedWorkload>
+<workloadElement hour="1" population="300" thinkTime="10" />
+<workloadElement hour="2" population="400" thinkTime="10" />
+<workloadElement hour="3" population="500" thinkTime="10" />
+<workloadElement hour="4" population="600" thinkTime="10" />
+<workloadElement hour="5" population="700" thinkTime="10" />
+<workloadElement hour="6" population="800" thinkTime="10" />
+<workloadElement hour="7" population="900" thinkTime="10" />
+<workloadElement hour="8" population="1000" thinkTime="10" />
+<workloadElement hour="9" population="1100" thinkTime="10" />
+<workloadElement hour="10" population="1200" thinkTime="10" />
+<workloadElement hour="11" population="1300" thinkTime="10" />
+<workloadElement hour="12" population="1400" thinkTime="10" />
+<workloadElement hour="13" population="1500" thinkTime="10" />
+<workloadElement hour="14" population="1600" thinkTime="10" />
+<workloadElement hour="15" population="1700" thinkTime="10" />
+<workloadElement hour="16" population="1800" thinkTime="10" />
+<workloadElement hour="17" population="1900" thinkTime="10" />
+<workloadElement hour="18" population="2000" thinkTime="10" />
+<workloadElement hour="19" population="2100" thinkTime="10" />
+<workloadElement hour="20" population="2200" thinkTime="10" />
+<workloadElement hour="21" population="2300" thinkTime="10" />
+<workloadElement hour="22" population="2400" thinkTime="10" />
+<workloadElement hour="23" population="2500" thinkTime="10" />
+<workloadElement hour="24" population="2600" thinkTime="10" />
+</closedWorkload>
+</usageModelExtension>
+</usageModelExtensions>
