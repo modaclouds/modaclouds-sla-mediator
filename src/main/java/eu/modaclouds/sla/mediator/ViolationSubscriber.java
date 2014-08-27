@@ -16,6 +16,11 @@
  */
 package eu.modaclouds.sla.mediator;
 
+import it.polimi.modaclouds.qos_models.schema.Action;
+import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
+import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
+import it.polimi.modaclouds.qos_models.schema.Parameter;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -33,10 +38,6 @@ import eu.atos.sla.parser.data.wsag.Agreement;
 import eu.atos.sla.parser.data.wsag.GuaranteeTerm;
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
-import eu.modaclouds.sla.mediator.model.monitoringrules.Action;
-import eu.modaclouds.sla.mediator.model.monitoringrules.MonitoringRule;
-import eu.modaclouds.sla.mediator.model.monitoringrules.MonitoringRules;
-import eu.modaclouds.sla.mediator.model.monitoringrules.Parameter;
 
 public class ViolationSubscriber {
     

@@ -16,6 +16,8 @@
  */
 package eu.modaclouds.sla.mediator;
 
+import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -28,7 +30,6 @@ import com.lexicalscope.jewel.cli.Option;
 
 import eu.atos.sla.client.SlaClient;
 import eu.atos.sla.parser.data.wsag.Agreement;
-import eu.modaclouds.sla.mediator.model.monitoringrules.MonitoringRules;
 
 public class Enforcement {
 

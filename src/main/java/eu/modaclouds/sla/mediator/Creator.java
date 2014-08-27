@@ -16,6 +16,9 @@
  */
 package eu.modaclouds.sla.mediator;
 
+import it.polimi.modaclouds.qos_models.schema.Constraints;
+import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -35,10 +38,8 @@ import eu.atos.sla.client.SlaException;
 import eu.atos.sla.parser.data.Provider;
 import eu.atos.sla.parser.data.wsag.Agreement;
 import eu.atos.sla.parser.data.wsag.Template;
-import eu.modaclouds.sla.mediator.model.monitoringrules.MonitoringRules;
 import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
-import eu.modaclouds.sla.mediator.model.qosconstraints.Constraints;
 
 /**
  * Generate agreements/templates based on constraints and monitoring rules,

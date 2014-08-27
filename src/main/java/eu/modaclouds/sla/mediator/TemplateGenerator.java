@@ -16,6 +16,14 @@
  */
 package eu.modaclouds.sla.mediator;
 
+import it.polimi.modaclouds.qos_models.schema.Action;
+import it.polimi.modaclouds.qos_models.schema.Constraint;
+import it.polimi.modaclouds.qos_models.schema.Constraints;
+import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
+import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
+import it.polimi.modaclouds.qos_models.schema.Parameter;
+import it.polimi.modaclouds.qos_models.schema.Range;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,18 +50,11 @@ import eu.atos.sla.parser.data.wsag.ServiceScope;
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
-import eu.modaclouds.sla.mediator.model.monitoringrules.Action;
-import eu.modaclouds.sla.mediator.model.monitoringrules.MonitoringRule;
-import eu.modaclouds.sla.mediator.model.monitoringrules.MonitoringRules;
-import eu.modaclouds.sla.mediator.model.monitoringrules.Parameter;
 import eu.modaclouds.sla.mediator.model.palladio.IReferrable;
 import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Component;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Operation;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.SeffSpecification;
-import eu.modaclouds.sla.mediator.model.qosconstraints.Constraint;
-import eu.modaclouds.sla.mediator.model.qosconstraints.Constraints;
-import eu.modaclouds.sla.mediator.model.qosconstraints.Range;
 
 public class TemplateGenerator {
     private static Logger logger = LoggerFactory.getLogger(TemplateGenerator.class);

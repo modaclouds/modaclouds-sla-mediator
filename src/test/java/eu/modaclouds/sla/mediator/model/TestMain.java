@@ -16,6 +16,9 @@
  */
 package eu.modaclouds.sla.mediator.model;
 
+import it.polimi.modaclouds.qos_models.schema.Constraints;
+import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
+
 import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
@@ -32,10 +35,8 @@ import eu.modaclouds.sla.mediator.Creator;
 import eu.modaclouds.sla.mediator.Creator.Factory;
 import eu.modaclouds.sla.mediator.Utils;
 import eu.modaclouds.sla.mediator.ViolationSubscriber;
-import eu.modaclouds.sla.mediator.model.monitoringrules.MonitoringRules;
 import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
-import eu.modaclouds.sla.mediator.model.qosconstraints.Constraints;
 
 
 public class TestMain {
