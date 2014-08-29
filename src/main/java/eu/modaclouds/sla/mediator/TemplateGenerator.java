@@ -59,6 +59,8 @@ import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.SeffSpeci
 public class TemplateGenerator {
     private static Logger logger = LoggerFactory.getLogger(TemplateGenerator.class);
 
+    private static final String DEFAULT_SERVICE_NAME = "service";
+
     private static MonitoringRule NOT_FOUND_RULE = new MonitoringRule();
     private static Component NOT_FOUND_COMPONENT = new Component();
 
@@ -77,11 +79,18 @@ public class TemplateGenerator {
     }
     
     public Template generateTemplate(Constraints constraints, MonitoringRules rules, RepositoryDocument document) {
+        String templateId = UUID.randomUUID().toString();
+        Template t = this.generateTemplate(constraints, rules, document, templateId);
+        return t;
+    }
+    
+    public Template generateTemplate(
+            Constraints constraints, MonitoringRules rules, RepositoryDocument document, String templateId) {
 
         logger.debug("generateTemplate");
         
         Template result = new Template();
-        result.setTemplateId("template-test");  /* TODO change to uuid4 */
+        result.setTemplateId(templateId);
         
         Context context = new Context();
         result.setContext(context);
@@ -159,7 +168,6 @@ public class TemplateGenerator {
         ServiceLevelObjective slo = new ServiceLevelObjective();
         KPITarget kpi = new KPITarget();
         kpi.setKpiName(constraint.getMetric());
-//        kpi.setCustomServiceLevel(String.format("{\"constraint\": \"NOT(%s)\"}", rule.getCondition().getValue()));
         try {
             kpi.setCustomServiceLevel(String.format(
                     "{\"constraint\": \"%s EXISTS\", \"qos\": %s}",
@@ -238,7 +246,7 @@ public class TemplateGenerator {
             
             if (referrable != RepositoryDocument.NOT_FOUND) {
                 if (referrable instanceof Component) {
-                    result.setServiceName("");
+                    result.setServiceName(DEFAULT_SERVICE_NAME);
                     result.setValue(referrable.getEntityName());
                 }
             }
@@ -276,7 +284,7 @@ public class TemplateGenerator {
             Component parent = element.getParent();
             Operation operation = element.getOperation(document);
             ServiceScope result = new ServiceScope();
-            result.setServiceName("");
+            result.setServiceName(DEFAULT_SERVICE_NAME);
             result.setValue(String.format("%s/%s", parent.getEntityName(), operation.getEntityName()));
             
             return result;

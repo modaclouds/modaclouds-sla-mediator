@@ -31,7 +31,7 @@ import com.lexicalscope.jewel.cli.Option;
 import eu.atos.sla.client.SlaClient;
 import eu.atos.sla.parser.data.wsag.Agreement;
 
-public class Enforcement {
+public class Starter {
 
     public static class Factory {
         private final SlaCoreConfig slaCoreConfig;
@@ -48,9 +48,9 @@ public class Enforcement {
             this.callbackBaseUrl = callbackBaseUrl;
         }
         
-        public Enforcement getEnforcement(ViolationSubscriber.Factory subscriberFactory) {
+        public Starter getEnforcement(ViolationSubscriber.Factory subscriberFactory) {
             
-            return new Enforcement(slaCoreConfig, metricsBaseUrl, callbackBaseUrl, subscriberFactory);
+            return new Starter(slaCoreConfig, metricsBaseUrl, callbackBaseUrl, subscriberFactory);
         }
     }
 
@@ -59,7 +59,7 @@ public class Enforcement {
     private final String callbackBaseUrl;
     private final ViolationSubscriber.Factory subscriberFactory;
     
-    public Enforcement(
+    public Starter(
             SlaCoreConfig slaCoreConfig, 
             String metricsBaseUrl, 
             String callbackBaseUrl, 
@@ -109,10 +109,10 @@ public class Enforcement {
         ViolationSubscriber.Factory vsFactory = new ViolationSubscriber.Factory(
                 parsedArgs.getMetricsUrl(), callbackBaseUrl);
         
-        Enforcement.Factory eFactory = new Enforcement.Factory(
+        Starter.Factory eFactory = new Starter.Factory(
                 slaCoreConfig, parsedArgs.getMetricsUrl(), callbackBaseUrl);
         
-        Enforcement enforcement = eFactory.getEnforcement(vsFactory);
+        Starter enforcement = eFactory.getEnforcement(vsFactory);
         
         enforcement.run(parsedArgs.getAgreementId(), rules);
     }

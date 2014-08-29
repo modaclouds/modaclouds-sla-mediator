@@ -55,10 +55,17 @@ public class AgreementGenerator {
     }
     
     public Agreement generateAgreement() {
+        String agreementId = UUID.randomUUID().toString();
         
+        Agreement a = generateAgreement(agreementId);
+        return a;
+    }
+    
+    public Agreement generateAgreement(String agreementId) {
+    
         Agreement agreement = new Agreement();
         
-        agreement.setAgreementId(UUID.randomUUID().toString());
+        agreement.setAgreementId(agreementId);
         agreement.setName("");  /* TODO? */
         
         agreement.setContext(generateContext());

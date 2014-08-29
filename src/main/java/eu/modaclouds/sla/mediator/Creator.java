@@ -128,7 +128,7 @@ public class Creator {
     public String runAgreement(String templateId) {
         
         Template template = loadTemplate(templateId);
-        logEntity("Loaded template is: ", template);
+        logEntity("Loaded template is {}: ", template);
         
         Agreement agreement = generateAgreement(template);
         logEntity("Generated agreement: {}", agreement);
@@ -248,7 +248,7 @@ public class Creator {
      * @param msg slf4j format string with one pair of {} where the entity should be inserted.
      * @param t entity to be logged.
      */
-    private <E> void logEntity(String msg, E e) {
+    private static <E> void logEntity(String msg, E e) {
         try {
             logger.debug(msg, Utils.toString(e));
         } catch (JAXBException e1) {
@@ -256,6 +256,7 @@ public class Creator {
             logger.warn("JAXBException printing {}", e.getClass().getName());
         }
     }
+
     
     public static void main(String[] args) throws FileNotFoundException {
         final Cli<Arguments> cli = CliFactory.createCli(Arguments.class);
@@ -272,19 +273,20 @@ public class Creator {
             InputStream repositoryIs = Utils.getInputStream(dir, "default.repository");
             
             String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
-            ContextInfo ctx = new ContextInfo(parsedArgs.getProvider(), parsedArgs.getConsumer(), "modaclouds");
+            ContextInfo ctx = new ContextInfo(
+                    parsedArgs.getProvider(), parsedArgs.getConsumer(), parsedArgs.getService());
             Factory factory = new Factory(parsedArgs.getSlaCoreUrl(), credentials[0], credentials[1]);
             Creator mediator = factory.getCreator(ctx);
-            String templateId = mediator.runTemplate(constraintsIs, rulesIs, repositoryIs);
-            String agreementId = mediator.runAgreement(templateId);
-            Agreement agreement = mediator.loadAgreement(agreementId);
-//            Template template = mediator.generateTemplate(constraintsIs, rulesIs, repositoryIs);
-//            Agreement agreement = mediator.generateAgreement(template);
             
-            try {
-                Utils.print(agreement);
-            } catch (JAXBException e) {
+            String templateId = mediator.runTemplate(constraintsIs, rulesIs, repositoryIs);
+            
+            if (!"".equals(parsedArgs.getConsumer())) {
+                
+                String agreementId = mediator.runAgreement(templateId);
+                Agreement agreement = mediator.loadAgreement(agreementId);
+                logEntity("Loaded agreement: {}", agreement);
             }
+            
         } catch (ArgumentValidationException e) {
             System.err.print(cli.getHelpMessage());
         }
@@ -304,8 +306,12 @@ public class Creator {
         @Option(shortName="p", longName="provider", description="Provider name")
         String getProvider();
         
-        @Option(shortName="c", longName="consumer", description="Consumer identifier")
+        @Option(shortName="c", longName="consumer", description="Consumer identifier", defaultValue="")
         String getConsumer();
+        
+        @Option(shortName="s", longName="service", description="Service Name. Default to 'modaclouds'", 
+                defaultValue="modaclouds")
+        String getService();
     }
     
 
