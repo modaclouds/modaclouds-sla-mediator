@@ -154,7 +154,7 @@
             <version>2.3.3</version>
         </dependency>
         <dependency>
-            <groupId>eu.atos.sla</groupId>
+            <groupId>eu.modaclouds.sla.core</groupId>
             <artifactId>sla-serializers</artifactId>
             <version>0.1.1-SNAPSHOT</version>
         </dependency>
