@@ -16,6 +16,7 @@
  */
 package eu.modaclouds.sla.mediator;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,9 +81,9 @@ public class AgreementGenerator {
         result.setAgreementInitiator(ctx.getConsumer());
         result.setAgreementResponder(ctx.getProvider());
         result.setServiceProvider(Context.ServiceProvider.AGREEMENT_RESPONDER.toString());
-        result.setExpirationTime(null);     /* TODO */
+        result.setExpirationTime(ctx.getValidity().add(new Date()));
         result.setTemplateId(template.getTemplateId());
-        result.setService("");              /* TODO */
+        result.setService(ctx.getService());
         
         return result;
     }

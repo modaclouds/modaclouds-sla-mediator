@@ -66,7 +66,7 @@ public class TestMain {
                 "password"
         );
         Creator mediator = factory.getCreator(
-                new ContextInfo("provider-a", "random-client", "modaclouds")
+                new ContextInfo("provider-a", "random-client", "modaclouds", "P1Y")
         );
         mediator.generateTemplate(
                 getInputStream("/constraint.xml"),
@@ -78,7 +78,8 @@ public class TestMain {
         Repository repository = load(Repository.class, "/default.repository.xml");
         
         RepositoryDocument model = new RepositoryDocument(repository);
-        TemplateGenerator generator = new TemplateGenerator(new ContextInfo("provider-a", "random-client", "modaclouds"));
+        TemplateGenerator generator = new TemplateGenerator(
+                new ContextInfo("provider-a", "random-client", "modaclouds", "P1Y"));
         
         Template template = generator.generateTemplate(constraints, rules, model);
         

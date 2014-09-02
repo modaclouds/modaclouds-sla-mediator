@@ -155,7 +155,7 @@
         </dependency>
         <dependency>
             <groupId>eu.modaclouds.sla.core</groupId>
-            <artifactId>sla-serializers</artifactId>
+            <artifactId>sla-tools</artifactId>
             <version>0.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -172,6 +172,12 @@
             <groupId>com.lexicalscope.jewelcli</groupId>
             <artifactId>jewelcli</artifactId>
             <version>0.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

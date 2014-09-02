@@ -16,19 +16,35 @@
  */
 package eu.modaclouds.sla.mediator;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+
 /**
  * Store context info about agreements/templates.
  *
  */
 public class ContextInfo {
-    private String provider;
-    private String consumer;
-    private String service;
+    private final String provider;
+    private final String consumer;
+    private final String service;
+    private final Validity validity;
     
-    public ContextInfo(String provider, String consumer, String service) {
+    public ContextInfo(String provider, String consumer, String service, Validity validity) {
         this.provider = provider;
         this.consumer = consumer;
         this.service = service;
+        this.validity = validity;
+    }
+    
+    public ContextInfo(String provider, String consumer, String service, String duration) {
+        this.provider = provider;
+        this.consumer = consumer;
+        this.service = service;
+        this.validity = DurationParser.parse(duration);
     }
 
     public String getProvider() {
@@ -41,5 +57,108 @@ public class ContextInfo {
 
     public String getService() {
         return service;
+    }
+    
+    public Validity getValidity() {
+        return validity;
+    }
+    
+    public Date calcExpirationTime(Date now) {
+        
+        Date result = validity.add(now);
+        return result;
+    }
+    
+    public Date calcExpirationTime() {
+        Date result = calcExpirationTime(new Date());
+        return result;
+    }
+    
+    public static class Validity {
+        private int years;
+        private int months;
+        private int days;
+        
+        public Validity(int years, int months, int days) {
+            this.years = years;
+            this.months = months;
+            this.days = days;
+        }
+
+        public int getYears() {
+            return years;
+        }
+
+        public int getMonths() {
+            return months;
+        }
+
+        public int getDays() {
+            return days;
+        }
+        
+        public Date add(Date date) {
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            
+            c.add(Calendar.YEAR, years);
+            c.add(Calendar.MONTH, months);
+            c.add(Calendar.DATE, days);
+            
+            Date result = c.getTime();
+            return result;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + days;
+            result = prime * result + months;
+            result = prime * result + years;
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Validity other = (Validity) obj;
+            if (days != other.days)
+                return false;
+            if (months != other.months)
+                return false;
+            if (years != other.years)
+                return false;
+            return true;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Validity [years=%s, months=%s, days=%s]",
+                    years, months, days);
+        }
+    }
+    
+    public static class DurationParser {
+         
+        public static Validity parse(String duration) {
+            try {
+                DatatypeFactory dtFactory = DatatypeFactory.newInstance(); 
+                Duration d = dtFactory.newDuration(duration);
+                Validity result = new Validity(
+                        d.getYears(),
+                        d.getMonths(),
+                        d.getDays()
+                );
+                return result;
+            } catch (DatatypeConfigurationException e) {
+                throw new MediatorException("Could not instantiate DatatypeFactory", e);
+            }
+        }
     }
 }

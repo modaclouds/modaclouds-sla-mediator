@@ -128,7 +128,7 @@ public class Creator {
     public String runAgreement(String templateId) {
         
         Template template = loadTemplate(templateId);
-        logEntity("Loaded template is {}: ", template);
+        logEntity("Loaded template is {}", template);
         
         Agreement agreement = generateAgreement(template);
         logEntity("Generated agreement: {}", agreement);
@@ -274,7 +274,10 @@ public class Creator {
             
             String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
             ContextInfo ctx = new ContextInfo(
-                    parsedArgs.getProvider(), parsedArgs.getConsumer(), parsedArgs.getService());
+                    parsedArgs.getProvider(), 
+                    parsedArgs.getConsumer(), 
+                    parsedArgs.getService(), 
+                    parsedArgs.getDuration());
             Factory factory = new Factory(parsedArgs.getSlaCoreUrl(), credentials[0], credentials[1]);
             Creator mediator = factory.getCreator(ctx);
             
@@ -312,6 +315,10 @@ public class Creator {
         @Option(shortName="s", longName="service", description="Service Name. Default to 'modaclouds'", 
                 defaultValue="modaclouds")
         String getService();
+        
+        @Option(longName="duration", description="xs:duration with the agreement validity. Default to 'P1Y'",
+                defaultValue="P1Y")
+        String getDuration();
     }
     
 
