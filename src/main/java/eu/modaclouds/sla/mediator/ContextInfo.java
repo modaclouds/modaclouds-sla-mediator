@@ -146,9 +146,13 @@ public class ContextInfo {
     
     public static class DurationParser {
          
+        private static DatatypeFactory dtFactory;
+
         public static Validity parse(String duration) {
             try {
-                DatatypeFactory dtFactory = DatatypeFactory.newInstance(); 
+                if (dtFactory == null) {
+                    dtFactory = DatatypeFactory.newInstance();
+                }
                 Duration d = dtFactory.newDuration(duration);
                 Validity result = new Validity(
                         d.getYears(),
