@@ -23,18 +23,28 @@ import java.io.InputStream;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.annotation.IfProfileValue;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import eu.atos.sla.client.SlaException;
 import eu.modaclouds.sla.mediator.Creator.Factory;
 
 /**
- * Test to show Creator use.
+ * Test to show Creator usage.
  * 
  * Assume there is a running slacore at localhost:8080/sla-service with "user:password" credentials.
+ * 
+ * To run:
+ *  mvn test -Dtest-profile=IntegrationTest
+ *  
  * @author rsosa
  *
  */
-//@Ignore
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("application-context.xml")
+@IfProfileValue(name="test-profile", value="IntegrationTest")
 public class CreatorTest {
 
     private static Factory factory;
