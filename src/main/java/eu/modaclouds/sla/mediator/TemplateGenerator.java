@@ -171,7 +171,7 @@ public class TemplateGenerator {
         kpi.setKpiName(constraint.getMetric());
         try {
             kpi.setCustomServiceLevel(String.format(
-                    "{\"constraint\": \"%s EXISTS\", \"qos\": %s, \"aggregation\": %s}",
+                    "{\"constraint\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
                     getOutputMetric(rule),
                     toJson(constraint.getRange()),
                     toJson(constraint.getMetricAggregation())
