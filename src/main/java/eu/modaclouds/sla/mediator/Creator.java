@@ -268,9 +268,9 @@ public class Creator {
                     String.format("dir=%s; url=%s", parsedArgs.getDirectory(), parsedArgs.getSlaCoreUrl()));
             
             String dir = parsedArgs.getDirectory();
-            InputStream constraintsIs = Utils.getInputStream(dir, "constraint.xml");
-            InputStream rulesIs = Utils.getInputStream(dir, "rules.xml");
-            InputStream repositoryIs = Utils.getInputStream(dir, "default.repository");
+            InputStream constraintsIs = Utils.getInputStream(dir, parsedArgs.getConstraints());
+            InputStream rulesIs = Utils.getInputStream(dir, parsedArgs.getRules());
+            InputStream repositoryIs = Utils.getInputStream(dir, parsedArgs.getPrefix() + ".repository");
             
             String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
             ContextInfo ctx = new ContextInfo(
@@ -319,6 +319,19 @@ public class Creator {
         @Option(longName="duration", description="xs:duration with the agreement validity. Default to 'P1Y'",
                 defaultValue="P1Y")
         String getDuration();
+        
+        @Option(longName="prefix", defaultValue="default", 
+                description="PMC filenames have 'prefix.kind' format. This options specifies the prefix. "
+                        + "Default to 'default'" )
+        String getPrefix();
+        
+        @Option(longName="rules", defaultValue="rules.xml",
+                description="Filename of xml containing the monitoring rules. Default to 'rules.xml'")
+        String getRules();
+
+        @Option(longName="constraints", defaultValue="constraint.xml", 
+                description="Filename of xml containing constraints. Default to 'constraint.xml'")
+        String getConstraints();
     }
     
 

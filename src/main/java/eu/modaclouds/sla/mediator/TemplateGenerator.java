@@ -22,7 +22,6 @@ import it.polimi.modaclouds.qos_models.schema.Constraints;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
 import it.polimi.modaclouds.qos_models.schema.Parameter;
-import it.polimi.modaclouds.qos_models.schema.Range;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +66,8 @@ public class TemplateGenerator {
     private String consumer;
     private String provider;
     private String service;
+    
+    private ObjectMapper jsonMapper;
     
     public TemplateGenerator(ContextInfo ctx) {
         this.provider = ctx.getProvider();
@@ -170,9 +171,10 @@ public class TemplateGenerator {
         kpi.setKpiName(constraint.getMetric());
         try {
             kpi.setCustomServiceLevel(String.format(
-                    "{\"constraint\": \"%s EXISTS\", \"qos\": %s}",
+                    "{\"constraint\": \"%s EXISTS\", \"qos\": %s, \"aggregation\": %s}",
                     getOutputMetric(rule),
-                    rangeAsJson(constraint.getRange())
+                    toJson(constraint.getRange()),
+                    toJson(constraint.getMetricAggregation())
                     ));
         } catch (JsonProcessingException e) {
             throw new GeneratorException(e.getMessage(), e);
@@ -199,13 +201,15 @@ public class TemplateGenerator {
         return "";
     }
     
-    private String rangeAsJson(Range range) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
-        mapper.getSerializationConfig().with(introspector);
-        mapper.setSerializationInclusion(Include.NON_NULL);
+    private <T> String toJson(T t) throws JsonProcessingException {
+        if (jsonMapper == null) {
+            jsonMapper = new ObjectMapper();
+            AnnotationIntrospector introspector = new JacksonAnnotationIntrospector();
+            jsonMapper.getSerializationConfig().with(introspector);
+            jsonMapper.setSerializationInclusion(Include.NON_NULL);
+        }
 
-        return mapper.writeValueAsString(range);
+        return jsonMapper.writeValueAsString(t);
     }
     
     public interface IServiceScoper {
