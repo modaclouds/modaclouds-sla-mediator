@@ -262,6 +262,7 @@ public class Creator {
         final Cli<Arguments> cli = CliFactory.createCli(Arguments.class);
         
         try {
+            String output = "";
 
             Arguments parsedArgs = cli.parseArguments(args);
             System.err.println(
@@ -282,16 +283,20 @@ public class Creator {
             Creator mediator = factory.getCreator(ctx);
             
             String templateId = mediator.runTemplate(constraintsIs, rulesIs, repositoryIs);
-            
+            output = templateId;
             if (!"".equals(parsedArgs.getConsumer())) {
                 
                 String agreementId = mediator.runAgreement(templateId);
+                output = agreementId;
                 Agreement agreement = mediator.loadAgreement(agreementId);
                 logEntity("Loaded agreement: {}", agreement);
             }
             
+            System.out.println(output);
+            
         } catch (ArgumentValidationException e) {
             System.err.print(cli.getHelpMessage());
+            System.exit(2);
         }
     }
     
