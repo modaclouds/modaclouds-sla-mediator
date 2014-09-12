@@ -1,0 +1,18 @@
+{
+  "internalComponents": [
+    {
+      "id": "rh", 
+      "providedMethods": [
+        "rh-login"
+      ], 
+      "requiredComponents": [ ], 
+      "type": "RequestHandler"
+    }
+  ], 
+  "methods": [
+    {
+      "id": "rh-login", 
+      "type": "login"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<constraints xmlns="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema https://raw.githubusercontent.com/deib-polimi/modaclouds-qos-models/master/metamodels/qosconstraints/qos_constraints_schema.xsd">
+	<constraint
+		id="c1"
+		name="loginAverage">
+		<targetResourceIDRef>_FIHtgIGMEeK4MfbIE3-zwQ</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>1000</hasMaxValue>
+		</range>
+	</constraint>
+	<constraint
+		id="c2"
+		name="loginPercentile">
+		<targetResourceIDRef>_FIHtgIGMEeK4MfbIE3-zwQ</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Percentile">
+			<parameter name="thPercentile">85</parameter>
+		</metricAggregation>
+		<range>
+			<hasMaxValue>800</hasMaxValue>
+		</range>
+	</constraint>
+	<constraint
+		id="c3"
+		name="updateDataAverage">
+		<targetResourceIDRef>_FHrooIGMEeK4MfbIE3-zwQ</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>2000</hasMaxValue>
+		</range>
+	</constraint>
+	<constraint
+		id="c4"
+		name="updateDataPercentile">
+		<targetResourceIDRef>Id	_FHrooIGMEeK4MfbIE3-zwQ</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Percentile">
+			<parameter name="thPercentile">85</parameter>
+		</metricAggregation>
+		<range>
+			<hasMaxValue>1500</hasMaxValue>
+		</range>
+	</constraint>
+	<constraint
+		id="c5"
+		name="frontEndAverageRT">
+		<targetResourceIDRef>_T1b94IGJEeK4MfbIE3-zwQ</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>5000</hasMaxValue>
+		</range>
+	</constraint>
+	<constraint
+		id="a1"
+		name="webServerUtilization">
+		<targetResourceIDRef>_WHZKsIGPEeKo6LTSAnjWxg</targetResourceIDRef>
+		<targetClass>VM</targetClass>
+		<metric>CPUUtilization</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>0.8</hasMaxValue>
+		</range>
+	</constraint>
+		<constraint
+		id="a2"
+		name="webServerMinRAM">
+		<targetResourceIDRef>_WHZKsIGPEeKo6LTSAnjWxg</targetResourceIDRef>
+		<targetClass>VM</targetClass>
+		<metric>RAM</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMinValue>4096</hasMinValue>
+		</range>
+	</constraint>
+	<constraint id="a3" name="Mail does not Scale">
+		<targetResourceIDRef>_MNm6wIGSEeKo6LTSAnjWxg</targetResourceIDRef>
+		<targetClass>VM</targetClass>
+		<metric>Replication</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>1</hasMaxValue>
+			<hasMinValue>1</hasMinValue>
+		</range>
+	</constraint>
+</constraints>
