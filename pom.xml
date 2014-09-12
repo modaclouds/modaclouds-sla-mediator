@@ -82,8 +82,17 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>sla-mediator</finalName>
                 </configuration>
+                <executions>
+                  <execution>
+                    <id>make-assembly</id>
+                    <phase>package</phase>
+                    <goals>
+                      <goal>single</goal>
+                    </goals>
+                  </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.mycila</groupId>
@@ -135,12 +144,12 @@
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-json</artifactId>
+            <artifactId>jersey-client</artifactId>
             <version>1.17.1</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
+            <artifactId>jersey-json</artifactId>
             <version>1.17.1</version>
         </dependency>
         <dependency>
