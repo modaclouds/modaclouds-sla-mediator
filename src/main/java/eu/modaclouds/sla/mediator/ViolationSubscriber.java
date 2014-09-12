@@ -16,7 +16,10 @@
  */
 package eu.modaclouds.sla.mediator;
 
+import java.io.IOException;
+
 import it.polimi.modaclouds.qos_models.schema.Action;
+import it.polimi.modaclouds.qos_models.schema.Actions;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
 import it.polimi.modaclouds.qos_models.schema.Parameter;
@@ -28,6 +31,9 @@ import javax.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -41,6 +47,10 @@ import eu.atos.sla.parser.data.wsag.Terms;
 
 public class ViolationSubscriber {
     
+    private static final String NAME = "name";
+
+    private static final String OUTPUT_METRIC = "OutputMetric";
+
     public static class Factory {
         
         private String metricsBaseUrl;
@@ -113,7 +123,7 @@ public class ViolationSubscriber {
                 continue;
             }
             for (Action action : rule.getActions().getActions()) {
-                if ("OutputMetric".equals(action.getName())) {
+                if (OUTPUT_METRIC.equals(action.getName())) {
                     for (Parameter param : action.getParameters()) {
                         process(gt, rule, action, param);
                     }
@@ -133,14 +143,75 @@ public class ViolationSubscriber {
     }
     
     private MonitoringRule getRelatedRule(GuaranteeTerm guarantee, MonitoringRules rules) {
+
+        MonitoringRule result = (rules == null)? 
+                buildRelatedRule(guarantee) : 
+                findRelatedRule(guarantee, rules);
+        return result;
+    }
+
+    private MonitoringRule findRelatedRule(GuaranteeTerm guarantee, MonitoringRules rules) {
+        MonitoringRule result = NOT_FOUND_RULE;
+        
         for (MonitoringRule rule : rules.getMonitoringRules()) {
             
             if (guarantee.getName().equals(rule.getRelatedQosConstraintId())) {
                 
-                return rule;
+                result = rule;
+                break;
             }
         }
-        return NOT_FOUND_RULE;
+        return result;
+    }
+    
+    /**
+     * Build a MonitoringRule given a guarantee term
+     * 
+     * @param guarantee
+     * @param rules
+     * @return
+     */
+    private MonitoringRule buildRelatedRule(GuaranteeTerm guarantee) {
+        
+        MonitoringRule result = new MonitoringRule();
+        result.setId(guarantee.getName());
+
+        String violation = extractOutputMetric(guarantee);
+        Parameter param = new Parameter();
+        param.setName(NAME);
+        param.setValue(violation);
+        
+        Action action = new Action();
+        action.setName(OUTPUT_METRIC);
+        action.getParameters().add(param);
+        
+        Actions actions = new Actions();
+        actions.getActions().add(action);
+        
+        result.setActions(actions);
+        
+        return result;
+    }
+
+    private String extractOutputMetric(GuaranteeTerm guarantee) {
+        String slo = guarantee.getServiceLevelObjetive().getKpitarget().getCustomServiceLevel();
+        
+        ObjectMapper mapper = new ObjectMapper();
+        String constraint = null;
+        JsonNode rootNode = null;
+        try {
+            rootNode = mapper.readTree(slo);
+        } catch (JsonProcessingException e) {
+            throw new MediatorException("Error processing slo json", e);
+        } catch (IOException e) {
+            throw new MediatorException("Error processing slo json", e);
+        }
+        JsonNode constraintNode = rootNode.path(TemplateGenerator.CONSTRAINT);
+        constraint = constraintNode.textValue();
+        
+        int pos = constraint.indexOf(' ');
+        String violation = constraint.substring(0, pos == -1? slo.length() : pos);
+        return violation;
     }
     
     private void process(GuaranteeTerm term, MonitoringRule rule, Action action, Parameter parameter) {
@@ -167,6 +238,7 @@ public class ViolationSubscriber {
             logger.warn("Could not attach observer to {}", parameter.getValue());
         }
         else {
+            logger.info("Successful attached callback={} to {}", callbackUrl, parameter.getValue());
         }
     }
     
@@ -177,7 +249,7 @@ public class ViolationSubscriber {
     }
 
     private String getPostUrl(Parameter parameter) {
-        return String.format("%s/%s", metricsBaseUrl, parameter.getValue());
+        return String.format("%s/%s/observers", metricsBaseUrl, parameter.getValue().toLowerCase());
     }
 
     public String getMetricsBaseUrl() {
@@ -190,16 +262,16 @@ public class ViolationSubscriber {
     
     private static String getCallbackUrl(String callbackBaseUrl, Agreement agreement, GuaranteeTerm term) {
 
-        String path = "{base}";
-        String result = UriBuilder.fromPath(path).
-                queryParam("agreement", agreement.getAgreementId()).
-                queryParam("term", term.getName()).
-                build(callbackBaseUrl).toString();
+//        String path = "{base}";
+//        String result = UriBuilder.fromPath(path).
+//                queryParam("agreement", agreement.getAgreementId()).
+//                queryParam("term", term.getName()).
+//                build(callbackBaseUrl).toString();
         
-//        String path = "{base}/{agreement}/{term}";
-//        String result = UriBuilder.fromPath(path).build(
-//                callbackBaseUrl, agreement.getAgreementId(), term.getName()
-//        ).toString();
+        String path = "{base}/{agreement}";
+        String result = UriBuilder.fromPath(path).build(
+                callbackBaseUrl, agreement.getAgreementId()
+        ).toString();
         
 //        String result = Utils.join("/", callbackBaseUrl, agreement.getAgreementId(), term.getName());
         

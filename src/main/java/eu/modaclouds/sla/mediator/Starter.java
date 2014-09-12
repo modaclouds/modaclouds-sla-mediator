@@ -96,7 +96,9 @@ public class Starter {
 
         Arguments parsedArgs = cli.parseArguments(args);
 
-        MonitoringRules rules = loadRules(parsedArgs.getDirectory());
+        MonitoringRules rules = parsedArgs.getDirectory() == null? 
+                null : 
+                loadRules(parsedArgs.getDirectory());
 
         String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
         SlaCoreConfig slaCoreConfig = new SlaCoreConfig(parsedArgs.getSlaCoreUrl(), credentials[0], credentials[1]);
@@ -119,7 +121,7 @@ public class Starter {
 
     private static String buildCallbackUrl(Arguments parsedArgs) {
         return parsedArgs.getCallbackUrl() != null? 
-                parsedArgs.getCallbackUrl() : parsedArgs.getSlaCoreUrl() + "/metricsReceiver";
+                parsedArgs.getCallbackUrl() : parsedArgs.getSlaCoreUrl() + "/metrics";
     }
 
     private static MonitoringRules loadRules(String dir)
@@ -135,7 +137,9 @@ public class Starter {
          * At deployment time, this directory is maybe not available. If so, think of storing 
          * the monitoringrules in some kind of store, or include the action in the agreement.
          */
-        @Option(shortName="d", longName="dir", description="Directory where to find xml files")
+        @Option(shortName="d", longName="dir", defaultToNull=true,
+                description="Directory where to find xml files. If not specified, tries to retrieve OutputMetric "
+                        + "information from agreement")
         String getDirectory();
         
         @Option(longName="sla", description="Sla Core Url")
@@ -151,7 +155,7 @@ public class Starter {
         String getMetricsUrl();
         
         @Option(longName="callback", 
-                description="Callback Url. If not set, fallback to $sla/metricsReceiver", 
+                description="Callback Url. If not set, fallback to $sla/metrics", 
                 defaultToNull=true)
         String getCallbackUrl();
     }

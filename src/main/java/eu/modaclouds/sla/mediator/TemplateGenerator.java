@@ -56,6 +56,8 @@ import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Operation
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.SeffSpecification;
 
 public class TemplateGenerator {
+    public static final String CONSTRAINT = "constraint";
+
     private static Logger logger = LoggerFactory.getLogger(TemplateGenerator.class);
 
     private static final String DEFAULT_SERVICE_NAME = "service";
@@ -171,7 +173,8 @@ public class TemplateGenerator {
         kpi.setKpiName(constraint.getMetric());
         try {
             kpi.setCustomServiceLevel(String.format(
-                    "{\"constraint\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
+                    "{\"%s\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
+                    CONSTRAINT,
                     getOutputMetric(rule),
                     toJson(constraint.getRange()),
                     toJson(constraint.getMetricAggregation())
