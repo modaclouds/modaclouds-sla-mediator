@@ -24,6 +24,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
+import com.lexicalscope.jewel.cli.ArgumentValidationException;
 import com.lexicalscope.jewel.cli.Cli;
 import com.lexicalscope.jewel.cli.CliFactory;
 import com.lexicalscope.jewel.cli.Option;
@@ -94,29 +95,36 @@ public class Starter {
     public static void main(String[] args) throws FileNotFoundException, JAXBException {
         final Cli<Arguments> cli = CliFactory.createCli(Arguments.class);
 
-        Arguments parsedArgs = cli.parseArguments(args);
-
-        MonitoringRules rules = parsedArgs.getDirectory() == null? 
-                null : 
-                loadRules(parsedArgs.getDirectory());
-
-        String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
-        SlaCoreConfig slaCoreConfig = new SlaCoreConfig(parsedArgs.getSlaCoreUrl(), credentials[0], credentials[1]);
-        String callbackBaseUrl = buildCallbackUrl(parsedArgs);
-
-        /*
-         * Create/inject instances
-         */
+        try {
+            
+            Arguments parsedArgs = cli.parseArguments(args);
+    
+            MonitoringRules rules = parsedArgs.getDirectory() == null? 
+                    null : 
+                    loadRules(parsedArgs.getDirectory());
+    
+            String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
+            SlaCoreConfig slaCoreConfig = new SlaCoreConfig(parsedArgs.getSlaCoreUrl(), credentials[0], credentials[1]);
+            String callbackBaseUrl = buildCallbackUrl(parsedArgs);
+    
+            /*
+             * Create/inject instances
+             */
+            
+            ViolationSubscriber.Factory vsFactory = new ViolationSubscriber.Factory(
+                    parsedArgs.getMetricsUrl(), callbackBaseUrl);
+            
+            Starter.Factory eFactory = new Starter.Factory(
+                    slaCoreConfig, parsedArgs.getMetricsUrl(), callbackBaseUrl);
+            
+            Starter enforcement = eFactory.getEnforcement(vsFactory);
+            
+            enforcement.run(parsedArgs.getAgreementId(), rules);
+        } catch (ArgumentValidationException e) {
+            System.err.print(cli.getHelpMessage());
+            System.exit(2);
+        }
         
-        ViolationSubscriber.Factory vsFactory = new ViolationSubscriber.Factory(
-                parsedArgs.getMetricsUrl(), callbackBaseUrl);
-        
-        Starter.Factory eFactory = new Starter.Factory(
-                slaCoreConfig, parsedArgs.getMetricsUrl(), callbackBaseUrl);
-        
-        Starter enforcement = eFactory.getEnforcement(vsFactory);
-        
-        enforcement.run(parsedArgs.getAgreementId(), rules);
     }
 
     private static String buildCallbackUrl(Arguments parsedArgs) {
