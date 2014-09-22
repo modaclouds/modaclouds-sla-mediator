@@ -115,9 +115,12 @@ public class Utils {
     }
 
     static String[] splitCredentials(String combinedCredentials) {
-        
+        if (combinedCredentials == null) {
+            combinedCredentials = "";
+        }
+
         int splitIndex = combinedCredentials.indexOf(':');
-        
+
         /*
          * separator not found
          */
