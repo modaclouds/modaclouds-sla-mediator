@@ -17,6 +17,8 @@
 package eu.modaclouds.sla.mediator;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import it.polimi.modaclouds.qos_models.schema.Action;
 import it.polimi.modaclouds.qos_models.schema.Actions;
@@ -113,7 +115,7 @@ public class ViolationSubscriber {
             MonitoringRules rules) {
 
         logger.debug("Subscribing {}", getAgreementDescription(agreement));
-        for (GuaranteeTerm gt : terms.getAllTerms().getGuaranteeTerms()) {
+        for (GuaranteeTerm gt : getGuaranteeTerms(terms)) {
             MonitoringRule rule = getRelatedRule(gt, rules);
             
             if (rule == NOT_FOUND_RULE) {
@@ -122,7 +124,7 @@ public class ViolationSubscriber {
                         getAgreementDescription(agreement), gt.getName());
                 continue;
             }
-            for (Action action : rule.getActions().getActions()) {
+            for (Action action : getActions(rule)) {
                 if (OUTPUT_METRIC.equals(action.getName())) {
                     for (Parameter param : action.getParameters()) {
                         process(gt, rule, action, param);
@@ -130,6 +132,29 @@ public class ViolationSubscriber {
                 }
             }
         }
+    }
+
+    /**
+     * Wrapper to avoid a NPE
+     */
+    private List<Action> getActions(MonitoringRule rule) {
+        List<Action> result;
+        if (rule.getActions() != null && rule.getActions().getActions() != null) {
+            result = rule.getActions().getActions();
+        }
+        else {
+            result = Collections.<Action>emptyList();
+        }
+        return result;
+    }
+
+    /**
+     * Wrapper to avoid a NPE.
+     */
+    private List<GuaranteeTerm> getGuaranteeTerms(Terms terms) {
+        return terms.getAllTerms().getGuaranteeTerms() != null?
+                terms.getAllTerms().getGuaranteeTerms() :
+                Collections.<GuaranteeTerm>emptyList();
     }
     
     private String getAgreementDescription(Agreement agreement) {
