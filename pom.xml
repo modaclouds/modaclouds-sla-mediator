@@ -22,7 +22,7 @@
 
     <groupId>eu.modaclouds.sla</groupId>
     <artifactId>sla-mediator</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>SLA Mediator</name>
