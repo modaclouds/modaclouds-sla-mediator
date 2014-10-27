@@ -292,7 +292,7 @@ public class Creator {
                 logEntity("Loaded agreement: {}", agreement);
             }
             
-            System.out.println(output);
+            System.out.print(output);
             
         } catch (ArgumentValidationException e) {
             System.err.print(cli.getHelpMessage());

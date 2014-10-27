@@ -19,6 +19,11 @@
 #
 # Assume MP and sla-core are running at localhost in a clear state.
 #
+# The following ENV vars may be previously assigned:
+# SLA_URL (default: http://localhost:8080/sla-service)
+# MP_URL  (default: http://localhost:8170/v1)
+# DDA_URL (default: http://localhost:8175)
+#
 #
 if [ "$0" != "bin/test-integration.sh" ]; then
         echo "Must be executed from project root"
@@ -26,8 +31,9 @@ if [ "$0" != "bin/test-integration.sh" ]; then
 fi
 
 CREDENTIALS=user:password
-SLA_URL=http://localhost:8080/sla-service
-MP_URL=http://localhost:8170/v1
+SLA_URL=${SLA_URL:-http://localhost:8080/sla-service}
+MP_URL=${MP_URL:-http://localhost:8170/v1}
+DDA_URL=${DDA_URL:-http://localhost:8175}
 
 #
 # Setup MP.
@@ -55,6 +61,7 @@ if [ "$?" != "0" ]; then
     >&2 echo -e "\n\nError creating agreement"
     exit 1
 fi
+[ "$DEBUG" != "" ] && echo AGREEMENT_ID=\"$AGREEMENT_ID\"
 
 #
 # Start agreement enforcement
@@ -77,11 +84,11 @@ sleep 5
 #
 curl -v -X POST -H"Content-type: application/json" \
     -d@'src/test/resources/mic/data01.json'        \
-    http://localhost:8175/streams/http%3A%2F%2Fwww.modaclouds.eu%2Fstreams%2Fresponsetime
+    $DDA_URL/streams/http%3A%2F%2Fwww.modaclouds.eu%2Fstreams%2Fresponsetime
 
 sleep 3
 
 curl -v -X POST -H"Content-type: application/json" \
     -d@'src/test/resources/mic/data02.json'        \
-    http://localhost:8175/streams/http%3A%2F%2Fwww.modaclouds.eu%2Fstreams%2Fresponsetime
+    $DDA_URL/streams/http%3A%2F%2Fwww.modaclouds.eu%2Fstreams%2Fresponsetime
 
