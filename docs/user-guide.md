@@ -2,6 +2,7 @@
 
 * [Introduction](#intro)
 * [Creator](#creator)
+* [Starter](#starter)
 * [Modelio](#modelio)
 * [Customer-ApplicationProvider Template generation](#c-ap-template)
 * [Agreement generation](#agreement)
@@ -43,13 +44,46 @@ The available options are:
 
 So, for example, a valid invocation is:
 
-    $ creator
+    $ java -cp target/sla-mediator-jar-with-dependencies.jar eu.modaclouds.sla.mediator.Creator
       --url http://localhost:8080/sla-service 
       --user user:password 
       --dir src/test/resources/ 
       --provider ATOS
       --consumer BancoSantander
-      
+
+## <a name="starter">Starter</a> ##
+
+The Starter is a command line application that starts the enforcement of 
+existing agreements.
+
+The options available are:
+
+    --id value : Agreement Id
+    [--callback value] : Callback Url. If not set, fallback to $sla/metrics
+    [--user -u value] : Sla Credentials (user:password)
+    [--dir -d value] : Directory where to find xml files. 
+        If not specified, tries to retrieve OutputMetric information from agreement
+    [--metrics value] : Monitoring Platform Metrics Url
+    [--sla value] : Sla Core Url
+    
+The Starter program may use the following ENV vars:
+
+* `SLA_CORE_URL`: Url of Sla Core component (e.g. `http://localhost:8080/sla-service`)
+* `SLA_CORE_CREDENTIALS`: Credentials to authenticate to Sla Core (e.g. `user:password`)
+* `MONITORING_METRICS_URL`: Monitoring Platform Metrics Url (e.g. `http://localhost:8170/v1/metrics`)
+
+Starter options override env vars. If any env var is not used, the corresponding option MUST be specified.
+
+A valid invocation is:
+
+    $ export MONITORING_METRICS_URL=http://localhost:8170/v1/metrics
+    $ export SLA_CORE_URL=http://localhost:8080/sla-service 
+    $ java -cp target/sla-mediator-jar-with-dependencies.jar eu.modaclouds.sla.mediator.Starter
+      --id 0d95636f-fe41-4f2c-a0d6-1bbeb470641
+      --sla http://eu.modaclouds.sla:8080/sla-service 
+      --user user:password 
+
+
 ## <a name="modelio">Modelio</a> ##
 
 (Work in progress)
