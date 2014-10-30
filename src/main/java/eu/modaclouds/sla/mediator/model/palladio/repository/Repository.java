@@ -16,6 +16,7 @@
  */
 package eu.modaclouds.sla.mediator.model.palladio.repository;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.Unmarshaller;
@@ -32,6 +33,9 @@ import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
 @XmlRootElement(name = "Repository")
 public class Repository implements IReferrable {
     
+    private static final List<Component> EMPTY_COMPONENTS = Collections.<Component>emptyList();
+    private static final List<Interface> EMPTY_INTERFACES = Collections.<Interface>emptyList();
+
     @XmlAttribute
     private String id;
     
@@ -55,15 +59,18 @@ public class Repository implements IReferrable {
     }
 
     public List<Component> getComponents() {
-        return components;
+        return components != null? components : EMPTY_COMPONENTS;
     }
 
     public List<Interface> getInterfaces() {
-        return interfaces;
+        return interfaces != null? interfaces : EMPTY_INTERFACES;
     }
     
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Component implements IReferrable {
+
+        private static final List<SeffSpecification> EMPTY_SEFF_SPECIFICATIONS = 
+                Collections.<SeffSpecification>emptyList();
 
         @XmlAttribute
         private String id;
@@ -87,7 +94,7 @@ public class Repository implements IReferrable {
         }
 
         public List<SeffSpecification> getSeffSpecifications() {
-            return seffBasicComponents;
+            return seffBasicComponents != null? seffBasicComponents : EMPTY_SEFF_SPECIFICATIONS;
         }
         
         public Repository getParent() {

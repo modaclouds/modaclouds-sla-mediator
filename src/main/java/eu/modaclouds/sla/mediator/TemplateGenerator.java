@@ -17,6 +17,7 @@
 package eu.modaclouds.sla.mediator;
 
 import it.polimi.modaclouds.qos_models.schema.Action;
+import it.polimi.modaclouds.qos_models.schema.Actions;
 import it.polimi.modaclouds.qos_models.schema.Constraint;
 import it.polimi.modaclouds.qos_models.schema.Constraints;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
@@ -63,6 +64,12 @@ public class TemplateGenerator {
     private static final String DEFAULT_SERVICE_NAME = "service";
 
     private static MonitoringRule NOT_FOUND_RULE = new MonitoringRule();
+    
+    private static GuaranteeTerm NULL_GUARANTEE_TERM = new GuaranteeTerm();
+    
+    static {
+        NOT_FOUND_RULE.setActions(new Actions());
+    }
     private static Component NOT_FOUND_COMPONENT = new Component();
 
     private String consumer;
@@ -124,8 +131,14 @@ public class TemplateGenerator {
             case INTERNAL_COMPONENT:
             case METHOD:
                 MonitoringRule rule = getRelatedRule(constraint, rules);
+                if (rule == NOT_FOUND_RULE) {
+                    logger.warn("Related rule not found: constraintId={}", constraint.getId());
+                    continue;
+                }
                 GuaranteeTerm gt = generateGuaranteeTerm(constraint, rule, document);
-                gts.add(gt);
+                if (gt != NULL_GUARANTEE_TERM) {
+                    gts.add(gt);
+                }
 
             default:
                 /*
@@ -139,17 +152,21 @@ public class TemplateGenerator {
     }
     
     private MonitoringRule getRelatedRule(Constraint constraint, MonitoringRules rules) {
+        MonitoringRule result = NOT_FOUND_RULE;
         
         String constraintId = constraint.getId();
         if (constraintId == null) {
-            throw new NullPointerException("Not valid constraint: id is null");
-        }
-        for (MonitoringRule rule : rules.getMonitoringRules()) {
-            if (constraintId.equals(rule.getRelatedQosConstraintId())) {
-                return rule;
+            logger.warn("Not valid constraint: id is null");
+        } 
+        else {
+            for (MonitoringRule rule : rules.getMonitoringRules()) {
+                if (constraintId.equals(rule.getRelatedQosConstraintId())) {
+                    result = rule;
+                    break;
+                }
             }
         }
-        return NOT_FOUND_RULE;
+        return result;
     }
     
     private GuaranteeTerm generateGuaranteeTerm(
@@ -159,31 +176,43 @@ public class TemplateGenerator {
         
         logger.debug("Generate guaranteeTerm({}, {}, {}", 
                 constraint.getId(), rule.getId(), document.getJAXBNode().getId());
-        
-        GuaranteeTerm gt = new GuaranteeTerm();
-        
-//        gt.setName(getUuid());
-        gt.setName(constraint.getId());
 
-        ServiceScope serviceScope = new ServiceScoper().generate(constraint, document);
-        gt.setServiceScope(serviceScope);
+        GuaranteeTerm gt;
+        String outputMetric = getOutputMetric(rule);
         
-        ServiceLevelObjective slo = new ServiceLevelObjective();
-        KPITarget kpi = new KPITarget();
-        kpi.setKpiName(constraint.getMetric());
-        try {
-            kpi.setCustomServiceLevel(String.format(
-                    "{\"%s\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
-                    CONSTRAINT,
-                    getOutputMetric(rule),
-                    toJson(constraint.getRange()),
-                    toJson(constraint.getMetricAggregation())
-                    ));
-        } catch (JsonProcessingException e) {
-            throw new GeneratorException(e.getMessage(), e);
+        if ("".equals(outputMetric)) {
+            logger.warn("OutputMetric is not defined. GuaranteeTerm cannot be added to agreement");
+            gt = NULL_GUARANTEE_TERM;
+            /*
+             * fall to return
+             */
         }
-        slo.setKpitarget(kpi);
-        gt.setServiceLevelObjetive(slo);
+        else {
+        
+            gt = new GuaranteeTerm();
+            
+            gt.setName(constraint.getId());
+    
+            ServiceScope serviceScope = new ServiceScoper().generate(constraint, document);
+            gt.setServiceScope(serviceScope);
+            
+            ServiceLevelObjective slo = new ServiceLevelObjective();
+            KPITarget kpi = new KPITarget();
+            kpi.setKpiName(constraint.getMetric());
+            try {
+                kpi.setCustomServiceLevel(String.format(
+                        "{\"%s\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
+                        CONSTRAINT,
+                        outputMetric,
+                        toJson(constraint.getRange()),
+                        toJson(constraint.getMetricAggregation())
+                        ));
+            } catch (JsonProcessingException e) {
+                throw new GeneratorException(e.getMessage(), e);
+            }
+            slo.setKpitarget(kpi);
+            gt.setServiceLevelObjetive(slo);
+        }
         
         return gt;
     }
@@ -195,7 +224,7 @@ public class TemplateGenerator {
     private String getOutputMetric(MonitoringRule rule) {
         
         for (Action action : rule.getActions().getActions()) {
-            if ("OutputMetric".equals(action.getName())) {
+            if ("OutputMetric".equalsIgnoreCase(action.getName())) {
                 for (Parameter param : action.getParameters()) {
                     return param.getValue();
                 }
