@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<repository:Repository entityName="defaultRepository"
+    xmi:version="2.0"
+    xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0"
+    xmlns:seff="http://sdq.ipd.uka.de/PalladioComponentModel/SEFF/5.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <components__Repository entityName="eHealth-gui"
+        id="037ae244-86ea-49e6-bbac-7913b777b2d9" xsi:type="repository:BasicComponent" />
+    <components__Repository entityName="eHealth-ws"
+        id="87c5a68c-c136-41ae-9d52-b8b2d3737873" xsi:type="repository:BasicComponent">
+        <providedRoles_InterfaceProvidingEntity
+            entityName="Provided__ws"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_61d21dba-7113-46b4-bab1-154801d13fb5__provided"
+            providedInterface__OperationProvidedRole="87c5a68c-c136-41ae-9d52-b8b2d3737873_61d21dba-7113-46b4-bab1-154801d13fb5"
+            xsi:type="repository:OperationProvidedRole" />
+        <serviceEffectSpecifications__BasicComponent
+            describedService__SEFF="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff"
+            xsi:type="seff:ResourceDemandingSEFF">
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078__seff_internalAction"
+                xsi:type="seff:StartAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078__seff_endAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078__seff_internalAction"
+                xsi:type="seff:StopAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078__seff_internalAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078__seff_endAction"
+                xsi:type="seff:InternalAction">
+                <resourceDemand_Action>
+                    <specification_ParametericResourceDemand
+                        specification="1" />
+                    <requiredResource_ParametricResourceDemand
+                        href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ" />
+                </resourceDemand_Action>
+            </steps_Behaviour>
+        </serviceEffectSpecifications__BasicComponent>
+        <serviceEffectSpecifications__BasicComponent
+            describedService__SEFF="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1_seff"
+            xsi:type="seff:ResourceDemandingSEFF">
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1__seff_internalAction"
+                xsi:type="seff:StartAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1__seff_endAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1__seff_internalAction"
+                xsi:type="seff:StopAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1__seff_internalAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1__seff_endAction"
+                xsi:type="seff:InternalAction">
+                <resourceDemand_Action>
+                    <specification_ParametericResourceDemand
+                        specification="1" />
+                    <requiredResource_ParametricResourceDemand
+                        href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ" />
+                </resourceDemand_Action>
+            </steps_Behaviour>
+        </serviceEffectSpecifications__BasicComponent>
+        <serviceEffectSpecifications__BasicComponent
+            describedService__SEFF="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff"
+            xsi:type="seff:ResourceDemandingSEFF">
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746__seff_internalAction"
+                xsi:type="seff:StartAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746__seff_endAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746__seff_internalAction"
+                xsi:type="seff:StopAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746__seff_internalAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746__seff_endAction"
+                xsi:type="seff:InternalAction">
+                <resourceDemand_Action>
+                    <specification_ParametericResourceDemand
+                        specification="1" />
+                    <requiredResource_ParametricResourceDemand
+                        href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ" />
+                </resourceDemand_Action>
+            </steps_Behaviour>
+        </serviceEffectSpecifications__BasicComponent>
+        <serviceEffectSpecifications__BasicComponent
+            describedService__SEFF="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff"
+            xsi:type="seff:ResourceDemandingSEFF">
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970__seff_internalAction"
+                xsi:type="seff:StartAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970__seff_endAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970__seff_internalAction"
+                xsi:type="seff:StopAction" />
+            <steps_Behaviour
+                id="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970__seff_internalAction"
+                predecessor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970__seff_startAction"
+                successor_AbstractAction="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970__seff_endAction"
+                xsi:type="seff:InternalAction">
+                <resourceDemand_Action>
+                    <specification_ParametericResourceDemand
+                        specification="1" />
+                    <requiredResource_ParametricResourceDemand
+                        href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ" />
+                </resourceDemand_Action>
+            </steps_Behaviour>
+        </serviceEffectSpecifications__BasicComponent>
+    </components__Repository>
+    <components__Repository entityName="eHealth-db"
+        id="655ec848-ac6f-467c-bda6-ffac578ec114" xsi:type="repository:BasicComponent">
+        <providedRoles_InterfaceProvidingEntity
+            entityName="Provided__db"
+            id="655ec848-ac6f-467c-bda6-ffac578ec114_d651248c-8a06-4fce-9b1a-c95fdd59d81e__provided"
+            providedInterface__OperationProvidedRole="655ec848-ac6f-467c-bda6-ffac578ec114_d651248c-8a06-4fce-9b1a-c95fdd59d81e"
+            xsi:type="repository:OperationProvidedRole" />
+        <serviceEffectSpecifications__BasicComponent
+            describedService__SEFF="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed"
+            id="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed_seff"
+            xsi:type="seff:ResourceDemandingSEFF">
+            <steps_Behaviour
+                id="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed__seff_startAction"
+                successor_AbstractAction="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed__seff_internalAction"
+                xsi:type="seff:StartAction" />
+            <steps_Behaviour
+                id="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed__seff_endAction"
+                predecessor_AbstractAction="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed__seff_internalAction"
+                xsi:type="seff:StopAction" />
+            <steps_Behaviour
+                id="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed__seff_internalAction"
+                predecessor_AbstractAction="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed__seff_startAction"
+                successor_AbstractAction="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed__seff_endAction"
+                xsi:type="seff:InternalAction">
+                <resourceDemand_Action>
+                    <specification_ParametericResourceDemand
+                        specification="1" />
+                    <requiredResource_ParametricResourceDemand
+                        href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ" />
+                </resourceDemand_Action>
+            </steps_Behaviour>
+        </serviceEffectSpecifications__BasicComponent>
+    </components__Repository>
+    <interfaces__Repository entityName="ws"
+        id="87c5a68c-c136-41ae-9d52-b8b2d3737873_61d21dba-7113-46b4-bab1-154801d13fb5"
+        xsi:type="repository:OperationInterface">
+        <signatures__OperationInterface
+            entityName="login"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078" />
+        <signatures__OperationInterface
+            entityName="getEhealthParameters"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1" />
+        <signatures__OperationInterface
+            entityName="ListOfPatients"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746" />
+        <signatures__OperationInterface
+            entityName="ListOfClinicians"
+            id="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970" />
+    </interfaces__Repository>
+    <interfaces__Repository entityName="db"
+        id="655ec848-ac6f-467c-bda6-ffac578ec114_d651248c-8a06-4fce-9b1a-c95fdd59d81e"
+        xsi:type="repository:OperationInterface">
+        <signatures__OperationInterface
+            entityName="Operations"
+            id="655ec848-ac6f-467c-bda6-ffac578ec114_abd0f3c7-1180-4357-93bd-d98e903756ed" />
+    </interfaces__Repository>
+</repository:Repository>

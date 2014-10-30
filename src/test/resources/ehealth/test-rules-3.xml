@@ -1,0 +1,71 @@
+<!-- simplified Marcos version -->
+<?xml version="1.0"?>
+<mo:monitoringRules xmlns:mo="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
+<mo:monitoringRule id="m1" label="ResponseTime_ws_login" relatedQosConstraintId="c1" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t1"/>
+    </mo:monitoredTargets>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@54473a38[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m1" label="ResponseTime_ws_login" relatedQosConstraintId="c2" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t1"/>
+    </mo:monitoredTargets>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@54473a38[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m1" label="ResponseTime_ws_login" relatedQosConstraintId="c3" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t1"/>
+    </mo:monitoredTargets>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@54473a38[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m2" label="ResponseTime_ws_ListOfClinicians" relatedQosConstraintId="c1" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t2"/>
+    </mo:monitoredTargets>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@aa710e8[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m2" label="ResponseTime_ws_ListOfClinicians" relatedQosConstraintId="c2" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric inherited="false" metricName="ResponseTime">
+        <mo:parameter name="samplingProbability">1</mo:parameter>
+    </mo:collectedMetric>
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t2"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation/>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@aa710e8[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m2" label="ResponseTime_ws_ListOfClinicians" relatedQosConstraintId="c3" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t2"/>
+    </mo:monitoredTargets>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@aa710e8[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m2" label="ResponseTime_ws_ListOfPatients" relatedQosConstraintId="c1" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t3"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation/>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@1069baa9[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m2" label="ResponseTime_ws_ListOfPatients" relatedQosConstraintId="c2" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t3"/>
+    </mo:monitoredTargets>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@1069baa9[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+
+<mo:monitoringRule id="m2" label="ResponseTime_ws_ListOfPatients" relatedQosConstraintId="c3" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:monitoredTargets>
+        <mo:monitoredTarget class="Method" type="t3"/>
+    </mo:monitoredTargets>
+    <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@1069baa9[value=METRIC &gt; 10000.0, inherited=false]</mo:condition>
+</mo:monitoringRule>
+</mo:monitoringRules>

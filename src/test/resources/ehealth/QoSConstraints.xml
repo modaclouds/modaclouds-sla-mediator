@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<constraints xmlns="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema https://raw.githubusercontent.com/deib-polimi/modaclouds-qos-models/master/metamodels/qosconstraints/qos_constraints_schema.xsd">
+    <constraint
+        id="7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff"
+        name="ResponseTime_ws">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>ResponseTime</metric>
+        <metricAggregation aggregateFunction="Average" />
+        <range>
+            <hasMaxValue>10000</hasMaxValue>
+        </range>
+        <priority>2</priority>
+    </constraint>
+    <constraint
+        id="7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff"
+        name="ResponseTime_ws">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>ResponseTime</metric>
+        <metricAggregation aggregateFunction="Average" />
+        <range>
+            <hasMaxValue>10000</hasMaxValue>
+        </range>
+        <priority>2</priority>
+    </constraint>
+    <constraint
+        id="7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff"
+        name="ResponseTime_ws">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>ResponseTime</metric>
+        <metricAggregation aggregateFunction="Average" />
+        <range>
+            <hasMaxValue>10000</hasMaxValue>
+        </range>
+        <priority>2</priority>
+    </constraint>
+    <constraint
+        id="522b6258-9958-4116-ab3e-9711f72ac027_87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff"
+        name="Avialability_wa">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+    <constraint
+        id="522b6258-9958-4116-ab3e-9711f72ac027_87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1_seff"
+        name="Avialability_wa">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+    <constraint
+        id="522b6258-9958-4116-ab3e-9711f72ac027_87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff"
+        name="Avialability_wa">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+    <constraint
+        id="522b6258-9958-4116-ab3e-9711f72ac027_87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff"
+        name="Avialability_wa">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+    <constraint
+        id="47c18e9b-5f8f-47d2-996c-f0a6372294f8_87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff"
+        name="Avialability_ws">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+    <constraint
+        id="47c18e9b-5f8f-47d2-996c-f0a6372294f8_87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1_seff"
+        name="Avialability_ws">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_642bae79-ccdc-46f1-9da5-493bb75a88c1_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+    <constraint
+        id="47c18e9b-5f8f-47d2-996c-f0a6372294f8_87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff"
+        name="Avialability_ws">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+    <constraint
+        id="47c18e9b-5f8f-47d2-996c-f0a6372294f8_87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff"
+        name="Avialability_ws">
+        <targetResourceIDRef>87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff</targetResourceIDRef>
+        <targetClass>Method</targetClass>
+        <metric>Availability</metric>
+        <metricAggregation aggregateFunction="99thPercentile" />
+        <range />
+        <priority>1</priority>
+    </constraint>
+</constraints>
