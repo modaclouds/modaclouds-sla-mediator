@@ -28,6 +28,12 @@
             <mo:action name="outputMetric">
                 <mo:parameter name="name">v1</mo:parameter>
             </mo:action>
+            <mo:action name="Business">
+                <mo:parameter name="type">discount</mo:parameter>
+                <mo:parameter name="value">10</mo:parameter>
+                <mo:parameter name="unit">%</mo:parameter>
+                <mo:parameter name="validity">P1D</mo:parameter>
+            </mo:action>
         </mo:actions>
     </mo:monitoringRule>
     <mo:monitoringRule

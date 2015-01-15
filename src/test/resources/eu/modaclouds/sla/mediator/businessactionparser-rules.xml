@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<monitoringRules xmlns="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
+    <monitoringRule id="6b648a97-4529-4e3e-85f1-7b436482cccd" relatedQosConstraintId="c1" startEnabled="true" timeStep="10" timeWindow="10">
+        <monitoredTargets>
+            <monitoredTarget type="login" id="_FIHtgIGMEeK4MfbIE3-zwQ" class="Method"/>
+        </monitoredTargets>
+        <collectedMetric inherited="false" metricName="ResponseTime">
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation groupingClass="Method" aggregateFunction="Average"/>
+        <condition inherited="false">METRIC &gt; 1000.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="name">qosConstraint_c1_Violated</parameter>
+            </action>
+            <action name="Business">
+                <parameter name="count">1</parameter>
+                <parameter name="duration">PT1H</parameter>
+                <parameter name="type">discount1</parameter>
+                <parameter name="value">1</parameter>
+                <parameter name="unit">%</parameter>
+                <parameter name="validity">P1D</parameter>
+            </action>
+            <action name="Business">
+                <parameter name="count">2</parameter>
+                <parameter name="duration">PT2H</parameter>
+                <parameter name="type">discount2</parameter>
+                <parameter name="value">2</parameter>
+                <parameter name="unit">euro</parameter>
+                <parameter name="validity">P2D</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+</monitoringRules>

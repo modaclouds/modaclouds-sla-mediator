@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,7 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 
 import eu.atos.sla.datamodel.IAgreement;
 import eu.atos.sla.parser.data.wsag.AllTerms;
+import eu.atos.sla.parser.data.wsag.BusinessValueList;
 import eu.atos.sla.parser.data.wsag.Context;
 import eu.atos.sla.parser.data.wsag.GuaranteeTerm;
 import eu.atos.sla.parser.data.wsag.KPITarget;
@@ -49,6 +52,8 @@ import eu.atos.sla.parser.data.wsag.ServiceProperties;
 import eu.atos.sla.parser.data.wsag.ServiceScope;
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
+import eu.atos.sla.parser.data.wsag.custom.CustomBusinessValue;
+import eu.atos.sla.parser.data.wsag.custom.Penalty;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
 import eu.modaclouds.sla.mediator.model.palladio.IReferrable;
 import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
@@ -72,6 +77,7 @@ public class TemplateGenerator {
     }
     private static Component NOT_FOUND_COMPONENT = new Component();
 
+    private BusinessActionParser businessActionParser;
     private String consumer;
     private String provider;
     private String service;
@@ -82,6 +88,12 @@ public class TemplateGenerator {
         this.provider = ctx.getProvider();
         this.consumer = ctx.getConsumer();
         this.service = ctx.getService();
+        
+        try {
+            this.businessActionParser = new BusinessActionParser();
+        } catch (DatatypeConfigurationException e) {
+            throw new MediatorException("Error creating BusinessActionParser", e);
+        }
     }
     
     static {
@@ -212,6 +224,8 @@ public class TemplateGenerator {
             }
             slo.setKpitarget(kpi);
             gt.setServiceLevelObjetive(slo);
+            
+            gt = generateBusinessValueList(gt, rule);
         }
         
         return gt;
@@ -231,6 +245,29 @@ public class TemplateGenerator {
             }
         }
         return "";
+    }
+
+    private GuaranteeTerm generateBusinessValueList(GuaranteeTerm gt, MonitoringRule rule) {
+        
+        for (Action action : rule.getActions().getActions()) {
+            if ("Business".equalsIgnoreCase(action.getName())) {
+                BusinessActionParser.Result data = businessActionParser.parse(action);
+                if (gt.getBusinessValueList() == null) {
+                    gt.setBusinessValueList(new BusinessValueList());
+                }
+                CustomBusinessValue customBusinessValue = 
+                        new CustomBusinessValue(data.getCount(), data.getDuration());
+                Penalty penalty = newPenalty(data);
+                
+                customBusinessValue.addPenalty(penalty);
+                gt.getBusinessValueList().getCustomBusinessValue().add(customBusinessValue);
+            }
+        }
+        return gt;
+    }
+
+    private Penalty newPenalty(BusinessActionParser.Result data) {
+        return new Penalty(data.getType(), data.getValue(), data.getUnit(), data.getValidity());
     }
     
     private <T> String toJson(T t) throws JsonProcessingException {

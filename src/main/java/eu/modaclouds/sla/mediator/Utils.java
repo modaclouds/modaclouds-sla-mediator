@@ -52,7 +52,11 @@ public class Utils {
     }
 
     public static <E> void print(E e) throws JAXBException {
-        print(e, System.out);
+        print(e, e.getClass());
+    }
+    
+    public static <E> void print(E e, Class<?>... classesToBeBound) throws JAXBException {
+        print(e, System.out, classesToBeBound);
     }
 
     public static <E> String toString(E e) throws JAXBException {
@@ -66,15 +70,20 @@ public class Utils {
             throw new IllegalArgumentException(charsetName + " is not supported");
         }
     }
+    
     public static <E> void print(E e, File f) throws JAXBException, FileNotFoundException {
         FileOutputStream fos = new FileOutputStream(f);
         print(e, fos);
     }
     
     public static <E> void print(E e, OutputStream os) throws JAXBException {
+        print(e, os, e.getClass());
+    }
+    
+    public static <E> void print(E e, OutputStream os, Class<?>... classesToBeBound) throws JAXBException {
         JAXBContext jaxbContext;
         Marshaller jaxbMarshaller;
-        jaxbContext = JAXBContext.newInstance(e.getClass());
+        jaxbContext = JAXBContext.newInstance(classesToBeBound);
         jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         /*
