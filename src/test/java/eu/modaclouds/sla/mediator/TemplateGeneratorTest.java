@@ -22,13 +22,10 @@ import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
 
 import java.io.InputStream;
 
-import javax.xml.bind.JAXBException;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import eu.atos.sla.parser.data.wsag.Template;
-import eu.atos.sla.parser.data.wsag.custom.CustomBusinessValue;
 import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 
@@ -43,24 +40,28 @@ public class TemplateGeneratorTest {
     }
 
     @Test
-    public final void testGenerateTemplateConstraintsMonitoringRulesRepositoryDocumentString() throws JAXBException {
-        InputStream rulesIs = getInputStream("/ehealth/MonitoringRules.xml");
-        MonitoringRules rules = Utils.load(MonitoringRules.class, rulesIs);
-        
-        InputStream constraintsIs = getInputStream("/ehealth/QoSConstraints.xml");
-        Constraints constraints = Utils.load(Constraints.class, constraintsIs);
-        
-        InputStream repositoryIs = getInputStream("/ehealth/test.repository");
-        Repository repository = Utils.load(Repository.class, repositoryIs);
-        
-        RepositoryDocument model = new RepositoryDocument(repository);
-        
-        ContextInfo ctx = new ContextInfo("provider", "consumer", "service", "P1Y");
-        TemplateGenerator generator = new TemplateGenerator(ctx);
-        
-        Template template = generator.generateTemplate(constraints, rules, model);
-        
-        Utils.print(template, Template.class);
+    public final void testGenerateTemplateShouldPass() {
+        try {
+            InputStream rulesIs = getInputStream("/ehealth/MonitoringRules.xml");
+            MonitoringRules rules = Utils.load(MonitoringRules.class, rulesIs);
+            
+            InputStream constraintsIs = getInputStream("/ehealth/QoSConstraints.xml");
+            Constraints constraints = Utils.load(Constraints.class, constraintsIs);
+            
+            InputStream repositoryIs = getInputStream("/ehealth/test.repository");
+            Repository repository = Utils.load(Repository.class, repositoryIs);
+            
+            RepositoryDocument model = new RepositoryDocument(repository);
+            
+            ContextInfo ctx = new ContextInfo("provider", "consumer", "service", "P1Y");
+            TemplateGenerator generator = new TemplateGenerator(ctx);
+            
+            Template template = generator.generateTemplate(constraints, rules, model);
+            
+            Utils.print(template, Template.class);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     private InputStream getInputStream(String path) {
