@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2014 Atos
  * Contact: Atos <roman.sosa@atos.net>
  *
