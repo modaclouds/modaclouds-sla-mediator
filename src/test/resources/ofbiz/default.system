@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system:System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://sdq.ipd.uka.de/PalladioComponentModel/Core/Composition/5.0" xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0" xmlns:system="http://sdq.ipd.uka.de/PalladioComponentModel/System/5.0" id="_yhDxIMhrEeKON4DtRoKCMw" entityName="defaultSystem">
+  <assemblyContexts__ComposedStructure id="_zJ4EoMhrEeKON4DtRoKCMw" entityName="Assembly_RequestHandler &lt;RequestHandler>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="default.repository#__o5G4MhnEeKON4DtRoKCMw"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_00H_8MhrEeKON4DtRoKCMw" entityName="Assembly_DB &lt;DB>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="default.repository#_kwoOgMhoEeKON4DtRoKCMw"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_OTxe0KhzEeOVLLp4qCj_jg" entityName="Assembly_PaymentService &lt;PaymentService>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="default.repository#_C2EtMMhrEeKON4DtRoKCMw"/>
+  </assemblyContexts__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_6GhtsMhrEeKON4DtRoKCMw" entityName="Connector Assembly_RequestHandler &lt;RequestHandler> -> Assembly_DB &lt;DB>" requiringAssemblyContext_AssemblyConnector="_zJ4EoMhrEeKON4DtRoKCMw" providingAssemblyContext_AssemblyConnector="_00H_8MhrEeKON4DtRoKCMw">
+    <providedRole_AssemblyConnector href="default.repository#_lpyrIMhoEeKON4DtRoKCMw"/>
+    <requiredRole_AssemblyConnector href="default.repository#_l6jrAMhoEeKON4DtRoKCMw"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:ProvidedDelegationConnector" id="_8u6FMMhrEeKON4DtRoKCMw" entityName="ProvDelegation Provided_HandlerIF -> Provided_HandlerIF_RequestHandler" outerProvidedRole_ProvidedDelegationConnector="_7BUiAMhrEeKON4DtRoKCMw" assemblyContext_ProvidedDelegationConnector="_zJ4EoMhrEeKON4DtRoKCMw">
+    <innerProvidedRole_ProvidedDelegationConnector href="default.repository#_Ej_u8MhoEeKON4DtRoKCMw"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_QyI-sKhzEeOVLLp4qCj_jg" entityName="Connector Assembly_RequestHandler &lt;RequestHandler> -> Assembly_PaymentService &lt;PaymentService>" requiringAssemblyContext_AssemblyConnector="_zJ4EoMhrEeKON4DtRoKCMw" providingAssemblyContext_AssemblyConnector="_OTxe0KhzEeOVLLp4qCj_jg">
+    <providedRole_AssemblyConnector href="default.repository#_FeLX4MhrEeKON4DtRoKCMw"/>
+    <requiredRole_AssemblyConnector href="default.repository#_F9w24MhrEeKON4DtRoKCMw"/>
+  </connectors__ComposedStructure>
+  <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_7BUiAMhrEeKON4DtRoKCMw" entityName="Provided_HandlerIF">
+    <providedInterface__OperationProvidedRole href="default.repository#_IshnYMhkEeKON4DtRoKCMw"/>
+  </providedRoles_InterfaceProvidingEntity>
+</system:System>

@@ -26,38 +26,23 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eu.modaclouds.sla.mediator.model.palladio.IDocument;
 import eu.modaclouds.sla.mediator.model.palladio.IReferrable;
-import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
+import eu.modaclouds.sla.mediator.model.palladio.Referrable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Repository")
-public class Repository implements IReferrable {
+public class Repository extends Referrable implements IReferrable {
     
     private static final List<Component> EMPTY_COMPONENTS = Collections.<Component>emptyList();
     private static final List<Interface> EMPTY_INTERFACES = Collections.<Interface>emptyList();
 
-    @XmlAttribute
-    private String id;
-    
-    @XmlAttribute
-    private String entityName;
-    
     @XmlElement(name="components__Repository")
     private List<Component> components;
 
     @XmlElement(name="interfaces__Repository")
     private List<Interface> interfaces;
     
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public String getEntityName() {
-        return entityName;
-    }
-
     public List<Component> getComponents() {
         return components != null? components : EMPTY_COMPONENTS;
     }
@@ -66,33 +51,24 @@ public class Repository implements IReferrable {
         return interfaces != null? interfaces : EMPTY_INTERFACES;
     }
     
-    @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Component implements IReferrable {
+    @Override
+    public String toString() {
+        return String.format("Repository [components=%s, interfaces=%s]", components, interfaces);
+    }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Component extends Referrable implements IReferrable {
+
+        public static final Component NOT_FOUND = new Component();
+        
         private static final List<SeffSpecification> EMPTY_SEFF_SPECIFICATIONS = 
                 Collections.<SeffSpecification>emptyList();
 
-        @XmlAttribute
-        private String id;
-        
-        @XmlAttribute
-        private String entityName;
-        
         @XmlElement(name="serviceEffectSpecifications__BasicComponent")
         private List<SeffSpecification> seffBasicComponents;
 
         private Repository parent;
         
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public String getEntityName() {
-            return entityName;
-        }
-
         public List<SeffSpecification> getSeffSpecifications() {
             return seffBasicComponents != null? seffBasicComponents : EMPTY_SEFF_SPECIFICATIONS;
         }
@@ -104,8 +80,8 @@ public class Repository implements IReferrable {
         @Override
         public String toString() {
             return String.format("Component [id=%s, entityName=%s]", 
-                    id,
-                    entityName);
+                    getId(),
+                    getEntityName());
         }
         
         public void afterUnmarshal(Unmarshaller u, Object parent) {
@@ -114,36 +90,23 @@ public class Repository implements IReferrable {
     }
     
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class SeffSpecification implements IReferrable {
-
-        @XmlAttribute
-        private String id;
+    public static class SeffSpecification extends Referrable implements IReferrable {
 
         @XmlAttribute(name="describedService__SEFF")
         private String describedService;
         
         private Component parent;
         
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public String getEntityName() {
-            return "";
-        }
-
         public Component getParent() {
             return parent;
         }
         
         @Override
         public String toString() {
-            return String.format("SeffBasicComponent [id=%s]", id);
+            return String.format("SeffBasicComponent [id=%s]", getId());
         }
         
-        public Operation getOperation(RepositoryDocument doc) {
+        public Operation getOperation(IDocument<Repository> doc) {
             return (Operation) doc.getElementById(describedService);
         }
 
@@ -153,29 +116,13 @@ public class Repository implements IReferrable {
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Interface implements IReferrable {
-        
-        @XmlAttribute
-        private String id;
-        
-        @XmlAttribute
-        private String entityName;
+    public static class Interface extends Referrable implements IReferrable {
         
         @XmlElement(name="signatures__OperationInterface")
         private List<Operation> operations;
 
         private Repository parent;
         
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public String getEntityName() {
-            return entityName;
-        }
-
         public List<Operation> getOperations() {
             return operations;
         }
@@ -187,8 +134,8 @@ public class Repository implements IReferrable {
         @Override
         public String toString() {
             return String.format("Interface [id=%s, entityName=%s]", 
-                    id,
-                    entityName);
+                    getId(),
+                    getEntityName());
         }
         
         public void afterUnmarshal(Unmarshaller u, Object parent) {
@@ -197,26 +144,10 @@ public class Repository implements IReferrable {
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static class Operation implements IReferrable {
-        
-        @XmlAttribute
-        private String id;
-        
-        @XmlAttribute
-        private String entityName;
+    public static class Operation extends Referrable implements IReferrable {
         
         private Interface parent;
         
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public String getEntityName() {
-            return entityName;
-        }
-
         public Interface getParent() {
             return parent;
         }
@@ -224,8 +155,8 @@ public class Repository implements IReferrable {
         @Override
         public String toString() {
             return String.format("Operation [id=%s, entityName=%s]", 
-                    id,
-                    entityName);
+                    getId(),
+                    getEntityName());
         }
         
         public void afterUnmarshal(Unmarshaller u, Object parent) {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<allocation:Allocation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:allocation="http://sdq.ipd.uka.de/PalladioComponentModel/Allocation/5.0" id="_F7DrsMhsEeKON4DtRoKCMw" entityName="defaultAllocation">
+  <targetResourceEnvironment_Allocation href="default.resourceenvironment#/"/>
+  <system_Allocation href="default.system#_yhDxIMhrEeKON4DtRoKCMw"/>
+  <allocationContexts_Allocation id="_GdmYEMhsEeKON4DtRoKCMw" entityName="Allocation_Assembly_RequestHandler &lt;RequestHandler> &lt;RequestHandler>">
+    <resourceContainer_AllocationContext href="default.resourceenvironment#_-sJ1AMhrEeKON4DtRoKCMw"/>
+    <assemblyContext_AllocationContext href="default.system#_zJ4EoMhrEeKON4DtRoKCMw"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_HYdd0MhsEeKON4DtRoKCMw" entityName="Allocation_Assembly_DB &lt;DB> &lt;DB>">
+    <resourceContainer_AllocationContext href="default.resourceenvironment#_ervoQKhyEeOVLLp4qCj_jg"/>
+    <assemblyContext_AllocationContext href="default.system#_00H_8MhrEeKON4DtRoKCMw"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_dvaGYKhzEeOVLLp4qCj_jg" entityName="Allocation_Assembly_PaymentService &lt;PaymentService> &lt;PaymentService>">
+    <resourceContainer_AllocationContext href="default.resourceenvironment#_ervoQKhyEeOVLLp4qCj_jg"/>
+    <assemblyContext_AllocationContext href="default.system#_OTxe0KhzEeOVLLp4qCj_jg"/>
+  </allocationContexts_Allocation>
+</allocation:Allocation>

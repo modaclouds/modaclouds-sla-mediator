@@ -26,7 +26,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import eu.atos.sla.parser.data.wsag.Template;
-import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
+import eu.modaclouds.sla.mediator.model.palladio.Document;
+import eu.modaclouds.sla.mediator.model.palladio.Model;
+import eu.modaclouds.sla.mediator.model.palladio.Model.RepositoryMapInitializer;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 
 public class TemplateGeneratorTest {
@@ -51,7 +53,7 @@ public class TemplateGeneratorTest {
             InputStream repositoryIs = getInputStream("/ehealth/test.repository");
             Repository repository = Utils.load(Repository.class, repositoryIs);
             
-            RepositoryDocument model = new RepositoryDocument(repository);
+            Model model = new Model(repository, null, null, null, null);
             
             ContextInfo ctx = new ContextInfo("provider", "consumer", "service", "P1Y");
             TemplateGenerator generator = new TemplateGenerator(ctx);

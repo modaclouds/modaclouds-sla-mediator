@@ -17,9 +17,25 @@
 package eu.modaclouds.sla.mediator.model.palladio;
 
 
+
+/**
+ * Wrapper class over a Jaxb root node, with operation to obtain element by id.
+ * @author rsosa
+ */
 public interface IDocument<E> {
-//        Document getDocument();
-//        Binder<Node> getBinder();
-        E getJAXBNode();
-        IReferrable getElementById(String id);
-    }
+    
+    public static IReferrable NOT_FOUND = new IReferrable() {
+        @Override
+        public String getId() {
+            return "";
+        }
+        @Override
+        public String getEntityName() {
+            return "";
+        }
+    };
+    
+    E getJAXBNode();
+    IReferrable getElementById(String id);
+    String getIdFromHref(String href);
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<allocation:Allocation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:allocation="http://sdq.ipd.uka.de/PalladioComponentModel/Allocation/5.0" id="_aCsl0IGTEeKo6LTSAnjWxg" entityName="defaultAllocation">
+  <targetResourceEnvironment_Allocation href="mic.resourceenvironment#/"/>
+  <system_Allocation href="mic.system#_gd4dYIGPEeKo6LTSAnjWxg"/>
+  <allocationContexts_Allocation id="_bxrQIIGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_Frontend &lt;Frontend> &lt;Frontend>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_H9DrkIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#_m0rx8IGQEeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_dwu90IGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_Backend &lt;Backend> &lt;Backend>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_J_O-sIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#_1xS7MIGQEeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_esiewIGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_Blob &lt;Blob> &lt;Blob>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_LP3gIIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#_-wwJgIGQEeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_fgBKIIGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_NoSQL &lt;NoSQL> &lt;NoSQL>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_LZ_FcIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#__UwOcIGQEeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_gb91AIGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_SQL &lt;SQL> &lt;SQL>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_LhbKMIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#_DROrEIGREeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_hPvbUIGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_Memcache &lt;Memcache> &lt;Memcache>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_LnOQMIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#_EGopEIGREeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_iG8JEIGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_TaskQueue &lt;TaskQueue> &lt;TaskQueue>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_Lt6uEIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#_E2icAIGREeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+  <allocationContexts_Allocation id="_i0w4YIGTEeKo6LTSAnjWxg" entityName="Allocation_Assembly_Mailing &lt;Mailing> &lt;Mailing>">
+    <resourceContainer_AllocationContext href="mic.resourceenvironment#_MNm6wIGSEeKo6LTSAnjWxg"/>
+    <assemblyContext_AllocationContext href="mic.system#_BQF5wIGREeKo6LTSAnjWxg"/>
+  </allocationContexts_Allocation>
+</allocation:Allocation>

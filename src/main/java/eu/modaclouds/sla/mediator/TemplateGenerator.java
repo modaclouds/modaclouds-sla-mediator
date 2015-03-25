@@ -55,8 +55,10 @@ import eu.atos.sla.parser.data.wsag.Terms;
 import eu.atos.sla.parser.data.wsag.custom.CustomBusinessValue;
 import eu.atos.sla.parser.data.wsag.custom.Penalty;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
+import eu.modaclouds.sla.mediator.model.palladio.IDocument;
 import eu.modaclouds.sla.mediator.model.palladio.IReferrable;
-import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
+import eu.modaclouds.sla.mediator.model.palladio.Model;
+import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Component;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Operation;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.SeffSpecification;
@@ -100,17 +102,17 @@ public class TemplateGenerator {
 //        NOT_FOUND_COMPONENT.setEntityName("null");
     }
     
-    public Template generateTemplate(Constraints constraints, MonitoringRules rules, RepositoryDocument document) {
+    public Template generateTemplate(Constraints constraints, MonitoringRules rules, Model model) {
         String templateId = UUID.randomUUID().toString();
-        Template t = this.generateTemplate(constraints, rules, document, templateId);
+        Template t = this.generateTemplate(constraints, rules, model, templateId);
         return t;
     }
     
     public Template generateTemplate(
-            Constraints constraints, MonitoringRules rules, RepositoryDocument document, String templateId) {
+            Constraints constraints, MonitoringRules rules, Model model, String templateId) {
 
         logger.debug("generateTemplate");
-        
+        IDocument<Repository> repository = model.getRepository();
         Template result = new Template();
         result.setTemplateId(templateId);
         
@@ -147,7 +149,7 @@ public class TemplateGenerator {
                     logger.warn("Related rule not found: constraintId={}", constraint.getId());
                     continue;
                 }
-                GuaranteeTerm gt = generateGuaranteeTerm(constraint, rule, document);
+                GuaranteeTerm gt = generateGuaranteeTerm(constraint, rule, repository);
                 if (gt != NULL_GUARANTEE_TERM) {
                     gts.add(gt);
                 }
@@ -184,7 +186,7 @@ public class TemplateGenerator {
     private GuaranteeTerm generateGuaranteeTerm(
             Constraint constraint, 
             MonitoringRule rule, 
-            RepositoryDocument document) {
+            IDocument<Repository> document) {
         
         logger.debug("Generate guaranteeTerm({}, {}, {}", 
                 constraint.getId(), rule.getId(), document.getJAXBNode().getId());
@@ -240,7 +242,9 @@ public class TemplateGenerator {
         for (Action action : rule.getActions().getActions()) {
             if ("OutputMetric".equalsIgnoreCase(action.getName())) {
                 for (Parameter param : action.getParameters()) {
-                    return param.getValue();
+                    if ("name".equals(param.getName())) {
+                        return param.getValue();
+                    }
                 }
             }
         }
@@ -282,7 +286,7 @@ public class TemplateGenerator {
     }
     
     public interface IServiceScoper {
-        ServiceScope generate(Constraint constraint, RepositoryDocument document);
+        ServiceScope generate(Constraint constraint, IDocument<Repository> document);
     }
     
     public static class ServiceScoper implements IServiceScoper {
@@ -295,7 +299,7 @@ public class TemplateGenerator {
         
         @Override
         public ServiceScope generate(Constraint constraint,
-                RepositoryDocument document) {
+                IDocument<Repository> document) {
             
             TargetClass target = TargetClass.fromString(constraint.getTargetClass());
 
@@ -310,14 +314,14 @@ public class TemplateGenerator {
 
         @Override
         public ServiceScope generate(Constraint constraint,
-                RepositoryDocument document) {
+                IDocument<Repository> document) {
             
             IReferrable referrable = 
                     document.getElementById(constraint.getTargetResourceIDRef());
             
             ServiceScope result = new ServiceScope();
             
-            if (referrable != RepositoryDocument.NOT_FOUND) {
+            if (referrable != IDocument.NOT_FOUND) {
                 if (referrable instanceof Component) {
                     result.setServiceName(DEFAULT_SERVICE_NAME);
                     result.setValue(referrable.getEntityName());
@@ -334,14 +338,14 @@ public class TemplateGenerator {
 
         @Override
         public ServiceScope generate(Constraint constraint,
-                RepositoryDocument document) {
+                IDocument<Repository> document) {
             
             IReferrable referrable = 
                     document.getElementById(constraint.getTargetResourceIDRef());
             
             ServiceScope result = new ServiceScope();
             
-            if (referrable != RepositoryDocument.NOT_FOUND) {
+            if (referrable != IDocument.NOT_FOUND) {
                 if (referrable instanceof SeffSpecification) {
                     result = process(constraint, document, (SeffSpecification) referrable);
                 }
@@ -352,7 +356,7 @@ public class TemplateGenerator {
             return result;
         }
         
-        private ServiceScope process(Constraint constraint, RepositoryDocument document, SeffSpecification element) {
+        private ServiceScope process(Constraint constraint, IDocument<Repository> document, SeffSpecification element) {
             
             Component parent = element.getParent();
             Operation operation = element.getOperation(document);

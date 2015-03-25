@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system:System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://sdq.ipd.uka.de/PalladioComponentModel/Core/Composition/5.0" xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0" xmlns:system="http://sdq.ipd.uka.de/PalladioComponentModel/System/5.0" id="_gd4dYIGPEeKo6LTSAnjWxg" entityName="defaultSystem">
+  <assemblyContexts__ComposedStructure id="_m0rx8IGQEeKo6LTSAnjWxg" entityName="Assembly_Frontend &lt;Frontend>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_T1b94IGJEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_1xS7MIGQEeKo6LTSAnjWxg" entityName="Assembly_Backend &lt;Backend>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_Xt6EQIGJEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_-wwJgIGQEeKo6LTSAnjWxg" entityName="Assembly_Blob &lt;Blob>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_csiaEIGMEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="__UwOcIGQEeKo6LTSAnjWxg" entityName="Assembly_NoSQL &lt;NoSQL>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_cwHSgIGMEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_BQF5wIGREeKo6LTSAnjWxg" entityName="Assembly_Mailing &lt;Mailing>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_dBOQoIGMEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_DROrEIGREeKo6LTSAnjWxg" entityName="Assembly_SQL &lt;SQL>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_c2EJgIGMEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_EGopEIGREeKo6LTSAnjWxg" entityName="Assembly_Memcache &lt;Memcache>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_c6OQwIGMEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_E2icAIGREeKo6LTSAnjWxg" entityName="Assembly_TaskQueue &lt;TaskQueue>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="mic.repository#_c9gOQIGMEeK4MfbIE3-zwQ"/>
+  </assemblyContexts__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:ProvidedDelegationConnector" id="_6sZjQIGQEeKo6LTSAnjWxg" entityName="ProvDelegation Provided_MiC IF -> Provided_MiC IF_Frontend" outerProvidedRole_ProvidedDelegationConnector="_5jy8cIGQEeKo6LTSAnjWxg" assemblyContext_ProvidedDelegationConnector="_m0rx8IGQEeKo6LTSAnjWxg">
+    <innerProvidedRole_ProvidedDelegationConnector href="mic.repository#_FHh3oIGMEeK4MfbIE3-zwQ"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_9wCTYIGQEeKo6LTSAnjWxg" entityName="Connector Assembly_Frontend &lt;Frontend> -> Assembly_Backend &lt;Backend>" requiringAssemblyContext_AssemblyConnector="_m0rx8IGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_1xS7MIGQEeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_KwmY8IGMEeK4MfbIE3-zwQ"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_EtMsEIGMEeK4MfbIE3-zwQ"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_X8agsIGREeKo6LTSAnjWxg" entityName="Connector Assembly_Backend &lt;Backend> -> Assembly_SQL &lt;SQL>" requiringAssemblyContext_AssemblyConnector="_1xS7MIGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_DROrEIGREeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_KR1R8IGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_X-jgoIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_YMe9AIGREeKo6LTSAnjWxg" entityName="Connector Assembly_Backend &lt;Backend> -> Assembly_TaskQueue &lt;TaskQueue>" requiringAssemblyContext_AssemblyConnector="_1xS7MIGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_E2icAIGREeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_J-ffMIGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_Yi3HkIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_Yb9jcIGREeKo6LTSAnjWxg" entityName="Connector Assembly_Frontend &lt;Frontend> -> Assembly_SQL &lt;SQL>" requiringAssemblyContext_AssemblyConnector="_m0rx8IGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_DROrEIGREeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_KR1R8IGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_WHZKsIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_ZJVm0IGREeKo6LTSAnjWxg" entityName="Connector Assembly_Frontend &lt;Frontend> -> Assembly_TaskQueue &lt;TaskQueue>" requiringAssemblyContext_AssemblyConnector="_m0rx8IGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_E2icAIGREeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_J-ffMIGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_WfyckIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_ZhJC0IGREeKo6LTSAnjWxg" entityName="Connector Assembly_Frontend &lt;Frontend> -> Assembly_Memcache &lt;Memcache>" requiringAssemblyContext_AssemblyConnector="_m0rx8IGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_EGopEIGREeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_KI5_cIGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_WUCfkIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_ab6B8IGREeKo6LTSAnjWxg" entityName="Connector Assembly_Frontend &lt;Frontend> -> Assembly_NoSQL &lt;NoSQL>" requiringAssemblyContext_AssemblyConnector="_m0rx8IGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="__UwOcIGQEeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_KeLr4IGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_V7VrsIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_a0AY4IGREeKo6LTSAnjWxg" entityName="Connector Assembly_Frontend &lt;Frontend> -> Assembly_Mailing &lt;Mailing>" requiringAssemblyContext_AssemblyConnector="_m0rx8IGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_BQF5wIGREeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_JylxMIGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_WuEwMIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_bJ37MIGREeKo6LTSAnjWxg" entityName="Connector Assembly_Frontend &lt;Frontend> -> Assembly_Blob &lt;Blob>" requiringAssemblyContext_AssemblyConnector="_m0rx8IGQEeKo6LTSAnjWxg" providingAssemblyContext_AssemblyConnector="_-wwJgIGQEeKo6LTSAnjWxg">
+    <providedRole_AssemblyConnector href="mic.repository#_Kr3ikIGPEeKo6LTSAnjWxg"/>
+    <requiredRole_AssemblyConnector href="mic.repository#_VwVVkIGPEeKo6LTSAnjWxg"/>
+  </connectors__ComposedStructure>
+  <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_5jy8cIGQEeKo6LTSAnjWxg" entityName="Provided_MiC IF">
+    <providedInterface__OperationProvidedRole href="mic.repository#_SLHKEIGJEeK4MfbIE3-zwQ"/>
+  </providedRoles_InterfaceProvidingEntity>
+</system:System>

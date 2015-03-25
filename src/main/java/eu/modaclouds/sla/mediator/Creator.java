@@ -18,9 +18,13 @@ package eu.modaclouds.sla.mediator;
 
 import it.polimi.modaclouds.qos_models.schema.Constraints;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
+import it.polimi.modaclouds.qos_models.schema.ResourceModelExtension;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
@@ -38,8 +42,12 @@ import eu.atos.sla.client.SlaException;
 import eu.atos.sla.parser.data.Provider;
 import eu.atos.sla.parser.data.wsag.Agreement;
 import eu.atos.sla.parser.data.wsag.Template;
-import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
+import eu.modaclouds.sla.mediator.model.palladio.Model;
+import eu.modaclouds.sla.mediator.model.palladio.allocation.Allocation;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
+import eu.modaclouds.sla.mediator.model.palladio.resourceenvironment.ResourceEnvironment;
+import eu.modaclouds.sla.mediator.model.palladio.resourceenvironment.ResourceEnvironment.ResourceContainer;
+import eu.modaclouds.sla.mediator.model.palladio.system.System;
 
 /**
  * Generate agreements/templates based on constraints and monitoring rules,
@@ -64,6 +72,37 @@ public class Creator {
         }
     }
     
+    public static class Result {
+        private final String highId;
+        private final Map<String, String> lowIds;
+        private final Model model;
+        
+        /**
+         * Result of runSla method
+         * 
+         * @param highId AgreementId of high agreement
+         * @param lowIds AgreementId of low agreements
+         * @param model Model built from the input files
+         */
+        public Result(String highId, Map<String, String> lowIds, Model model) {
+            this.highId = highId;
+            this.lowIds = Collections.<String, String>unmodifiableMap(lowIds);
+            this.model = model;
+        }
+        
+        public String getHighId() {
+            return highId;
+        }
+        
+        public Map<String, String> getLowIds() {
+            return lowIds;
+        }
+        
+        public Model getModel() {
+            return model;
+        }
+    }
+    
     private static final Logger logger = LoggerFactory.getLogger(Creator.class);
   
     private static final Provider PROVIDER_NOT_FOUND;
@@ -76,6 +115,7 @@ public class Creator {
     
     private TemplateGenerator generator;
     private ContextInfo ctx;
+    private boolean persist;
 
     /**
      * Constructs a Creator.
@@ -93,8 +133,119 @@ public class Creator {
         );
         this.generator = new TemplateGenerator(ctx);
         this.ctx = ctx;
+        this.persist = false;   /* XXX: change when persist ready */
     }
 
+    public Creator(SlaCoreConfig slaCoreConfig, ContextInfo ctx, boolean persist) {
+        this(slaCoreConfig, ctx);
+        this.persist = persist;
+    }
+    
+    public Result runSla(
+            InputStream constraintsIs, 
+            InputStream rulesIs, 
+            InputStream repositoryIs,
+            InputStream allocationIs, 
+            InputStream systemIs, 
+            InputStream resourceEnvironmentIs,
+            InputStream resourceModelExtensionIs,
+            InputStream functionality2TiersIs) {
+        
+        Constraints constraints;
+        MonitoringRules rules;
+        Repository repository;
+        Allocation allocation;
+        System system;
+        ResourceEnvironment resourceEnvironment;
+        ResourceModelExtension resourceModelExtension;
+        
+        try {
+            constraints = Utils.load(Constraints.class, constraintsIs);
+            rules = Utils.load(MonitoringRules.class, rulesIs);
+            repository = Utils.load(Repository.class, repositoryIs);
+            allocation = Utils.load(Allocation.class, allocationIs);
+            system = Utils.load(System.class, systemIs);
+            resourceEnvironment = Utils.load(ResourceEnvironment.class, resourceEnvironmentIs);
+            resourceModelExtension = Utils.load(ResourceModelExtension.class, resourceModelExtensionIs);
+        } catch (JAXBException e) {
+            throw new MediatorException(e.getMessage(), e);
+        }
+
+        Model model = new Model(repository, system, allocation, resourceEnvironment, resourceModelExtension);
+
+        Agreement high = runHigh(constraints, rules, model);
+        
+        Map<String, Agreement> low = runLow(high, constraints, rules, model);
+
+        Map<String, String> lowIds = buildLowerIds(low);
+        return new Result(high.getAgreementId(), lowIds, model);
+    }
+    
+    private Agreement runHigh(Constraints constraints, MonitoringRules rules, Model model) {
+        
+        Template template = generator.generateTemplate(constraints, rules, model);
+
+        AgreementGenerator agreementer = new AgreementGenerator(template, ctx);
+        Agreement agreement = agreementer.generateAgreement();
+        
+        if (persist) {
+            Provider p = loadProvider(ctx.getProvider());
+            if (p == PROVIDER_NOT_FOUND) {
+                storeProvider(ctx.getProvider());
+            }
+            storeTemplate(template);
+            storeAgreement(agreement);
+        }
+        return agreement;
+    }
+    
+    private Map<String, Agreement> runLow(
+            Agreement high, Constraints constraints, MonitoringRules rules, Model model) {
+        
+        Map<String, Template> templates = new HashMap<String, Template>();
+        Map<String, Agreement> agreements = new HashMap<String, Agreement>();
+        TierTemplateGenerator templater = new TierTemplateGenerator(ctx);
+        
+        for (ResourceContainer tier : model.getResourceContainers()) {
+            String tierName = tier.getId();
+            Template t = templater.generateTemplate(constraints, rules, model, tierName);
+            logEntity("Generated template: {}", t);
+            
+            AgreementGenerator agreementer = new AgreementGenerator(t, ctx);
+            Agreement a = agreementer.generateAgreement();
+            logEntity("Generated agreement: {}", a);
+            
+            templates.put(tierName, t);
+            agreements.put(tierName, a);
+        }
+        if (persist) {
+            /* 
+             * TODO
+             * Read model and find cloud providers: store providers
+             */
+            for (ResourceContainer tier : model.getResourceContainers()) {
+                String tierId = tier.getId();
+                Template t = templates.get(tierId);
+                Agreement a = agreements.get(tierId);
+
+                storeTemplate(t);
+                storeAgreement(a);
+            }
+        }
+
+        return agreements;
+    }
+
+    private Map<String, String> buildLowerIds(Map<String, Agreement> map) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        for (String key : map.keySet()) {
+            Agreement item = map.get(key);
+            result.put(key, item.getAgreementId());
+        }
+        return result;
+    }
+    
     /**
      * Generate and post a template. 
      * 
@@ -105,26 +256,30 @@ public class Creator {
      * @param repositoryIs InputStream where to obtain the repository.xml (Palladio model)
      * @return TemplateId
      */
-    public String runTemplate(InputStream constraintsIs, InputStream rulesIs, InputStream repositoryIs) {
+    @Deprecated
+    public String runTemplate(InputStream constraintsIs, InputStream rulesIs, InputStream repositoryIs,
+            InputStream allocationIs, InputStream systemIs, InputStream resourceEnvironmentIs) {
         
         Provider p = loadProvider(ctx.getProvider());
         if (p == PROVIDER_NOT_FOUND) {
             storeProvider(ctx.getProvider());
         }
         
-        Template t = generateTemplate(constraintsIs, rulesIs, repositoryIs);
+        Template t = generateTemplate(
+                constraintsIs, rulesIs, repositoryIs, allocationIs, systemIs, resourceEnvironmentIs);
         logEntity("Generated template: {}", t);
         
         storeTemplate(t);
         return t.getTemplateId();
     }
-
+    
     /**
      * Generate and post an agreement.
      * 
      * @param templateId The agreement will be built from this template.
      * @return AgreementId
      */
+    @Deprecated
     public String runAgreement(String templateId) {
         
         Template template = loadTemplate(templateId);
@@ -136,25 +291,34 @@ public class Creator {
         storeAgreement(agreement);
         return agreement.getAgreementId();
     }
-
+    
     /**
      * Generate a template based on the PCM, the defined constraints, and the monitoring rules.
      * 
      * @see #runTemplate(InputStream, InputStream, InputStream)
      */
-    public Template generateTemplate(InputStream constraintsIs, InputStream rulesIs, InputStream repositoryIs) {
+    @Deprecated
+    public Template generateTemplate(InputStream constraintsIs, InputStream rulesIs, InputStream repositoryIs,
+            InputStream allocationIs, InputStream systemIs, InputStream resourceEnvironmentIs) {
         Constraints constraints;
         MonitoringRules rules;
         Repository repository;
+        Allocation allocation;
+        eu.modaclouds.sla.mediator.model.palladio.system.System system;
+        ResourceEnvironment resourceEnvironment;
+        
         try {
             constraints = Utils.load(Constraints.class, constraintsIs);
             rules = Utils.load(MonitoringRules.class, rulesIs);
             repository = Utils.load(Repository.class, repositoryIs);
+            allocation = Utils.load(Allocation.class, allocationIs);
+            system = Utils.load(eu.modaclouds.sla.mediator.model.palladio.system.System.class, systemIs);
+            resourceEnvironment = Utils.load(ResourceEnvironment.class, resourceEnvironmentIs);
         } catch (JAXBException e) {
             throw new MediatorException(e.getMessage(), e);
         }
         
-        RepositoryDocument model = new RepositoryDocument(repository);
+        Model model = new Model(repository, system, allocation, resourceEnvironment, null);
         
         Template template = generator.generateTemplate(constraints, rules, model);
 
@@ -168,6 +332,7 @@ public class Creator {
      * 
      * @see #runAgreement(String)
      */
+    @Deprecated
     private Agreement generateAgreement(String templateId) {
         Template template = loadTemplate(templateId);
         
@@ -182,6 +347,7 @@ public class Creator {
      * 
      * @see #runAgreement(String)
      */
+    @Deprecated
     public Agreement generateAgreement(Template template) {
 
         AgreementGenerator generator = new AgreementGenerator(template, ctx);
@@ -265,13 +431,17 @@ public class Creator {
             String output = "";
 
             Arguments parsedArgs = cli.parseArguments(args);
-            System.err.println(
+            java.lang.System.err.println(
                     String.format("dir=%s; url=%s", parsedArgs.getDirectory(), parsedArgs.getSlaCoreUrl()));
             
             String dir = parsedArgs.getDirectory();
             InputStream constraintsIs = Utils.getInputStream(dir, parsedArgs.getConstraints());
             InputStream rulesIs = Utils.getInputStream(dir, parsedArgs.getRules());
             InputStream repositoryIs = Utils.getInputStream(dir, parsedArgs.getPrefix() + ".repository");
+            InputStream allocationIs = Utils.getInputStream(dir, parsedArgs.getPrefix() + ".allocation");
+            InputStream systemIs = Utils.getInputStream(dir, parsedArgs.getPrefix() + ".system");
+            InputStream resourceEnvironmentIs = 
+                    Utils.getInputStream(dir, parsedArgs.getPrefix() + ".resourceenvironment");
             
             String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
             ContextInfo ctx = new ContextInfo(
@@ -282,7 +452,8 @@ public class Creator {
             Factory factory = new Factory(parsedArgs.getSlaCoreUrl(), credentials[0], credentials[1]);
             Creator mediator = factory.getCreator(ctx);
             
-            String templateId = mediator.runTemplate(constraintsIs, rulesIs, repositoryIs);
+            String templateId = mediator.runTemplate(
+                    constraintsIs, rulesIs, repositoryIs, allocationIs, systemIs, resourceEnvironmentIs);
             output = templateId;
             if (!"".equals(parsedArgs.getConsumer())) {
                 
@@ -292,11 +463,11 @@ public class Creator {
                 logEntity("Loaded agreement: {}", agreement);
             }
             
-            System.out.print(output);
+            java.lang.System.out.print(output);
             
         } catch (ArgumentValidationException e) {
-            System.err.print(cli.getHelpMessage());
-            System.exit(2);
+            java.lang.System.err.print(cli.getHelpMessage());
+            java.lang.System.exit(2);
         }
     }
     

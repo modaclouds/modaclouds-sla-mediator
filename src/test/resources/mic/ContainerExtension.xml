@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resourceModelExtension xmlns="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension C:/Users/GiovanniPaolo/git/modaclouds-qos-models/metamodels/s4cextension/resource_model_extension.xsd">
+		<resourceContainer provider="Amazon" id="_J_O-sIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>
+		<resourceContainer provider="Amazon" id="_LP3gIIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+			<location region="us-east"/>
+			</cloudResource>
+		</resourceContainer>
+		<resourceContainer provider="Amazon" id="_MNm6wIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>
+		<resourceContainer provider="Amazon" id="_LnOQMIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>
+		<resourceContainer provider="Amazon" id="_LZ_FcIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>
+		<resourceContainer provider="Amazon" id="_LhbKMIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>
+		<resourceContainer provider="Amazon" id="_Lt6uEIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>
+		<resourceContainer provider="Amazon" id="_H9DrkIGSEeKo6LTSAnjWxg">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>	
+</resourceModelExtension>

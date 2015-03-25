@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resourceModelExtension xmlns="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension C:/Users/GiovanniPaolo/git/modaclouds-qos-models/metamodels/s4cextension/resource_model_extension.xsd">
+		<resourceContainer provider="Amazon" id="_-sJ1AMhrEeKON4DtRoKCMw">
+			<cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+				<location region="us-east"/>
+			</cloudResource> 
+		</resourceContainer>
+		<resourceContainer provider="HPCloud" id="_ervoQKhyEeOVLLp4qCj_jg">
+			<cloudResource serviceName="Compute Cloud" serviceType="Compute">
+			<location region="us-east"/>
+			</cloudResource>
+		</resourceContainer>
+</resourceModelExtension>

@@ -30,12 +30,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.modaclouds.sla.mediator.ContextInfo;
-import eu.modaclouds.sla.mediator.TemplateGenerator;
 import eu.modaclouds.sla.mediator.Creator;
 import eu.modaclouds.sla.mediator.Creator.Factory;
+import eu.modaclouds.sla.mediator.TemplateGenerator;
 import eu.modaclouds.sla.mediator.Utils;
 import eu.modaclouds.sla.mediator.ViolationSubscriber;
-import eu.modaclouds.sla.mediator.model.palladio.RepositoryDocument;
+import eu.modaclouds.sla.mediator.model.palladio.Model;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 
 
@@ -71,13 +71,16 @@ public class TestMain {
         mediator.generateTemplate(
                 getInputStream("/constraint.xml"),
                 getInputStream("/rules.xml"),
-                getInputStream("/default.repository.xml"));
+                getInputStream("/default.repository.xml"),
+                getInputStream("/default.allocation"),
+                getInputStream("/default.system"),
+                getInputStream("/default.resourceenvironment"));
         
         Constraints constraints = load(Constraints.class, "/constraint.xml");
         MonitoringRules rules = load(MonitoringRules.class, "/rules.xml");
         Repository repository = load(Repository.class, "/default.repository.xml");
         
-        RepositoryDocument model = new RepositoryDocument(repository);
+        Model model = new Model(repository, null, null, null, null);
         TemplateGenerator generator = new TemplateGenerator(
                 new ContextInfo("provider-a", "random-client", "modaclouds", "P1Y"));
         
