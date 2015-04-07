@@ -120,7 +120,6 @@ public class TemplateGenerator {
         result.setContext(context);
         context.setServiceProvider(IAgreement.Context.ServiceProvider.AGREEMENT_RESPONDER.toString());
         context.setAgreementResponder(provider);
-        context.setAgreementInitiator(consumer);
         context.setService(service);
         
         Terms terms = new Terms();

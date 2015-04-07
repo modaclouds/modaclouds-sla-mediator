@@ -47,12 +47,31 @@ public class AgreementGenerator {
     }
 
     private static Logger logger = LoggerFactory.getLogger(AgreementGenerator.class);
-    private Template template;
-    private ContextInfo ctx;
+    private final Template template;
+    private final ContextInfo ctx;
+    private final String master;
 
+    /**
+     * AgreementGenerator of an agreement without master
+     * 
+     * @param template template to be based on
+     * @param ctx context of agreement
+     */
     public AgreementGenerator(Template template, ContextInfo ctx) {
+        this(template, ctx, "");
+    }
+
+    /**
+     * AgreementGenerator of an agreement with master
+     * 
+     * @param template template to be based on
+     * @param ctx context of agreement
+     * @param master agreement id of master
+     */
+    public AgreementGenerator(Template template, ContextInfo ctx, String master) {
         this.template = template;
         this.ctx = ctx;
+        this.master = master;
     }
     
     public Agreement generateAgreement() {
@@ -67,7 +86,9 @@ public class AgreementGenerator {
         Agreement agreement = new Agreement();
         
         agreement.setAgreementId(agreementId);
-        agreement.setName("");  /* TODO? */
+        
+        String name = String.format("%s-%s-%s", ctx.getConsumer(), ctx.getProvider(), ctx.getService());
+        agreement.setName(name);
         
         agreement.setContext(generateContext());
         agreement.setTerms(generateTerms());
@@ -84,6 +105,9 @@ public class AgreementGenerator {
         result.setExpirationTime(ctx.getValidity().add(new Date()));
         result.setTemplateId(template.getTemplateId());
         result.setService(ctx.getService());
+        if (!"".equals(master) ) {
+            result.setMaster(master);
+        }
         
         return result;
     }

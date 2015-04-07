@@ -47,6 +47,7 @@ import eu.modaclouds.sla.mediator.model.palladio.allocation.Allocation;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 import eu.modaclouds.sla.mediator.model.palladio.resourceenvironment.ResourceEnvironment;
 import eu.modaclouds.sla.mediator.model.palladio.resourceenvironment.ResourceEnvironment.ResourceContainer;
+import eu.modaclouds.sla.mediator.model.palladio.resourceextension.ResourceContainerWrapper;
 import eu.modaclouds.sla.mediator.model.palladio.system.System;
 
 /**
@@ -72,13 +73,22 @@ public class Creator {
         }
     }
     
+    /**
+     * Result of run Sla method.
+     * 
+     * Contains:
+     * <li>highId: customer – application provider agreement id 
+     * <li>lowIds: map of (resource container id, application provider – cloud providers agreement id). 
+     * The resource container id is the one in resourceenvironment file/resourceContainer_ResourceEnvironment element.
+     * <li>model: the model built from the input files (useful for debugging)
+     */
     public static class Result {
         private final String highId;
         private final Map<String, String> lowIds;
         private final Model model;
         
         /**
-         * Result of runSla method
+         * Constructs Result of runSla method
          * 
          * @param highId AgreementId of high agreement
          * @param lowIds AgreementId of low agreements
@@ -184,9 +194,11 @@ public class Creator {
     private Agreement runHigh(Constraints constraints, MonitoringRules rules, Model model) {
         
         Template template = generator.generateTemplate(constraints, rules, model);
+        logEntity("Generated high template: {}", template);
 
         AgreementGenerator agreementer = new AgreementGenerator(template, ctx);
         Agreement agreement = agreementer.generateAgreement();
+        logEntity("Generated high agreement: {}", agreement);
         
         if (persist) {
             Provider p = loadProvider(ctx.getProvider());
@@ -200,20 +212,22 @@ public class Creator {
     }
     
     private Map<String, Agreement> runLow(
-            Agreement high, Constraints constraints, MonitoringRules rules, Model model) {
+            Agreement highAgreement, Constraints constraints, MonitoringRules rules, Model model) {
+        ContextInfo highCtx = this.ctx;
         
         Map<String, Template> templates = new HashMap<String, Template>();
         Map<String, Agreement> agreements = new HashMap<String, Agreement>();
-        TierTemplateGenerator templater = new TierTemplateGenerator(ctx);
+        TierTemplateGenerator templater = new TierTemplateGenerator(highCtx, highAgreement);
         
         for (ResourceContainer tier : model.getResourceContainers()) {
             String tierName = tier.getId();
-            Template t = templater.generateTemplate(constraints, rules, model, tierName);
-            logEntity("Generated template: {}", t);
+            ContextInfo lowCtx = buildLowContext(highCtx, model, tierName);
+            Template t = templater.generateTemplate(constraints, rules, model, tierName, lowCtx);
+            logEntity("Generated low template: {}", t);
             
-            AgreementGenerator agreementer = new AgreementGenerator(t, ctx);
+            AgreementGenerator agreementer = new AgreementGenerator(t, lowCtx, highAgreement.getAgreementId());
             Agreement a = agreementer.generateAgreement();
-            logEntity("Generated agreement: {}", a);
+            logEntity("Generated low agreement: {}", a);
             
             templates.put(tierName, t);
             agreements.put(tierName, a);
@@ -236,6 +250,20 @@ public class Creator {
         return agreements;
     }
 
+    private ContextInfo buildLowContext(ContextInfo highCtx, Model model, String tierName) {
+        
+        ResourceContainerWrapper wrapper = 
+                (ResourceContainerWrapper) model.getResourceModelExtension().getElementById(tierName);
+        it.polimi.modaclouds.qos_models.schema.ResourceContainer container = wrapper.getWrapped();
+        
+        String provider = container.getProvider();
+        String consumer = highCtx.getProvider();
+        String service = container.getCloudElement().getServiceName();
+        ContextInfo result = new ContextInfo(provider, consumer, service, highCtx.getValidity());
+        
+        return result;
+    }
+    
     private Map<String, String> buildLowerIds(Map<String, Agreement> map) {
         Map<String, String> result = new HashMap<String, String>();
         
