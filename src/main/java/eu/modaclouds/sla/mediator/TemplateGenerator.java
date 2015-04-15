@@ -24,7 +24,6 @@ import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
 import it.polimi.modaclouds.qos_models.schema.Parameter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,19 +55,16 @@ import eu.atos.sla.parser.data.wsag.custom.Penalty;
 import eu.modaclouds.sla.mediator.model.ModelUtils;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
 import eu.modaclouds.sla.mediator.model.palladio.IDocument;
-import eu.modaclouds.sla.mediator.model.palladio.IReferrable;
 import eu.modaclouds.sla.mediator.model.palladio.Model;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Component;
-import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Operation;
-import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.SeffSpecification;
 
 public class TemplateGenerator {
     public static final String CONSTRAINT = "constraint";
 
     private static Logger logger = LoggerFactory.getLogger(TemplateGenerator.class);
 
-    private static final String DEFAULT_SERVICE_NAME = "service";
+    static final String DEFAULT_SERVICE_NAME = "service";
 
     private static GuaranteeTerm NULL_GUARANTEE_TERM = new GuaranteeTerm();
     
@@ -262,99 +258,5 @@ public class TemplateGenerator {
         }
 
         return jsonMapper.writeValueAsString(t);
-    }
-    
-    public interface IServiceScoper {
-        ServiceScope generate(Constraint constraint, IDocument<Repository> document);
-        
-        ServiceScope NOT_FOUND = new ServiceScope();
-    }
-    
-    public static class ServiceScoper implements IServiceScoper {
-        static HashMap<TargetClass, IServiceScoper> map = new HashMap<>();
-        static IServiceScoper nullServiceScoper = new NullServiceScoper();
-        
-        static {
-            map.put(TargetClass.METHOD, new MethodServiceScoper());
-            map.put(TargetClass.INTERNAL_COMPONENT, new InternalComponentServiceScoper());
-        }
-        
-        @Override
-        public ServiceScope generate(Constraint constraint,
-                IDocument<Repository> document) {
-            
-            TargetClass target = TargetClass.fromString(constraint.getTargetClass());
-
-            IServiceScoper scoper = map.containsKey(target)? map.get(target) : nullServiceScoper;
-            
-            ServiceScope scope = scoper.generate(constraint, document);
-            return scope;
-        }
-    }
-
-    public static class NullServiceScoper implements IServiceScoper {
-        @Override
-        public ServiceScope generate(Constraint constraint,
-                IDocument<Repository> document) {
-            return NOT_FOUND;
-        }
-    }
-    
-    public static class InternalComponentServiceScoper implements IServiceScoper {
-
-        @Override
-        public ServiceScope generate(Constraint constraint,
-                IDocument<Repository> document) {
-            
-            IReferrable referrable = 
-                    document.getElementById(constraint.getTargetResourceIDRef());
-            
-            ServiceScope result = NOT_FOUND;
-            
-            if (referrable != IDocument.NOT_FOUND) {
-                if (referrable instanceof Component) {
-                    result.setServiceName(DEFAULT_SERVICE_NAME);
-                    result.setValue(referrable.getEntityName());
-                }
-            }
-            /*
-             * process errors
-             */
-            return result;
-        }
-    }
-
-    public static class MethodServiceScoper implements IServiceScoper {
-
-        @Override
-        public ServiceScope generate(Constraint constraint,
-                IDocument<Repository> document) {
-            
-            IReferrable referrable = 
-                    document.getElementById(constraint.getTargetResourceIDRef());
-            
-            ServiceScope result = NOT_FOUND;
-            
-            if (referrable != IDocument.NOT_FOUND) {
-                if (referrable instanceof SeffSpecification) {
-                    result = process(constraint, document, (SeffSpecification) referrable);
-                }
-            }
-            /*
-             * process errors
-             */
-            return result;
-        }
-        
-        private ServiceScope process(Constraint constraint, IDocument<Repository> document, SeffSpecification element) {
-            
-            Component parent = element.getParent();
-            Operation operation = element.getOperation(document);
-            ServiceScope result = new ServiceScope();
-            result.setServiceName(DEFAULT_SERVICE_NAME);
-            result.setValue(String.format("%s/%s", parent.getEntityName(), operation.getEntityName()));
-            
-            return result;
-        }
     }
 }

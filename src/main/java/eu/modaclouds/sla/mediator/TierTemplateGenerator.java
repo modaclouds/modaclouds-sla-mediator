@@ -17,6 +17,7 @@
 package eu.modaclouds.sla.mediator;
 
 import it.polimi.modaclouds.qos_models.schema.Condition;
+import it.polimi.modaclouds.qos_models.schema.Constraint;
 import it.polimi.modaclouds.qos_models.schema.Constraints;
 import it.polimi.modaclouds.qos_models.schema.MonitoredTarget;
 import it.polimi.modaclouds.qos_models.schema.MonitoredTargets;
@@ -46,6 +47,7 @@ import eu.atos.sla.parser.data.wsag.KPITarget;
 import eu.atos.sla.parser.data.wsag.ServiceDescriptionTerm;
 import eu.atos.sla.parser.data.wsag.ServiceLevelObjective;
 import eu.atos.sla.parser.data.wsag.ServiceProperties;
+import eu.atos.sla.parser.data.wsag.ServiceScope;
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
 import eu.modaclouds.sla.mediator.model.ModelUtils;
@@ -109,10 +111,11 @@ public class TierTemplateGenerator {
         List<GuaranteeTerm> gts = new ArrayList<>();
         terms.getAllTerms().setGuaranteeTerms(gts);
         
-        for (MonitoringRule rule : rules.getMonitoringRules()) {
+        for (Constraint constraint: constraints.getConstraints()) {
+            MonitoringRule rule = ModelUtils.getRelatedRule(constraint, rules);
             
             if (isSuitableRule(rule, model, tier)) {
-                GuaranteeTerm gt = generateGuaranteeTerm(rule, model);
+                GuaranteeTerm gt = generateGuaranteeTerm(constraint, rule, model);
                 if (gt != NULL_GUARANTEE_TERM) {
                     gts.add(gt);
                 }
@@ -126,7 +129,6 @@ public class TierTemplateGenerator {
     private boolean isSuitableRule(MonitoringRule rule, Model model, ResourceContainer tier) {
         boolean result;
         result = "Average".equals(getAggregationFunction(rule)) &&
-                !"".equals(ModelUtils.getOutputMetric(rule)) &&
                 isNotEmpty(rule.getCondition()) &&
                 isValidTarget(rule.getMonitoredTargets(), tier, model);
         return result;
@@ -152,23 +154,30 @@ public class TierTemplateGenerator {
             MonitoredTarget target) {
 
         ResourceContainer result = ResourceContainer.NOT_FOUND;
-        Component comp;
+        Component comp = Component.NOT_FOUND;
 
         String targetId = target.getType();
         TargetClass clazz = TargetClass.fromString(target.getClazz());
         IReferrable ref = model.getRepository().getElementById(targetId);
-        
-        switch (clazz) {
-        case METHOD:
-            SeffSpecification seff = (SeffSpecification) ref;
-            comp = (Component) seff.getParent();
-            break;
-        case INTERNAL_COMPONENT:
-            comp = (Component) ref;
-            break;
-        default:
-            comp = Component.NOT_FOUND;
-            break;
+
+        try {
+            switch (clazz) {
+            case METHOD:
+                SeffSpecification seff = (SeffSpecification) ref;
+                comp = (Component) seff.getParent();
+                break;
+            case INTERNAL_COMPONENT:
+                comp = (Component) ref;
+                break;
+            default:
+                /* effect: comp = Component.NOT_FOUND */
+                break;
+            }
+            
+        }
+        catch (ClassCastException e) {
+            logger.warn(String.format("Target[id=%s,class=%s] do not match [%s]", targetId, target.getClazz(), ref));
+            /* effect: comp = Component.NOT_FOUND */
         }
         if (comp != Component.NOT_FOUND) {
             result = model.getResourceContainer(comp);
@@ -189,6 +198,7 @@ public class TierTemplateGenerator {
     }
     
     private GuaranteeTerm generateGuaranteeTerm(
+            Constraint constraint,
             MonitoringRule rule, 
             Model model) {
         
@@ -200,7 +210,7 @@ public class TierTemplateGenerator {
         
         if ("".equals(outputMetric)) {
             logger.warn("OutputMetric is not defined. GuaranteeTerm cannot be added to agreement");
-            gt = new GuaranteeTerm(); //NULL_GUARANTEE_TERM;
+            gt = NULL_GUARANTEE_TERM;
             /*
              * fall to return
              */
@@ -211,18 +221,21 @@ public class TierTemplateGenerator {
             
             gt.setName(rule.getId());
     
-            /* TODO */
-//            ServiceScope serviceScope = new ServiceScoper().generate(constraint, model.getRepository());
-//            gt.setServiceScope(serviceScope);
+            ServiceScope serviceScope = new ServiceScoper().generate(constraint, model.getRepository());
+            gt.setServiceScope(serviceScope);
             
             ServiceLevelObjective slo = new ServiceLevelObjective();
             KPITarget kpi = new KPITarget();
             kpi.setKpiName(rule.getCollectedMetric().getMetricName());
-            kpi.setCustomServiceLevel(String.format(
-                    "{\"constraint\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
-                    outputMetric,
-                    rule.getCondition(),
-                    getAggregationFunction(rule)));
+            try {
+                kpi.setCustomServiceLevel(String.format(
+                        "{\"constraint\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
+                        outputMetric,
+                        toJson(constraint.getRange()),
+                        getAggregationFunction(rule)));
+            } catch (JsonProcessingException e) {
+                throw new GeneratorException(e.getMessage(), e);
+            }
             slo.setKpitarget(kpi);
             gt.setServiceLevelObjetive(slo);
         }
