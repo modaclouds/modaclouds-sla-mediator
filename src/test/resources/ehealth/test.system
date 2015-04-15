@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<system:System xmlns:composition="http://sdq.ipd.uka.de/PalladioComponentModel/Core/Composition/5.0" xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0" xmlns:system="http://sdq.ipd.uka.de/PalladioComponentModel/System/5.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" entityName="defaultSystem" xmi:version="2.0">
+  <assemblyContexts__ComposedStructure entityName="Assembly_eHealth-gui" id="2468ecf1-18e3-42ef-af4b-a94e3d78d823__assembly">
+    <encapsulatedComponent__AssemblyContext href="test.repository#2468ecf1-18e3-42ef-af4b-a94e3d78d823" xsi:type="repository:BasicComponent"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure entityName="Assembly_eHealth-ws" id="70e743f0-f133-459b-8ce0-9a1b72ab6ef0__assembly">
+    <encapsulatedComponent__AssemblyContext href="test.repository#70e743f0-f133-459b-8ce0-9a1b72ab6ef0" xsi:type="repository:BasicComponent"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure entityName="Assembly_eHealth-db" id="7cdc82bb-137a-4287-95ee-4e5fc964b907__assembly">
+    <encapsulatedComponent__AssemblyContext href="test.repository#7cdc82bb-137a-4287-95ee-4e5fc964b907" xsi:type="repository:BasicComponent"/>
+  </assemblyContexts__ComposedStructure>
+  <providedRoles_InterfaceProvidingEntity entityName="Provided__guiProvided" id="2468ecf1-18e3-42ef-af4b-a94e3d78d823_0fe3b02c-9f07-4d16-81de-0fb76beffdfa__providedRole" xsi:type="repository:OperationProvidedRole">
+    <providedInterface__OperationProvidedRole href="test.repository#2468ecf1-18e3-42ef-af4b-a94e3d78d823_0fe3b02c-9f07-4d16-81de-0fb76beffdfa"/>
+  </providedRoles_InterfaceProvidingEntity>
+  <connectors__ComposedStructure assemblyContext_ProvidedDelegationConnector="2468ecf1-18e3-42ef-af4b-a94e3d78d823__assembly" entityName="ProvidedDelegation__guiProvided" outerProvidedRole_ProvidedDelegationConnector="2468ecf1-18e3-42ef-af4b-a94e3d78d823_0fe3b02c-9f07-4d16-81de-0fb76beffdfa__providedRole" xsi:type="composition:ProvidedDelegationConnector">
+    <innerProvidedRole_ProvidedDelegationConnector href="test.repository#2468ecf1-18e3-42ef-af4b-a94e3d78d823_0fe3b02c-9f07-4d16-81de-0fb76beffdfa__provided"/>
+  </connectors__ComposedStructure>
+  <providedRoles_InterfaceProvidingEntity entityName="Provided__ws" id="70e743f0-f133-459b-8ce0-9a1b72ab6ef0_87148c1f-3c61-475c-9283-9e6977c82cce__providedRole" xsi:type="repository:OperationProvidedRole">
+    <providedInterface__OperationProvidedRole href="test.repository#70e743f0-f133-459b-8ce0-9a1b72ab6ef0_87148c1f-3c61-475c-9283-9e6977c82cce"/>
+  </providedRoles_InterfaceProvidingEntity>
+  <connectors__ComposedStructure assemblyContext_ProvidedDelegationConnector="70e743f0-f133-459b-8ce0-9a1b72ab6ef0__assembly" entityName="ProvidedDelegation__ws" outerProvidedRole_ProvidedDelegationConnector="70e743f0-f133-459b-8ce0-9a1b72ab6ef0_87148c1f-3c61-475c-9283-9e6977c82cce__providedRole" xsi:type="composition:ProvidedDelegationConnector">
+    <innerProvidedRole_ProvidedDelegationConnector href="test.repository#70e743f0-f133-459b-8ce0-9a1b72ab6ef0_87148c1f-3c61-475c-9283-9e6977c82cce__provided"/>
+  </connectors__ComposedStructure>
+  <providedRoles_InterfaceProvidingEntity entityName="Provided__db" id="7cdc82bb-137a-4287-95ee-4e5fc964b907_deb033bc-e1eb-4216-8768-6d5cd259bf1e__providedRole" xsi:type="repository:OperationProvidedRole">
+    <providedInterface__OperationProvidedRole href="test.repository#7cdc82bb-137a-4287-95ee-4e5fc964b907_deb033bc-e1eb-4216-8768-6d5cd259bf1e"/>
+  </providedRoles_InterfaceProvidingEntity>
+  <connectors__ComposedStructure assemblyContext_ProvidedDelegationConnector="7cdc82bb-137a-4287-95ee-4e5fc964b907__assembly" entityName="ProvidedDelegation__db" outerProvidedRole_ProvidedDelegationConnector="7cdc82bb-137a-4287-95ee-4e5fc964b907_deb033bc-e1eb-4216-8768-6d5cd259bf1e__providedRole" xsi:type="composition:ProvidedDelegationConnector">
+    <innerProvidedRole_ProvidedDelegationConnector href="test.repository#7cdc82bb-137a-4287-95ee-4e5fc964b907_deb033bc-e1eb-4216-8768-6d5cd259bf1e__provided"/>
+  </connectors__ComposedStructure>
+</system:System>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<resourceModelExtension xmlns="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension ../s4cextension/resource_model_extension.xsd">
+  <resourceContainer id="2ad6ac0e-ebd3-4ace-aab1-20fffabe5969__resourceContainer" name="eHealthDB_eHealth-db">
+    <cloudElement serviceName="eHealthDB" serviceType="database"/>
+  </resourceContainer>
+  <resourceContainer id="05351a1f-8c97-4f3f-8639-7712b4122008__resourceContainer" name="platform2_ApplicationPlatform2">
+    <cloudElement serviceName="platform2" serviceType="Compute"/>
+    <randomEnvironment>Deployment alternative where the web applications and the PaaS database are deployed</randomEnvironment>
+  </resourceContainer>
+  <resourceContainer id="1c620c7c-750c-44e3-b662-ddbbb9a79f36__resourceContainer" name="platform1_ApplicationPlatform">
+    <cloudElement serviceName="platform1" serviceType="Compute"/>
+  </resourceContainer>
+</resourceModelExtension>

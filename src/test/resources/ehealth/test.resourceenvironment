@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<resourceenvironment:ResourceEnvironment xmlns:resourceenvironment="http://sdq.ipd.uka.de/PalladioComponentModel/ResourceEnvironment/5.0" xmlns:xmi="http://www.omg.org/XMI" entityName="defaultRepository" xmi:version="2.0">
+  <resourceContainer_ResourceEnvironment entityName="eHealthDB" id="2ad6ac0e-ebd3-4ace-aab1-20fffabe5969__resourceContainer">
+    <activeResourceSpecifications_ResourceContainer id="2ad6ac0e-ebd3-4ace-aab1-20fffabe5969_spec" numberOfReplicas="1">
+      <schedulingPolicy href="pathmap://PCM_MODELS/Palladio.resourcetype#ProcessorSharing"/>
+      <activeResourceType_ActiveResourceSpecification href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ"/>
+      <processingRate_ProcessingResourceSpecification specification="1000"/>
+    </activeResourceSpecifications_ResourceContainer>
+  </resourceContainer_ResourceEnvironment>
+  <resourceContainer_ResourceEnvironment entityName="platform2" id="05351a1f-8c97-4f3f-8639-7712b4122008__resourceContainer">
+    <activeResourceSpecifications_ResourceContainer id="05351a1f-8c97-4f3f-8639-7712b4122008_spec" numberOfReplicas="1">
+      <schedulingPolicy href="pathmap://PCM_MODELS/Palladio.resourcetype#ProcessorSharing"/>
+      <activeResourceType_ActiveResourceSpecification href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ"/>
+      <processingRate_ProcessingResourceSpecification specification="1000"/>
+    </activeResourceSpecifications_ResourceContainer>
+  </resourceContainer_ResourceEnvironment>
+  <resourceContainer_ResourceEnvironment entityName="platform1" id="1c620c7c-750c-44e3-b662-ddbbb9a79f36__resourceContainer">
+    <activeResourceSpecifications_ResourceContainer id="1c620c7c-750c-44e3-b662-ddbbb9a79f36_spec" numberOfReplicas="1">
+      <schedulingPolicy href="pathmap://PCM_MODELS/Palladio.resourcetype#ProcessorSharing"/>
+      <activeResourceType_ActiveResourceSpecification href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ"/>
+      <processingRate_ProcessingResourceSpecification specification="1000"/>
+    </activeResourceSpecifications_ResourceContainer>
+  </resourceContainer_ResourceEnvironment>
+  <linkingResources__ResourceEnvironment connectedResourceContainers_LinkingResource="05351a1f-8c97-4f3f-8639-7712b4122008__resourceContainer 1c620c7c-750c-44e3-b662-ddbbb9a79f36__resourceContainer" entityName="platform2.eHealthWS_platform1.eHealthWS" id="534edc2a-649b-4eae-89b9-600448dee11a">
+    <communicationLinkResourceSpecifications_LinkingResource id="534edc2a-649b-4eae-89b9-600448dee11a_spec">
+      <communicationLinkResourceType_CommunicationLinkResourceSpecification href="pathmap://PCM_MODELS/Palladio.resourcetype#_o3sScH2AEdyH8uerKnHYug"/>
+      <latency_CommunicationLinkResourceSpecification specification="0"/>
+      <throughput_CommunicationLinkResourceSpecification specification="1000"/>
+    </communicationLinkResourceSpecifications_LinkingResource>
+  </linkingResources__ResourceEnvironment>
+</resourceenvironment:ResourceEnvironment>

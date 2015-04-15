@@ -1,99 +1,167 @@
 <?xml version="1.0"?>
-<mo:monitoringRules
-    xmlns:mo="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
-    <mo:monitoringRule
-        id="face9f00-3f9e-45dd-aaa6-98e7eb664a8d_7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff"
-        label="ResponseTime_ws_login"
-        relatedQosConstraintId="7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff"
-        startEnabled="true" timeStep="60" timeWindow="60">
-        <mo:collectedMetric inherited="false"
-            metricName="ResponseTime">
-            <mo:parameter name="samplingProbability">1</mo:parameter>
-        </mo:collectedMetric>
-        <mo:monitoredTargets>
-            <mo:monitoredTarget class="Method"
-                type="87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff" />
-        </mo:monitoredTargets>
-        <mo:debug>'ResponseTime_ws'
-            {7c71d46a-578d-495c-9f19-65b0e5b16520}
-            Class###87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff
-        </mo:debug>
-        <mo:debug>'login' {a6cfcd1b-78b2-4b98-83f1-ae0b41608078}
-            Operation###87c5a68c-c136-41ae-9d52-b8b2d3737873_a6cfcd1b-78b2-4b98-83f1-ae0b41608078_seff
-        </mo:debug>
-        <mo:metricAggregation />
-        <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@54473a38[value=METRIC
-            &gt; 10000.0, inherited=false]</mo:condition>
-        <mo:actions>
-            <mo:action name="outputMetric">
-                <mo:parameter name="name">v1</mo:parameter>
-            </mo:action>
-            <mo:action name="Business">
-                <mo:parameter name="type">discount</mo:parameter>
-                <mo:parameter name="value">10</mo:parameter>
-                <mo:parameter name="unit">%</mo:parameter>
-                <mo:parameter name="validity">P1D</mo:parameter>
-            </mo:action>
-        </mo:actions>
-    </mo:monitoringRule>
-    <mo:monitoringRule
-        id="ece9b485-4527-4413-a9df-ea2b6ed20fc9_7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff"
-        label="ResponseTime_ws_ListOfClinicians"
-        relatedQosConstraintId="7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff"
-        startEnabled="true" timeStep="60" timeWindow="60">
-        <mo:collectedMetric inherited="false"
-            metricName="ResponseTime">
-            <mo:parameter name="samplingProbability">1</mo:parameter>
-        </mo:collectedMetric>
-        <mo:monitoredTargets>
-            <mo:monitoredTarget class="Method"
-                type="87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff" />
-        </mo:monitoredTargets>
-        <mo:debug>'ResponseTime_ws'
-            {7c71d46a-578d-495c-9f19-65b0e5b16520}
-            Class###87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff
-        </mo:debug>
-        <mo:debug>'ListOfClinicians'
-            {67c2d700-7af0-4cb2-938a-63d58b602970}
-            Operation###87c5a68c-c136-41ae-9d52-b8b2d3737873_67c2d700-7af0-4cb2-938a-63d58b602970_seff
-        </mo:debug>
-        <mo:metricAggregation />
-        <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@aa710e8[value=METRIC
-            &gt; 10000.0, inherited=false]</mo:condition>
-        <mo:actions>
-            <mo:action name="outputMetric">
-                <mo:parameter name="name">v2</mo:parameter>
-            </mo:action>
-        </mo:actions>
-    </mo:monitoringRule>
-    <mo:monitoringRule
-        id="5b4f7334-3fa5-42d4-bd19-bdb6ee3dbf97_7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff"
-        label="ResponseTime_ws_ListOfPatients"
-        relatedQosConstraintId="7c71d46a-578d-495c-9f19-65b0e5b16520_87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff"
-        startEnabled="true" timeStep="60" timeWindow="60">
-        <mo:collectedMetric inherited="false"
-            metricName="ResponseTime">
-            <mo:parameter name="samplingProbability">1</mo:parameter>
-        </mo:collectedMetric>
-        <mo:monitoredTargets>
-            <mo:monitoredTarget class="Method"
-                type="87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff" />
-        </mo:monitoredTargets>
-        <mo:debug>'ResponseTime_ws'
-            {7c71d46a-578d-495c-9f19-65b0e5b16520}
-            Class###87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff
-        </mo:debug>
-        <mo:debug>'ListOfPatients'
-            {06fb870e-b5d6-47b1-8517-ef0665c24746}
-            Operation###87c5a68c-c136-41ae-9d52-b8b2d3737873_06fb870e-b5d6-47b1-8517-ef0665c24746_seff
-        </mo:debug>
-        <mo:metricAggregation />
-        <mo:condition>it.polimi.modaclouds.qos_models.schema.Condition@1069baa9[value=METRIC
-            &gt; 10000.0, inherited=false]</mo:condition>
-        <mo:actions>
-            <mo:action name="outputMetric">
-                <mo:parameter name="name">v3</mo:parameter>
-            </mo:action>
-        </mo:actions>
-    </mo:monitoringRule>
+<mo:monitoringRules xmlns:mo="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
+  <mo:monitoringRule id="1b35d514-e6c5-465c-847e-6d983aa71b74_af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_25e0a89b-b713-420c-8858-7c345caa7385_seff" label="ResponseTime_gui_getEhealthParameters" relatedQosConstraintId="af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_25e0a89b-b713-420c-8858-7c345caa7385_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_25e0a89b-b713-420c-8858-7c345caa7385_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:condition>METRIC &gt; 2500.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count">100</mo:parameter>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+        <mo:parameter name="duration">550</mo:parameter>
+        <mo:parameter name="type"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="a91d9ecc-9304-43fc-94be-f7404dc74d31_05dffc5d-738c-4a90-a07c-09c477eb0d3e_2468ecf1-18e3-42ef-af4b-a94e3d78d823_29af5b75-9bc6-4adc-9710-0bed88817d7c_seff" label="ResponseTime1s_gui_auth" relatedQosConstraintId="05dffc5d-738c-4a90-a07c-09c477eb0d3e_2468ecf1-18e3-42ef-af4b-a94e3d78d823_29af5b75-9bc6-4adc-9710-0bed88817d7c_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_29af5b75-9bc6-4adc-9710-0bed88817d7c_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:condition>METRIC &gt; 1000.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count"/>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="5c6d389a-4d5d-4cc3-9d0d-eaeb9ac1c2b0_af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_6f19176e-113a-439e-8f0a-ad405fb59506_seff" label="ResponseTime_gui_getStatus" relatedQosConstraintId="af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_6f19176e-113a-439e-8f0a-ad405fb59506_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_6f19176e-113a-439e-8f0a-ad405fb59506_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:condition>METRIC &gt; 2500.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count">100</mo:parameter>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+        <mo:parameter name="duration">550</mo:parameter>
+        <mo:parameter name="type"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="450aa08f-fd1c-4b9b-9b4d-5ff4069bef8c_05dffc5d-738c-4a90-a07c-09c477eb0d3e_2468ecf1-18e3-42ef-af4b-a94e3d78d823_e8b7b353-ca00-459b-ab54-1357c65b2f6c_seff" label="ResponseTime1s_gui_login" relatedQosConstraintId="05dffc5d-738c-4a90-a07c-09c477eb0d3e_2468ecf1-18e3-42ef-af4b-a94e3d78d823_e8b7b353-ca00-459b-ab54-1357c65b2f6c_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_e8b7b353-ca00-459b-ab54-1357c65b2f6c_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:condition>METRIC &gt; 1000.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count"/>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="d526c7a3-652d-4919-82d2-9816b04811f6_af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_8b8d0b0e-a166-41a3-a743-aec124629f5d_seff" label="ResponseTime_gui_getEhealthRoles" relatedQosConstraintId="af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_8b8d0b0e-a166-41a3-a743-aec124629f5d_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_8b8d0b0e-a166-41a3-a743-aec124629f5d_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:condition>METRIC &gt; 2500.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count">100</mo:parameter>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+        <mo:parameter name="duration">550</mo:parameter>
+        <mo:parameter name="type"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="01e31150-94f3-4037-a73a-90abd9f4d41a_af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_9a052fcb-15e4-4b65-a137-cafe311a030d_seff" label="ResponseTime_gui_listOfClinicians" relatedQosConstraintId="af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_9a052fcb-15e4-4b65-a137-cafe311a030d_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_9a052fcb-15e4-4b65-a137-cafe311a030d_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:condition>METRIC &gt; 2500.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count">100</mo:parameter>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+        <mo:parameter name="duration">550</mo:parameter>
+        <mo:parameter name="type"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="db9293b2-53de-47d3-becb-5d62595addc0_af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_6ca5e99c-0e39-4d9f-a599-fc110246361e_seff" label="ResponseTime_gui_listOfPatients" relatedQosConstraintId="af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_6ca5e99c-0e39-4d9f-a599-fc110246361e_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_6ca5e99c-0e39-4d9f-a599-fc110246361e_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:condition>METRIC &gt; 2500.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric">gui_listOfPatients_violated</mo:parameter>
+        <mo:parameter name="value">METRIC</mo:parameter>
+        <mo:parameter name="resourceId">ID</mo:parameter>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count">100</mo:parameter>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+        <mo:parameter name="duration">550</mo:parameter>
+        <mo:parameter name="type"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
 </mo:monitoringRules>
