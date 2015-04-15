@@ -33,7 +33,7 @@ public class CreatorTest {
     }
 
     @Test
-    public final void testRunSla() {
+    public final void testRunSlaOfbiz() {
         
         ContextInfo ctx = new ContextInfo("modaclouds", "consumer", "ofbiz", new Validity (1, 0, 0));
         SlaCoreConfig cfg = new SlaCoreConfig("", "", "");
@@ -61,6 +61,60 @@ public class CreatorTest {
         }
     }
 
+    @Test
+    public final void testRunSlaSimple() {
+        ContextInfo ctx = new ContextInfo("modaclouds", "consumer", "simple", new Validity (1, 0, 0));
+        SlaCoreConfig cfg = new SlaCoreConfig("", "", "");
+        Creator creator = new Creator(cfg, ctx, false);
+        
+        String root = "/SimpleModel/";
+        String prefix = "test";
+        Creator.Result result = creator.runSla(
+                getInputStream(root + "QoSConstraints.xml"), 
+                getInputStream(root + "MonitoringRules.xml"), 
+                getInputStream(root + String.format("%s.repository", prefix)), 
+                getInputStream(root + String.format("%s.allocation", prefix)), 
+                getInputStream(root + String.format("%s.system", prefix)), 
+                getInputStream(root + String.format("%s.resourceenvironment", prefix)), 
+                getInputStream(root + "ResourceContainerExtension.xml"), 
+                getInputStream(root + "Functionality2Tier.xml"));
+        
+        for (ResourceContainer container : result.getModel().getResourceContainers()) {
+            String containerId = container.getId();
+            assertTrue(result.getLowIds().containsKey(containerId));
+
+            String wsagId = result.getLowIds().get(containerId);
+            assertNotNull(wsagId);
+        }
+    }
+    
+    @Test
+    public final void testRunSlaEhealth() {
+        ContextInfo ctx = new ContextInfo("modaclouds", "consumer", "ehealth", new Validity (1, 0, 0));
+        SlaCoreConfig cfg = new SlaCoreConfig("", "", "");
+        Creator creator = new Creator(cfg, ctx, false);
+        
+        String root = "/ehealth/";
+        String prefix = "test";
+        Creator.Result result = creator.runSla(
+                getInputStream(root + "QoSConstraints.xml"), 
+                getInputStream(root + "MonitoringRules.xml"), 
+                getInputStream(root + String.format("%s.repository", prefix)), 
+                getInputStream(root + String.format("%s.allocation", prefix)), 
+                getInputStream(root + String.format("%s.system", prefix)), 
+                getInputStream(root + String.format("%s.resourceenvironment", prefix)), 
+                getInputStream(root + "ResourceContainerExtension.xml"), 
+                getInputStream(root + "Functionality2Tier.xml"));
+        
+        for (ResourceContainer container : result.getModel().getResourceContainers()) {
+            String containerId = container.getId();
+            assertTrue(result.getLowIds().containsKey(containerId));
+
+            String wsagId = result.getLowIds().get(containerId);
+            assertNotNull(wsagId);
+        }
+    }
+    
     private InputStream getInputStream(String path) {
         return this.getClass().getResourceAsStream(path);
     }

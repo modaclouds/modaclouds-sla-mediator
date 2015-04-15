@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<multiCloudExtensions xmlns="http://www.modaclouds.eu/xsd/2013/6/multi-cloud-extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.modaclouds.eu/xsd/2013/6/palladio-extension http://www.modaclouds.eu/xsd/2013/6/resource-env-extension/PalladioExtension.xsd">
+  <multiCloudExtension id="6a60f202-3c9f-489e-aa52-bc8db7d690cb"/>
+</multiCloudExtensions>

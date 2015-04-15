@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<mo:monitoringRules xmlns:mo="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
+  <mo:monitoringRule id="074657a5-edb8-4229-92b5-ac71839e1e09_b2dc3727-df68-4b2a-b0d4-886b5aa75496_39b66f7c-f48e-4ed1-bce1-511a1cf8606d__resourceContainer" label="QoS Constraint_CloudNodeInstance" relatedQosConstraintId="b2dc3727-df68-4b2a-b0d4-886b5aa75496_39b66f7c-f48e-4ed1-bce1-511a1cf8606d__resourceContainer" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="VM" type="39b66f7c-f48e-4ed1-bce1-511a1cf8606d__resourceContainer"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="type"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="074657a5-edb8-4229-92b5-ac71839e1e09_b2dc3727-df68-4b2a-b0d4-886b5aa75496_CloudNodeInstance_SampleCloudNode" label="QoS Constraint_CloudNodeInstance" relatedQosConstraintId="b2dc3727-df68-4b2a-b0d4-886b5aa75496_CloudNodeInstance_SampleCloudNode" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="VM" type="CloudNodeInstance_SampleCloudNode"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="type"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="3c395947-b4a8-4338-8c0c-078fbf41c3da_b2dc3727-df68-4b2a-b0d4-886b5aa75496_20502386-8336-4ee8-b686-6abe774d1a43" label="QoS Constraint_ServiceApplicationInstance" relatedQosConstraintId="b2dc3727-df68-4b2a-b0d4-886b5aa75496_20502386-8336-4ee8-b686-6abe774d1a43" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="InternalComponent" type="20502386-8336-4ee8-b686-6abe774d1a43"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="type"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="3c395947-b4a8-4338-8c0c-078fbf41c3da_b2dc3727-df68-4b2a-b0d4-886b5aa75496_ec84b104-aff1-4509-adc5-630e4396e4c1" label="QoS Constraint_ServiceApplicationInstance" relatedQosConstraintId="b2dc3727-df68-4b2a-b0d4-886b5aa75496_ec84b104-aff1-4509-adc5-630e4396e4c1" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="InternalComponent" type="ec84b104-aff1-4509-adc5-630e4396e4c1"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="type"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="3c395947-b4a8-4338-8c0c-078fbf41c3da_b2dc3727-df68-4b2a-b0d4-886b5aa75496_ServiceApplicationType" label="QoS Constraint_ServiceApplicationInstance" relatedQosConstraintId="b2dc3727-df68-4b2a-b0d4-886b5aa75496_ServiceApplicationType" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="InternalComponent" type="ServiceApplicationType"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="type"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+  <mo:monitoringRule id="cb400980-87b6-42cc-880b-963a73a564c5_b2dc3727-df68-4b2a-b0d4-886b5aa75496_ec84b104-aff1-4509-adc5-630e4396e4c1" label="QoS Constraint_Service" relatedQosConstraintId="b2dc3727-df68-4b2a-b0d4-886b5aa75496_ec84b104-aff1-4509-adc5-630e4396e4c1" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="InternalComponent" type="ec84b104-aff1-4509-adc5-630e4396e4c1"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="type"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+</mo:monitoringRules>

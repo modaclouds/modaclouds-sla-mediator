@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<repository:Repository xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0" xmlns:seff="http://sdq.ipd.uka.de/PalladioComponentModel/SEFF/5.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" entityName="defaultRepository" xmi:version="2.0">
+  <components__Repository entityName="Service" id="ec84b104-aff1-4509-adc5-630e4396e4c1" xsi:type="repository:BasicComponent">
+    <providedRoles_InterfaceProvidingEntity entityName="Provided__Interface" id="ec84b104-aff1-4509-adc5-630e4396e4c1_62c09bfe-66e7-4bf6-8089-4f6df15c492e__provided" providedInterface__OperationProvidedRole="ec84b104-aff1-4509-adc5-630e4396e4c1_62c09bfe-66e7-4bf6-8089-4f6df15c492e" xsi:type="repository:OperationProvidedRole"/>
+    <serviceEffectSpecifications__BasicComponent describedService__SEFF="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf" id="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf_seff" xsi:type="seff:ResourceDemandingSEFF">
+      <steps_Behaviour id="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf__seff_startAction" successor_AbstractAction="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf__seff_internalAction" xsi:type="seff:StartAction"/>
+      <steps_Behaviour id="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf__seff_endAction" predecessor_AbstractAction="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf__seff_internalAction" xsi:type="seff:StopAction"/>
+      <steps_Behaviour id="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf__seff_internalAction" predecessor_AbstractAction="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf__seff_startAction" successor_AbstractAction="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf__seff_endAction" xsi:type="seff:InternalAction">
+        <resourceDemand_Action>
+          <specification_ParametericResourceDemand specification="1"/>
+          <requiredResource_ParametricResourceDemand href="pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ"/>
+        </resourceDemand_Action>
+      </steps_Behaviour>
+    </serviceEffectSpecifications__BasicComponent>
+  </components__Repository>
+  <interfaces__Repository entityName="Interface" id="ec84b104-aff1-4509-adc5-630e4396e4c1_62c09bfe-66e7-4bf6-8089-4f6df15c492e" xsi:type="repository:OperationInterface">
+    <signatures__OperationInterface entityName="OperationParametricResourceDemand" id="ec84b104-aff1-4509-adc5-630e4396e4c1_ddfa91e5-499c-4a8d-869a-645fc60b8fbf"/>
+  </interfaces__Repository>
+</repository:Repository>

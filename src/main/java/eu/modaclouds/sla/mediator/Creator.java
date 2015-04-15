@@ -250,15 +250,16 @@ public class Creator {
         return agreements;
     }
 
-    private ContextInfo buildLowContext(ContextInfo highCtx, Model model, String tierName) {
+    private ContextInfo buildLowContext(ContextInfo highCtx, Model model, String tierId) {
         
         ResourceContainerWrapper wrapper = 
-                (ResourceContainerWrapper) model.getResourceModelExtension().getElementById(tierName);
+                (ResourceContainerWrapper) model.getResourceModelExtension().getElementById(tierId);
         it.polimi.modaclouds.qos_models.schema.ResourceContainer container = wrapper.getWrapped();
         
-        String provider = container.getProvider();
+        String provider = container.getProvider() != null? container.getProvider() : "[unknown]";
         String consumer = highCtx.getProvider();
-        String service = container.getCloudElement().getServiceName();
+        String service = container.getCloudElement() != null? 
+                container.getCloudElement().getServiceName() : "";
         ContextInfo result = new ContextInfo(provider, consumer, service, highCtx.getValidity());
         
         return result;

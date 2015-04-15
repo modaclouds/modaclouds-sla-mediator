@@ -16,6 +16,7 @@
  */
 package eu.modaclouds.sla.mediator.model.palladio.allocation;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.Unmarshaller;
@@ -37,11 +38,14 @@ import eu.modaclouds.sla.mediator.model.palladio.system.System.AssemblyContext;
 @XmlRootElement(name = "Allocation")
 public class Allocation extends Referrable implements IReferrable {
 
+    private static final List<AllocationContext> EMPTY_ALLOCATION_CONTEXTS = 
+            Collections.<AllocationContext>emptyList();
+
     @XmlElement(name="allocationContexts_Allocation")
     private List<AllocationContext> allocationContexts;
     
     public List<AllocationContext> getAllocationContexts() {
-        return allocationContexts;
+        return allocationContexts != null? allocationContexts : EMPTY_ALLOCATION_CONTEXTS;
     }
     
     @Override

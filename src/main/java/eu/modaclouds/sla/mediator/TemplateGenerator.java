@@ -17,7 +17,6 @@
 package eu.modaclouds.sla.mediator;
 
 import it.polimi.modaclouds.qos_models.schema.Action;
-import it.polimi.modaclouds.qos_models.schema.Actions;
 import it.polimi.modaclouds.qos_models.schema.Constraint;
 import it.polimi.modaclouds.qos_models.schema.Constraints;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
@@ -54,6 +53,7 @@ import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
 import eu.atos.sla.parser.data.wsag.custom.CustomBusinessValue;
 import eu.atos.sla.parser.data.wsag.custom.Penalty;
+import eu.modaclouds.sla.mediator.model.ModelUtils;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
 import eu.modaclouds.sla.mediator.model.palladio.IDocument;
 import eu.modaclouds.sla.mediator.model.palladio.IReferrable;
@@ -70,13 +70,8 @@ public class TemplateGenerator {
 
     private static final String DEFAULT_SERVICE_NAME = "service";
 
-    private static MonitoringRule NOT_FOUND_RULE = new MonitoringRule();
-    
     private static GuaranteeTerm NULL_GUARANTEE_TERM = new GuaranteeTerm();
     
-    static {
-        NOT_FOUND_RULE.setActions(new Actions());
-    }
     private static Component NOT_FOUND_COMPONENT = new Component();
 
     private BusinessActionParser businessActionParser;
@@ -138,47 +133,17 @@ public class TemplateGenerator {
         
         for (Constraint constraint : constraints.getConstraints()) {
             
-            TargetClass target = TargetClass.fromString(constraint.getTargetClass());
-            
-            switch (target) {
-            case INTERNAL_COMPONENT:
-            case METHOD:
-                MonitoringRule rule = getRelatedRule(constraint, rules);
-                if (rule == NOT_FOUND_RULE) {
-                    logger.warn("Related rule not found: constraintId={}", constraint.getId());
-                    continue;
-                }
-                GuaranteeTerm gt = generateGuaranteeTerm(constraint, rule, repository);
-                if (gt != NULL_GUARANTEE_TERM) {
-                    gts.add(gt);
-                }
-
-            default:
-                /*
-                 * do not generate guarantee term
-                 */
-                break;
+            MonitoringRule rule = ModelUtils.getRelatedRule(constraint, rules);
+            if (rule == ModelUtils.NOT_FOUND_RULE) {
+                logger.warn("Related rule not found: constraintId={}", constraint.getId());
+                continue;
+            }
+            GuaranteeTerm gt = generateGuaranteeTerm(constraint, rule, repository);
+            if (gt != NULL_GUARANTEE_TERM) {
+                gts.add(gt);
             }
         }
         
-        return result;
-    }
-    
-    private MonitoringRule getRelatedRule(Constraint constraint, MonitoringRules rules) {
-        MonitoringRule result = NOT_FOUND_RULE;
-        
-        String constraintId = constraint.getId();
-        if (constraintId == null) {
-            logger.warn("Not valid constraint: id is null");
-        } 
-        else {
-            for (MonitoringRule rule : rules.getMonitoringRules()) {
-                if (constraintId.equals(rule.getRelatedQosConstraintId())) {
-                    result = rule;
-                    break;
-                }
-            }
-        }
         return result;
     }
     
@@ -190,23 +155,17 @@ public class TemplateGenerator {
         logger.debug("Generate guaranteeTerm({}, {}, {}", 
                 constraint.getId(), rule.getId(), document.getJAXBNode().getId());
 
-        GuaranteeTerm gt;
+        GuaranteeTerm gt = NULL_GUARANTEE_TERM;
         String outputMetric = getOutputMetric(rule);
-        
-        if ("".equals(outputMetric)) {
-            logger.warn("OutputMetric is not defined. GuaranteeTerm cannot be added to agreement");
-            gt = NULL_GUARANTEE_TERM;
-            /*
-             * fall to return
-             */
-        }
-        else {
+        ServiceScope serviceScope = new ServiceScoper().generate(constraint, document);
+        TargetClass target = TargetClass.fromString(constraint.getTargetClass());
+
+        if (isSuitableConstraint(constraint, rule, target, serviceScope, outputMetric)) {
         
             gt = new GuaranteeTerm();
             
             gt.setName(constraint.getId());
     
-            ServiceScope serviceScope = new ServiceScoper().generate(constraint, document);
             gt.setServiceScope(serviceScope);
             
             ServiceLevelObjective slo = new ServiceLevelObjective();
@@ -232,6 +191,27 @@ public class TemplateGenerator {
         return gt;
     }
     
+    private boolean isSuitableConstraint(Constraint constraint,
+            MonitoringRule rule, TargetClass target, ServiceScope serviceScope, String outputMetric) {
+        
+        boolean result = false;
+        switch (target) {
+        case INTERNAL_COMPONENT:
+        case METHOD:
+
+            if ("".equals(outputMetric)) {
+                logger.warn("OutputMetric is not defined. GuaranteeTerm cannot be added to agreement");
+                result = false;
+            }
+            else {
+                result = serviceScope != IServiceScoper.NOT_FOUND;
+            }
+            break;
+        default:
+        }
+        return result;
+    }
+
     private String getUuid() {
         return UUID.randomUUID().toString();
     }
@@ -241,7 +221,7 @@ public class TemplateGenerator {
         for (Action action : rule.getActions().getActions()) {
             if ("OutputMetric".equalsIgnoreCase(action.getName())) {
                 for (Parameter param : action.getParameters()) {
-                    if ("name".equals(param.getName())) {
+                    if ("metric".equals(param.getName())) {
                         return param.getValue();
                     }
                 }
@@ -286,10 +266,13 @@ public class TemplateGenerator {
     
     public interface IServiceScoper {
         ServiceScope generate(Constraint constraint, IDocument<Repository> document);
+        
+        ServiceScope NOT_FOUND = new ServiceScope();
     }
     
     public static class ServiceScoper implements IServiceScoper {
         static HashMap<TargetClass, IServiceScoper> map = new HashMap<>();
+        static IServiceScoper nullServiceScoper = new NullServiceScoper();
         
         static {
             map.put(TargetClass.METHOD, new MethodServiceScoper());
@@ -302,10 +285,18 @@ public class TemplateGenerator {
             
             TargetClass target = TargetClass.fromString(constraint.getTargetClass());
 
-            IServiceScoper scoper = map.get(target);
+            IServiceScoper scoper = map.containsKey(target)? map.get(target) : nullServiceScoper;
             
             ServiceScope scope = scoper.generate(constraint, document);
             return scope;
+        }
+    }
+
+    public static class NullServiceScoper implements IServiceScoper {
+        @Override
+        public ServiceScope generate(Constraint constraint,
+                IDocument<Repository> document) {
+            return NOT_FOUND;
         }
     }
     
@@ -318,7 +309,7 @@ public class TemplateGenerator {
             IReferrable referrable = 
                     document.getElementById(constraint.getTargetResourceIDRef());
             
-            ServiceScope result = new ServiceScope();
+            ServiceScope result = NOT_FOUND;
             
             if (referrable != IDocument.NOT_FOUND) {
                 if (referrable instanceof Component) {
@@ -342,7 +333,7 @@ public class TemplateGenerator {
             IReferrable referrable = 
                     document.getElementById(constraint.getTargetResourceIDRef());
             
-            ServiceScope result = new ServiceScope();
+            ServiceScope result = NOT_FOUND;
             
             if (referrable != IDocument.NOT_FOUND) {
                 if (referrable instanceof SeffSpecification) {

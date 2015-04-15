@@ -1,0 +1,85 @@
+{
+"eClass" : "net.cloudml.core:CloudMLModel",
+"name" : "Generated_Generated Deployment alternative",
+"providers" : [{
+"eClass" : "net.cloudml.core:Provider",
+"name" : "",
+"credentials"  : ""
+}
+],
+"internalComponents" : [{
+"eClass" : "net.cloudml.core:InternalComponent",
+"name" : "ServiceApplicationType"
+,"resources" : [{
+"eClass" : "net.cloudml.core:Resource",
+"name" : "ServiceResource",
+"requireCredentials" : false,
+"executeLocally" : false}]
+,"requiredExecutionPlatform" : {
+"eClass" : "net.cloudml.core:RequiredExecutionPlatform",
+"name" : "executionPlatform",
+"owner" : "internalComponents[ServiceApplicationType]"
+}
+}
+],
+"vms" : [{
+"eClass" : "net.cloudml.core:VM",
+"name" : "CloudNodeInstance_SampleCloudNode",
+"minRam" : "613",
+"maxRam" : "0",
+"minCores" : "1",
+"maxCores" : "0",
+"minStorage" : "1",
+"maxStorage" : "50",
+"os" : "",
+"location" : "",
+"sshKey" : "",
+"securityGroup" : "",
+"groupName" : "",
+"privateKey" : "",
+"is64os" : true,
+"provider" : "providers[]",
+"imageId" : ""
+,"providedExecutionPlatforms" : [{
+"eClass" : "net.cloudml.core:ProvidedExecutionPlatform",
+"name" : "executionPlatfom",
+"owner" : "vms[CloudNodeInstance_SampleCloudNode]"
+}]
+}
+],
+"relationships" : [],
+"internalComponentInstances" : [ { 
+"eClass" : "net.cloudml.core:InternalComponentInstance",
+"name" : "ServiceApplicationInstance",
+"type" : "internalComponents[ServiceApplicationType]"
+,"requiredExecutionPlatformInstance" : {
+"eClass" : "net.cloudml.core:RequiredExecutionPlatformInstance",
+"name" : "executionPlatform",
+"owner" : "internalComponentInstances[ServiceApplicationInstance]",
+"type" : "internalComponents[ServiceApplicationType]/requiredExecutionPlatform[executionPlatform]"
+}
+}
+],
+"externalComponentInstances" : [],
+"vmInstances" : [ { 
+"eClass" : "net.cloudml.core:VMInstance",
+"name" : "CloudNodeInstance",
+"publicAddress" : "",
+"type" : "vms[CloudNodeInstance_SampleCloudNode]"
+,"providedExecutionPlatformInstances" : [{
+"eClass" : "net.cloudml.core:ProvidedExecutionPlatformInstance",
+"name" : "executionPlatfom",
+"owner" : "vmInstances[CloudNodeInstance]",
+"type" : "vms[CloudNodeInstance_SampleCloudNode]/providedExecutionPlatforms[executionPlatfom]"
+}]
+} 
+], 
+"relationshipInstances" : [],
+"executesInstances" : [{
+"eClass" : "net.cloudml.core:ExecuteInstance",
+"name" : "name_364d716d-ed62-4774-9b8e-ff786daeeee5",
+"requiredExecutionPlatformInstance" : "internalComponentInstances[ServiceApplicationInstance]/requiredExecutionPlatformInstance[executionPlatform]",
+"providedExecutionPlatformInstance" : "vmInstances[CloudNodeInstance]/providedExecutionPlatformInstances[executionPlatfom]"
+}
+]
+} 

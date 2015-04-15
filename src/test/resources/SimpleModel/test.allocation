@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<allocation:Allocation xmlns:allocation="http://sdq.ipd.uka.de/PalladioComponentModel/Allocation/5.0" xmlns:resourceenvironment="http://sdq.ipd.uka.de/PalladioComponentModel/ResourceEnvironment/5.0" xmlns:xmi="http://www.omg.org/XMI" entityName="defaultAllocation" xmi:version="2.0">
+  <targetResourceEnvironment_Allocation href="test.resourceenvironment#/"/>
+  <system_Allocation href="test.system#/"/>
+  <allocationContexts_Allocation entityName="ServiceApplicationInstance_CloudNodeInstance">
+    <resourceContainer_AllocationContext href="test.resourceenvironment#39b66f7c-f48e-4ed1-bce1-511a1cf8606d__resourceContainer"/>
+    <assemblyContext_AllocationContext href="test.system#ec84b104-aff1-4509-adc5-630e4396e4c1__assembly"/>
+  </allocationContexts_Allocation>
+</allocation:Allocation>

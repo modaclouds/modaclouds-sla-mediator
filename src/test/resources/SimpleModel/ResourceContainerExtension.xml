@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<resourceModelExtension xmlns="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.modaclouds.eu/xsd/2013/6/resource-model-extension ../s4cextension/resource_model_extension.xsd">
+  <resourceContainer id="39b66f7c-f48e-4ed1-bce1-511a1cf8606d__resourceContainer" name="CloudNodeInstance_SampleCloudNode" provider="Amazon">
+    <cloudResource serviceName="Elastic Compute Cloud (EC2)" serviceType="Compute">
+      <resourceSizeID>On-Demand Micro Instance</resourceSizeID>
+      <replicas>
+        <replicaElement hour="0" value="1"/>
+        <replicaElement hour="1" value="1"/>
+        <replicaElement hour="2" value="1"/>
+        <replicaElement hour="3" value="1"/>
+        <replicaElement hour="4" value="1"/>
+        <replicaElement hour="5" value="1"/>
+        <replicaElement hour="6" value="1"/>
+        <replicaElement hour="7" value="1"/>
+        <replicaElement hour="8" value="1"/>
+        <replicaElement hour="9" value="1"/>
+        <replicaElement hour="10" value="1"/>
+        <replicaElement hour="11" value="1"/>
+        <replicaElement hour="12" value="1"/>
+        <replicaElement hour="13" value="1"/>
+        <replicaElement hour="14" value="1"/>
+        <replicaElement hour="15" value="1"/>
+        <replicaElement hour="16" value="1"/>
+        <replicaElement hour="17" value="1"/>
+        <replicaElement hour="18" value="1"/>
+        <replicaElement hour="19" value="1"/>
+        <replicaElement hour="20" value="1"/>
+        <replicaElement hour="21" value="1"/>
+        <replicaElement hour="22" value="1"/>
+        <replicaElement hour="23" value="1"/>
+      </replicas>
+    </cloudResource>
+  </resourceContainer>
+</resourceModelExtension>

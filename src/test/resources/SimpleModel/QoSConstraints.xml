@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<constraints xmlns="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema https://raw.githubusercontent.com/deib-polimi/modaclouds-qos-models/master/metamodels/qosconstraints/qos_constraints_schema.xsd">
+  <constraint id="b2dc3727-df68-4b2a-b0d4-886b5aa75496_39b66f7c-f48e-4ed1-bce1-511a1cf8606d__resourceContainer" name="QoS Constraint">
+    <targetResourceIDRef>39b66f7c-f48e-4ed1-bce1-511a1cf8606d__resourceContainer</targetResourceIDRef>
+    <targetClass>VM</targetClass>
+    <metric>CPUUtilization</metric>
+    <metricAggregation aggregateFunction="Average"/>
+    <range/>
+  </constraint>
+  <constraint id="b2dc3727-df68-4b2a-b0d4-886b5aa75496_CloudNodeInstance_SampleCloudNode" name="QoS Constraint">
+    <targetResourceIDRef>CloudNodeInstance_SampleCloudNode</targetResourceIDRef>
+    <targetClass>VM</targetClass>
+    <metric>Memory</metric>
+    <metricAggregation aggregateFunction="Average"/>
+    <range/>
+  </constraint>
+  <constraint id="b2dc3727-df68-4b2a-b0d4-886b5aa75496_ServiceApplicationType" name="QoS Constraint">
+    <targetResourceIDRef>ServiceApplicationType</targetResourceIDRef>
+    <targetClass>InternalComponent</targetClass>
+    <metric>Memory</metric>
+    <metricAggregation aggregateFunction="Average"/>
+    <range/>
+  </constraint>
+  <constraint id="b2dc3727-df68-4b2a-b0d4-886b5aa75496_20502386-8336-4ee8-b686-6abe774d1a43" name="QoS Constraint">
+    <targetResourceIDRef>20502386-8336-4ee8-b686-6abe774d1a43</targetResourceIDRef>
+    <targetClass>InternalComponent</targetClass>
+    <metric>Memory</metric>
+    <metricAggregation aggregateFunction="Average"/>
+    <range/>
+  </constraint>
+  <constraint id="b2dc3727-df68-4b2a-b0d4-886b5aa75496_ec84b104-aff1-4509-adc5-630e4396e4c1" name="QoS Constraint">
+    <targetResourceIDRef>ec84b104-aff1-4509-adc5-630e4396e4c1</targetResourceIDRef>
+    <targetClass>InternalComponent</targetClass>
+    <metric>Memory</metric>
+    <metricAggregation aggregateFunction="Average"/>
+    <range/>
+  </constraint>
+</constraints>

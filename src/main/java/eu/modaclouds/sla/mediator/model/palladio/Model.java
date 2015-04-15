@@ -121,6 +121,18 @@ public class Model {
         return ResourceContainer.NOT_FOUND;
     }
     
+    public ResourceContainer getResourceContainer(String containerId) {
+        ResourceContainer result;
+        IReferrable ref = this.resourceEnvironment.getElementById(containerId);
+        if (ref == null || !(ref instanceof ResourceContainer)) {
+            result = ResourceContainer.NOT_FOUND;
+        }
+        else {
+            result = (ResourceContainer) ref;
+        }
+        return result;
+    }
+    
     public static class RepositoryMapInitializer implements IMapInitializer<Repository> {
 
         @Override

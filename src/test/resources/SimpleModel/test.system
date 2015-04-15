@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<system:System xmlns:composition="http://sdq.ipd.uka.de/PalladioComponentModel/Core/Composition/5.0" xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0" xmlns:system="http://sdq.ipd.uka.de/PalladioComponentModel/System/5.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" entityName="defaultSystem" xmi:version="2.0">
+  <assemblyContexts__ComposedStructure entityName="Assembly_Service" id="ec84b104-aff1-4509-adc5-630e4396e4c1__assembly">
+    <encapsulatedComponent__AssemblyContext href="test.repository#ec84b104-aff1-4509-adc5-630e4396e4c1" xsi:type="repository:BasicComponent"/>
+  </assemblyContexts__ComposedStructure>
+  <providedRoles_InterfaceProvidingEntity entityName="Provided__Interface" id="ec84b104-aff1-4509-adc5-630e4396e4c1_62c09bfe-66e7-4bf6-8089-4f6df15c492e__providedRole" xsi:type="repository:OperationProvidedRole">
+    <providedInterface__OperationProvidedRole href="test.repository#ec84b104-aff1-4509-adc5-630e4396e4c1_62c09bfe-66e7-4bf6-8089-4f6df15c492e"/>
+  </providedRoles_InterfaceProvidingEntity>
+  <connectors__ComposedStructure assemblyContext_ProvidedDelegationConnector="ec84b104-aff1-4509-adc5-630e4396e4c1__assembly" entityName="ProvidedDelegation__Interface" outerProvidedRole_ProvidedDelegationConnector="ec84b104-aff1-4509-adc5-630e4396e4c1_62c09bfe-66e7-4bf6-8089-4f6df15c492e__providedRole" xsi:type="composition:ProvidedDelegationConnector">
+    <innerProvidedRole_ProvidedDelegationConnector href="test.repository#ec84b104-aff1-4509-adc5-630e4396e4c1_62c09bfe-66e7-4bf6-8089-4f6df15c492e__provided"/>
+  </connectors__ComposedStructure>
+</system:System>

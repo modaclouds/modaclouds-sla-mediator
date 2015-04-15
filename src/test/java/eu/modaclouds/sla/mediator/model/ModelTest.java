@@ -31,7 +31,6 @@ import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Component;
 import eu.modaclouds.sla.mediator.model.palladio.resourceenvironment.ResourceEnvironment;
 import eu.modaclouds.sla.mediator.model.palladio.resourceenvironment.ResourceEnvironment.ResourceContainer;
-import eu.modaclouds.sla.mediator.model.palladio.resourceextension.ResourceModelExtension;
 import eu.modaclouds.sla.mediator.model.palladio.system.System;
 
 public class ModelTest {
@@ -73,7 +72,7 @@ public class ModelTest {
     }
     
     @Test
-    public void testGetTier() {
+    public void testGetTierByComponent() {
         Component requestHandler = (Component)model.getRepository().getElementById("__o5G4MhnEeKON4DtRoKCMw");
         Component db = (Component)model.getRepository().getElementById("_kwoOgMhoEeKON4DtRoKCMw");
         Component paymentService = (Component)model.getRepository().getElementById("_kwoOgMhoEeKON4DtRoKCMw");
@@ -87,6 +86,42 @@ public class ModelTest {
         assertEquals(backend, model.getResourceContainer(paymentService));
     }
 
+    @Test
+    public void testGetTierByIdShouldPass() {
+        String id;
+        ResourceContainer expected;
+        ResourceContainer actual;
+        
+        id = "_-sJ1AMhrEeKON4DtRoKCMw";
+        expected = (ResourceContainer)model.getResourceEnvironment().getElementById(id);
+        actual = model.getResourceContainer(id);
+        assertEquals(expected, actual);
+        
+        id = "_ervoQKhyEeOVLLp4qCj_jg";
+        expected = (ResourceContainer)model.getResourceEnvironment().getElementById(id);
+        actual = model.getResourceContainer(id);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testGetTierByIdShouldFail() {
+        String id;
+        ResourceContainer actual;
+        
+        id = "notfound";
+        actual = model.getResourceContainer(id);
+        assertEquals(ResourceContainer.NOT_FOUND, actual);
+        
+        id = "__o5G4MhnEeKON4DtRoKCMw"; /* this is a component */
+        actual = model.getResourceContainer(id);
+        assertEquals(ResourceContainer.NOT_FOUND, actual);
+
+        id = "_i_JXIKhyEeOVLLp4qCj_jg"; /* this a linking resource in resource_environment */
+        actual = model.getResourceContainer(id);
+        assertEquals(ResourceContainer.NOT_FOUND, actual);
+    }
+    
+    
     private InputStream getInputStream(String path) {
         return this.getClass().getResourceAsStream(path);
     }
