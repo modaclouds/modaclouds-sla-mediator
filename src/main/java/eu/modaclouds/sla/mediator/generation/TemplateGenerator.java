@@ -216,9 +216,12 @@ public class TemplateGenerator {
     
     private GuaranteeTerm generateBusinessValueList(GuaranteeTerm gt, MonitoringRule rule) {
         
-        for (Action action : rule.getActions().getActions()) {
-            if (QosModels.BUSINESS_ACTION.equalsIgnoreCase(action.getName())) {
-                BusinessActionParser.Result data = businessActionParser.parse(action);
+        for (Action action : QosModels.getActions(rule, QosModels.BUSINESS_ACTION)) {
+            BusinessActionParser.Result data = businessActionParser.parse(action);
+            /*
+             * only handle business policy if the type is defined
+             */
+            if (!"".equals(data.getType())) {
                 if (gt.getBusinessValueList() == null) {
                     gt.setBusinessValueList(new BusinessValueList());
                 }

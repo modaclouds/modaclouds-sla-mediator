@@ -5,6 +5,11 @@ of the application designer.
 
 ## Change List ##
 
+v1.0.0:
+
+* Supports qos-models-2.4
+* Generation of low level SLA
+
 v0.4.0:
 
 * Supports qos-models-2.2

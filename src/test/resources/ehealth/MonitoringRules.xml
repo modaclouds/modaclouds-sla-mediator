@@ -14,13 +14,12 @@
         <mo:parameter name="resourceId"/>
       </mo:action>
       <mo:action name="Business">
-        <mo:parameter name="count">100</mo:parameter>
-        <mo:parameter name="interval"/>
-        <mo:parameter name="value"/>
-        <mo:parameter name="unit"/>
-        <mo:parameter name="validity"/>
-        <mo:parameter name="duration">550</mo:parameter>
-        <mo:parameter name="type"/>
+        <mo:parameter name="count">10</mo:parameter>
+        <mo:parameter name="duration">PT1H</mo:parameter>
+        <mo:parameter name="value">100</mo:parameter>
+        <mo:parameter name="unit">euro</mo:parameter>
+        <mo:parameter name="validity">P1M</mo:parameter>
+        <mo:parameter name="type">discount</mo:parameter>
       </mo:action>
     </mo:actions>
   </mo:monitoringRule>
