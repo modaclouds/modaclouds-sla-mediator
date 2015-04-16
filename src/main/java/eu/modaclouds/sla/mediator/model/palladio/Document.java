@@ -52,7 +52,8 @@ public class Document<T> implements IDocument<T> {
         if (map == null) {
             map = initMap();
         }
-        return map.get(id);
+        IReferrable ref = map.get(id);
+        return (ref == null)? NOT_FOUND : ref;
     }
 
     @Override

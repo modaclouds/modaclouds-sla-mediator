@@ -1,8 +1,13 @@
 package eu.modaclouds.sla.mediator.generation;
 
 import it.polimi.modaclouds.qos_models.schema.Constraint;
+import it.polimi.modaclouds.qos_models.schema.MonitoredTarget;
+import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import eu.atos.sla.parser.data.wsag.ServiceScope;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
@@ -13,91 +18,157 @@ import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Component
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.Operation;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository.SeffSpecification;
 
-public class ServiceScoper implements IServiceScoper {
+public class ServiceScoper {
+
+    public static ServiceScope NOT_FOUND = new ServiceScope();
+
+    interface ITargetScoper {
+        public String generate(ITarget target, IDocument<Repository> repository);
+    }
     
-    static HashMap<TargetClass, IServiceScoper> map = new HashMap<>();
-    static IServiceScoper nullServiceScoper = new ServiceScoper.NullServiceScoper();
+    interface ITarget {
+        TargetClass getClazz();
+        String getId();
+    }
+
+    private static HashMap<TargetClass, ITargetScoper> map = new HashMap<TargetClass, ITargetScoper>();
+    private static ITargetScoper nullTargetScoper = new NullTargetScoper();
     
     static {
-        map.put(TargetClass.METHOD, new ServiceScoper.MethodServiceScoper());
-        map.put(TargetClass.INTERNAL_COMPONENT, new ServiceScoper.InternalComponentServiceScoper());
+        map.put(TargetClass.METHOD, new ServiceScoper.MethodTargetScoper());
+        map.put(TargetClass.INTERNAL_COMPONENT, new ServiceScoper.InternalComponentTargetScoper());
     }
     
-    @Override
-    public ServiceScope generate(Constraint constraint,
-            IDocument<Repository> document) {
+    public static ServiceScope fromConstraint(Constraint constraint, IDocument<Repository> document) {
+        ITarget target = new ConstraintTarget(constraint);
+        ServiceScope result = new ServiceScoper().generate(Collections.singletonList(target), document);
         
-        TargetClass target = TargetClass.fromString(constraint.getTargetClass());
+        return result;
+    }
+    
+    public static ServiceScope fromRule(MonitoringRule rule, IDocument<Repository> document) {
+        List<ITarget> targets = new ArrayList<ITarget>();
+        
+        for (MonitoredTarget target : rule.getMonitoredTargets().getMonitoredTargets()) {
+            targets.add(new MonitoringRuleTarget(target));
+        }
+        ServiceScope result = new ServiceScoper().generate(targets, document);
+        
+        return result;
+    }
+    
+    public ServiceScope generate(List<ITarget> targets, IDocument<Repository> document) {
+        
+        StringBuilder aux = new StringBuilder();
+        String sep = "";
+        for (ITarget target : targets) {
+            ITargetScoper scoper = map.containsKey(target.getClazz())? map.get(target.getClazz()) : nullTargetScoper;
+            aux.append(sep);
+            aux.append(scoper.generate(target, document));
+            sep = ",";
+        }
+        
+        ServiceScope result = new ServiceScope();
+        result.setServiceName(TemplateGenerator.DEFAULT_SERVICE_NAME);
+        result.setValue(aux.toString());
+        
+        return result;
+    }
+    
+    private static class NullTargetScoper implements ITargetScoper {
 
-        IServiceScoper scoper = map.containsKey(target)? map.get(target) : nullServiceScoper;
-        
-        ServiceScope scope = scoper.generate(constraint, document);
-        return scope;
-    }
-    
-    private static class NullServiceScoper implements IServiceScoper {
         @Override
-        public ServiceScope generate(Constraint constraint,
+        public String generate(ITarget target, 
                 IDocument<Repository> document) {
-            return NOT_FOUND;
+            
+            return "[null]";
         }
     }
 
-    private static class MethodServiceScoper implements IServiceScoper {
+    private static class MethodTargetScoper implements ITargetScoper {
         
         @Override
-        public ServiceScope generate(Constraint constraint,
-                IDocument<Repository> document) {
+        public String generate(ITarget target, IDocument<Repository> document) {
             
-            IReferrable referrable = 
-                    document.getElementById(constraint.getTargetResourceIDRef());
+            IReferrable referrable = document.getElementById(target.getId());
             
-            ServiceScope result = NOT_FOUND;
+            String result = "[notfound]";
             
             if (referrable != IDocument.NOT_FOUND) {
                 if (referrable instanceof SeffSpecification) {
-                    result = process(constraint, document, (SeffSpecification) referrable);
+                    result = process(target, document, (SeffSpecification) referrable);
                 }
             }
-            /*
-             * process errors
-             */
             return result;
         }
         
-        private ServiceScope process(Constraint constraint, IDocument<Repository> document, SeffSpecification element) {
+        private String process(ITarget target, IDocument<Repository> document, SeffSpecification element) {
             
             Component parent = element.getParent();
             Operation operation = element.getOperation(document);
-            ServiceScope result = new ServiceScope();
-            result.setServiceName(TemplateGenerator.DEFAULT_SERVICE_NAME);
-            result.setValue(String.format("%s/%s", parent.getEntityName(), operation.getEntityName()));
+            String result = String.format("%s/%s", parent.getEntityName(), operation.getEntityName());
             
             return result;
         }
     }
 
-    private static class InternalComponentServiceScoper implements IServiceScoper {
+    private static class InternalComponentTargetScoper implements ITargetScoper {
     
         @Override
-        public ServiceScope generate(Constraint constraint,
-                IDocument<Repository> document) {
+        public String generate(ITarget target, IDocument<Repository> document) {
             
-            IReferrable referrable = 
-                    document.getElementById(constraint.getTargetResourceIDRef());
+            IReferrable referrable = document.getElementById(target.getId());
             
-            ServiceScope result = NOT_FOUND;
+            String result = "[notfound]";
             
             if (referrable != IDocument.NOT_FOUND) {
                 if (referrable instanceof Component) {
-                    result.setServiceName(TemplateGenerator.DEFAULT_SERVICE_NAME);
-                    result.setValue(referrable.getEntityName());
+                    result = referrable.getEntityName();
                 }
             }
-            /*
-             * process errors
-             */
             return result;
         }
     }
+    
+    private static class ConstraintTarget implements ITarget {
+        private final TargetClass clazz;
+        private final String id;
+        
+        public ConstraintTarget(Constraint constraint) {
+            this.clazz = TargetClass.fromString(constraint.getTargetClass());
+            this.id = constraint.getTargetResourceIDRef();
+        }
+        
+        @Override
+        public TargetClass getClazz() {
+            return clazz;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+        
+    }
+    
+    private static class MonitoringRuleTarget implements ITarget {
+        private final TargetClass clazz;
+        private final String id;
+
+        public MonitoringRuleTarget(MonitoredTarget target) {
+            this.clazz = TargetClass.fromString(target.getClazz());
+            this.id = target.getType();
+        }
+        
+        @Override
+        public TargetClass getClazz() {
+            return clazz;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+    }
+    
 }

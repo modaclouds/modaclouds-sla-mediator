@@ -72,6 +72,9 @@ public class System extends Referrable implements IReferrable {
             if (e instanceof Component) {
                 return (Component)e;
             }
+            if (e == IDocument.NOT_FOUND) {
+                return Component.NOT_FOUND;
+            }
             throw new IllegalStateException("Element[id='" + id + "] should be a Repository.Component");
         }
 

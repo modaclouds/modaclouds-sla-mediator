@@ -82,7 +82,7 @@ public class Allocation extends Referrable implements IReferrable {
             if (e instanceof AssemblyContext) {
                 return (AssemblyContext)e;
             }
-            if (e == null) {
+            if (e == IDocument.NOT_FOUND) {
                 return AssemblyContext.NOT_FOUND;
             }
             throw new IllegalStateException(e.getClass() + "[id='" + id + "] should be a System.AssemblyContext");
@@ -95,7 +95,7 @@ public class Allocation extends Referrable implements IReferrable {
             if (e instanceof ResourceContainer) {
                 return (ResourceContainer)e;
             }
-            if (e == null) {
+            if (e == IDocument.NOT_FOUND) {
                 return ResourceContainer.NOT_FOUND;
             }
             throw new IllegalStateException(

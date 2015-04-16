@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<mo:monitoringRules xmlns:mo="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
+  <mo:monitoringRule id="2b35d514-e6c5-465c-847e-6d983aa71b74_af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_25e0a89b-b713-420c-8858-7c345caa7385_seff" label="ResponseTime_gui_getEhealthParameters" relatedQosConstraintId="af54b44f-2f93-408b-87d4-f3540fdc49a5_2468ecf1-18e3-42ef-af4b-a94e3d78d823_25e0a89b-b713-420c-8858-7c345caa7385_seff" startEnabled="true" timeStep="60" timeWindow="60">
+    <mo:collectedMetric metricName="ResponseTime"/>
+    <mo:monitoredTargets>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_25e0a89b-b713-420c-8858-7c345caa7385_seff"/>
+      <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_29af5b75-9bc6-4adc-9710-0bed88817d7c_seff"/>
+    </mo:monitoredTargets>
+    <mo:metricAggregation groupingClass="Method" aggregateFunction="Percentile">
+        <mo:parameter name="thPercentile">85</mo:parameter>
+    </mo:metricAggregation>
+    <mo:condition>METRIC &gt; 2500.0</mo:condition>
+    <mo:actions>
+      <mo:action name="outputMetric">
+        <mo:parameter name="metric">s4c_1_violated</mo:parameter>
+        <mo:parameter name="value"/>
+        <mo:parameter name="resourceId"/>
+      </mo:action>
+      <mo:action name="Business">
+        <mo:parameter name="count">100</mo:parameter>
+        <mo:parameter name="interval"/>
+        <mo:parameter name="value"/>
+        <mo:parameter name="unit"/>
+        <mo:parameter name="validity"/>
+        <mo:parameter name="duration">550</mo:parameter>
+        <mo:parameter name="type"/>
+      </mo:action>
+    </mo:actions>
+  </mo:monitoringRule>
+</mo:monitoringRules>

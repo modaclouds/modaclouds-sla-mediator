@@ -124,7 +124,7 @@ public class Model {
     public ResourceContainer getResourceContainer(String containerId) {
         ResourceContainer result;
         IReferrable ref = this.resourceEnvironment.getElementById(containerId);
-        if (ref == null || !(ref instanceof ResourceContainer)) {
+        if (ref == IDocument.NOT_FOUND || !(ref instanceof ResourceContainer)) {
             result = ResourceContainer.NOT_FOUND;
         }
         else {

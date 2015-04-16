@@ -154,8 +154,9 @@ public class TemplateGenerator {
 
         GuaranteeTerm gt = NULL_GUARANTEE_TERM;
         String outputMetric = QosModels.getOutputMetric(rule);
-        ServiceScope serviceScope = new ServiceScoper().generate(constraint, document);
         TargetClass target = TargetClass.fromString(constraint.getTargetClass());
+        
+        ServiceScope serviceScope = ServiceScoper.fromConstraint(constraint, document); 
 
         if (isSuitableConstraint(constraint, rule, target, serviceScope, outputMetric)) {
         
@@ -201,7 +202,7 @@ public class TemplateGenerator {
                 result = false;
             }
             else {
-                result = serviceScope != IServiceScoper.NOT_FOUND;
+                result = serviceScope != ServiceScoper.NOT_FOUND;
             }
             break;
         default:

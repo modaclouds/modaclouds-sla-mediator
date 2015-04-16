@@ -14,7 +14,9 @@
     <targetResourceIDRef>2468ecf1-18e3-42ef-af4b-a94e3d78d823_6f19176e-113a-439e-8f0a-ad405fb59506_seff</targetResourceIDRef>
     <targetClass>Method</targetClass>
     <metric>ResponseTime</metric>
-    <metricAggregation aggregateFunction="Average"/>
+    <metricAggregation aggregateFunction="Percentile">
+        <parameter name="thPercentile">85</parameter>
+    </metricAggregation>
     <range>
       <hasMaxValue>2500</hasMaxValue>
     </range>

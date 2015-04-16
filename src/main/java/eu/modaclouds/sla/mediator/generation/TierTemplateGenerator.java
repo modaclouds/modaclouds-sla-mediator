@@ -75,16 +75,22 @@ public class TierTemplateGenerator {
     }
     
     public Template generateTemplate(
-            Constraints constraints, MonitoringRules rules, Model model, String tierId, ContextInfo lowContext) {
+            Constraints constraints, 
+            MonitoringRules rules, 
+            MonitoringRules s4cRules,
+            Model model, 
+            String tierId, 
+            ContextInfo lowContext) {
         
         String templateId = UUID.randomUUID().toString();
-        Template t = this.generateTemplate(constraints, rules, model, tierId, lowContext, templateId);
+        Template t = this.generateTemplate(constraints, rules, s4cRules, model, tierId, lowContext, templateId);
         return t;
     }
     
     public Template generateTemplate(
             Constraints constraints, 
             MonitoringRules rules, 
+            MonitoringRules s4cRules,
             Model model, 
             String tierId, 
             ContextInfo lowContext, 
@@ -122,6 +128,15 @@ public class TierTemplateGenerator {
                 }
             }
         }
+        
+        for (MonitoringRule rule : s4cRules.getMonitoringRules()) {
+            if (isValidTarget(rule.getMonitoredTargets(), tier, model)) {
+                GuaranteeTerm gt = generateS4cGuaranteeTerm(rule, model);
+                if (gt != NULL_GUARANTEE_TERM) {
+                    gts.add(gt);
+                }
+            }
+        }
         t.setTerms(terms);
         
         return t;
@@ -142,8 +157,7 @@ public class TierTemplateGenerator {
         boolean result = false;
         
         for (MonitoredTarget target : monitoredTargets.getMonitoredTargets()) {
-            ResourceContainer thisTier = getResourceContainerFromTarget(model,
-                    target);
+            ResourceContainer thisTier = getResourceContainerFromTarget(model, target);
             if (tier.equals(thisTier)) {
                 result = true;
             }
@@ -222,7 +236,7 @@ public class TierTemplateGenerator {
             
             gt.setName(rule.getId());
     
-            ServiceScope serviceScope = new ServiceScoper().generate(constraint, model.getRepository());
+            ServiceScope serviceScope = ServiceScoper.fromConstraint(constraint, model.getRepository());
             gt.setServiceScope(serviceScope);
             
             ServiceLevelObjective slo = new ServiceLevelObjective();
@@ -233,7 +247,7 @@ public class TierTemplateGenerator {
                         "{\"constraint\": \"%s NOT_EXISTS\", \"qos\": %s, \"aggregation\": %s}",
                         outputMetric,
                         toJson(constraint.getRange()),
-                        getAggregationFunction(rule)));
+                        toJson(rule.getMetricAggregation())));
             } catch (JsonProcessingException e) {
                 throw new GeneratorException(e.getMessage(), e);
             }
@@ -244,6 +258,53 @@ public class TierTemplateGenerator {
         return gt;
     }
     
+    /**
+     * Generate a GuaranteeTerm from a s4c-generated rule.
+     * 
+     * Assumes there is only one rule per seff, that change threshold every hour.
+     */
+    private GuaranteeTerm generateS4cGuaranteeTerm(MonitoringRule rule, Model model) {
+        
+        logger.debug("Generate S4C guaranteeTerm({}, {}", 
+                rule.getId(), model.getRepository().getJAXBNode().getId());
+
+        GuaranteeTerm gt;
+        String outputMetric = QosModels.getOutputMetric(rule);
+        
+        if ("".equals(outputMetric)) {
+            logger.warn("OutputMetric is not defined. GuaranteeTerm cannot be added to agreement");
+            gt = NULL_GUARANTEE_TERM;
+            /*
+             * fall to return
+             */
+        }
+        else {
+            gt = new GuaranteeTerm();
+            
+            gt.setName(rule.getId());
+            /*
+             * TODO: I need an actual example
+             */
+            ServiceScope serviceScope = ServiceScoper.fromRule(rule, model.getRepository());
+            gt.setServiceScope(serviceScope);
+            
+            ServiceLevelObjective slo = new ServiceLevelObjective();
+            KPITarget kpi = new KPITarget();
+            kpi.setKpiName(rule.getCollectedMetric().getMetricName());
+            try {
+                kpi.setCustomServiceLevel(String.format(
+                        "{\"constraint\": \"%s NOT_EXISTS\", \"aggregation\": %s}",
+                        outputMetric,
+                        toJson(rule.getMetricAggregation())));
+            } catch (JsonProcessingException e) {
+                throw new GeneratorException(e.getMessage(), e);
+            }
+            slo.setKpitarget(kpi);
+            gt.setServiceLevelObjetive(slo);
+        }
+        return gt;
+    }
+
     private <T> String toJson(T t) throws JsonProcessingException {
         if (jsonMapper == null) {
             jsonMapper = new ObjectMapper();

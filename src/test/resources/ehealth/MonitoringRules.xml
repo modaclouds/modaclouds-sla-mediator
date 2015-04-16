@@ -9,7 +9,7 @@
     <mo:condition>METRIC &gt; 2500.0</mo:condition>
     <mo:actions>
       <mo:action name="outputMetric">
-        <mo:parameter name="metric"/>
+        <mo:parameter name="metric">method1_violated</mo:parameter>
         <mo:parameter name="value"/>
         <mo:parameter name="resourceId"/>
       </mo:action>
@@ -33,7 +33,7 @@
     <mo:condition>METRIC &gt; 1000.0</mo:condition>
     <mo:actions>
       <mo:action name="outputMetric">
-        <mo:parameter name="metric"/>
+        <mo:parameter name="metric">method2_violated</mo:parameter>
         <mo:parameter name="value"/>
         <mo:parameter name="resourceId"/>
       </mo:action>
@@ -51,11 +51,13 @@
     <mo:monitoredTargets>
       <mo:monitoredTarget class="Method" type="2468ecf1-18e3-42ef-af4b-a94e3d78d823_6f19176e-113a-439e-8f0a-ad405fb59506_seff"/>
     </mo:monitoredTargets>
-    <mo:metricAggregation aggregateFunction="Average"/>
+    <mo:metricAggregation groupingClass="Method" aggregateFunction="Percentile">
+        <mo:parameter name="thPercentile">85</mo:parameter>
+    </mo:metricAggregation>
     <mo:condition>METRIC &gt; 2500.0</mo:condition>
     <mo:actions>
       <mo:action name="outputMetric">
-        <mo:parameter name="metric"/>
+        <mo:parameter name="metric">method3_violated</mo:parameter>
         <mo:parameter name="value"/>
         <mo:parameter name="resourceId"/>
       </mo:action>
@@ -79,7 +81,7 @@
     <mo:condition>METRIC &gt; 1000.0</mo:condition>
     <mo:actions>
       <mo:action name="outputMetric">
-        <mo:parameter name="metric"/>
+        <mo:parameter name="metric">method4_violated</mo:parameter>
         <mo:parameter name="value"/>
         <mo:parameter name="resourceId"/>
       </mo:action>

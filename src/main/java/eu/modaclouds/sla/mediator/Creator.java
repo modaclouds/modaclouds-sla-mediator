@@ -162,7 +162,8 @@ public class Creator {
             InputStream systemIs, 
             InputStream resourceEnvironmentIs,
             InputStream resourceModelExtensionIs,
-            InputStream functionality2TiersIs) {
+            InputStream functionality2TiersIs,
+            InputStream s4cRulesIs) {
         
         Constraints constraints;
         MonitoringRules rules;
@@ -171,6 +172,7 @@ public class Creator {
         System system;
         ResourceEnvironment resourceEnvironment;
         ResourceModelExtension resourceModelExtension;
+        MonitoringRules s4cRules;
         
         try {
             constraints = Utils.load(Constraints.class, constraintsIs);
@@ -180,15 +182,22 @@ public class Creator {
             system = Utils.load(System.class, systemIs);
             resourceEnvironment = Utils.load(ResourceEnvironment.class, resourceEnvironmentIs);
             resourceModelExtension = Utils.load(ResourceModelExtension.class, resourceModelExtensionIs);
+            s4cRules = Utils.load(MonitoringRules.class, s4cRulesIs);
         } catch (JAXBException e) {
             throw new MediatorException(e.getMessage(), e);
         }
 
         Model model = new Model(repository, system, allocation, resourceEnvironment, resourceModelExtension);
 
+        return runSla(constraints, rules, s4cRules, model);
+    }
+
+    public Result runSla(Constraints constraints, MonitoringRules rules,
+            MonitoringRules s4cRules, Model model) {
+        
         Agreement high = runHigh(constraints, rules, model);
         
-        Map<String, Agreement> low = runLow(high, constraints, rules, model);
+        Map<String, Agreement> low = runLow(high, constraints, rules, s4cRules, model);
 
         Map<String, String> lowIds = buildLowerIds(low);
         return new Result(high.getAgreementId(), lowIds, model);
@@ -215,7 +224,12 @@ public class Creator {
     }
     
     private Map<String, Agreement> runLow(
-            Agreement highAgreement, Constraints constraints, MonitoringRules rules, Model model) {
+            Agreement highAgreement, 
+            Constraints constraints, 
+            MonitoringRules rules, 
+            MonitoringRules s4cRules, 
+            Model model) {
+        
         ContextInfo highCtx = this.ctx;
         
         Map<String, Template> templates = new HashMap<String, Template>();
@@ -225,7 +239,7 @@ public class Creator {
         for (ResourceContainer tier : model.getResourceContainers()) {
             String tierName = tier.getId();
             ContextInfo lowCtx = buildLowContext(highCtx, model, tierName);
-            Template t = templater.generateTemplate(constraints, rules, model, tierName, lowCtx);
+            Template t = templater.generateTemplate(constraints, rules, s4cRules, model, tierName, lowCtx);
             logEntity("Generated low template: {}", t);
             
             AgreementGenerator agreementer = new AgreementGenerator(t, lowCtx, highAgreement.getAgreementId());

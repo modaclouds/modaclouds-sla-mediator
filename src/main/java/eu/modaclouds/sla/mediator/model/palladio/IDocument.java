@@ -33,9 +33,24 @@ public interface IDocument<E> {
         public String getEntityName() {
             return "";
         }
+        
+        public String toString() { 
+            return "IReferrable[NOT_FOUND]";
+        };
     };
     
+    /**
+     * Returns the jaxb node that is source of this document.
+     */
     E getJAXBNode();
+    
+    /**
+     * Returns the IReferrable with given id, if found; NOT_FOUND otherwise.
+     */
     IReferrable getElementById(String id);
+    
+    /**
+     * Returns the id corresponding to an href that navigates to this document.
+     */
     String getIdFromHref(String href);
 }

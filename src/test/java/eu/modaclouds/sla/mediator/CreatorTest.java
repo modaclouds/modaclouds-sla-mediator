@@ -47,7 +47,8 @@ public class CreatorTest {
                 getInputStream("/ofbiz/default.system"), 
                 getInputStream("/ofbiz/default.resourceenvironment"), 
                 getInputStream("/ofbiz/ContainerExtension.xml"), 
-                getInputStream("/ofbiz/Functionality2Tier.xml"));
+                getInputStream("/ofbiz/Functionality2Tier.xml"),
+                getInputStream("/ofbiz/rules_s4c.xml"));
         
         assertNotNull(result.getHighId());
         assertEquals(2, result.getLowIds().size());
@@ -77,7 +78,8 @@ public class CreatorTest {
                 getInputStream(root + String.format("%s.system", prefix)), 
                 getInputStream(root + String.format("%s.resourceenvironment", prefix)), 
                 getInputStream(root + "ResourceContainerExtension.xml"), 
-                getInputStream(root + "Functionality2Tier.xml"));
+                getInputStream(root + "Functionality2Tier.xml"),
+                getInputStream(root + "MonitoringRules_s4c.xml"));
         
         for (ResourceContainer container : result.getModel().getResourceContainers()) {
             String containerId = container.getId();
@@ -104,7 +106,8 @@ public class CreatorTest {
                 getInputStream(root + String.format("%s.system", prefix)), 
                 getInputStream(root + String.format("%s.resourceenvironment", prefix)), 
                 getInputStream(root + "ResourceContainerExtension.xml"), 
-                getInputStream(root + "Functionality2Tier.xml"));
+                getInputStream(root + "Functionality2Tier.xml"),
+                getInputStream(root + "MonitoringRules_s4c.xml"));
         
         for (ResourceContainer container : result.getModel().getResourceContainers()) {
             String containerId = container.getId();
