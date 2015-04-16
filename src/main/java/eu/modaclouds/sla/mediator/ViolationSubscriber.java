@@ -125,9 +125,7 @@ public class ViolationSubscriber {
                 continue;
             }
             for (Action action : QosModels.getActions(rule, QosModels.OUTPUT_METRIC_ACTION)) {
-                for (Parameter param : action.getParameters()) {
-                    process(gt, rule, action, param);
-                }
+                process(gt, rule, action);
             }
         }
     }
@@ -223,10 +221,12 @@ public class ViolationSubscriber {
         return violation;
     }
     
-    private void process(GuaranteeTerm term, MonitoringRule rule, Action action, Parameter parameter) {
-        
+    private void process(GuaranteeTerm term, MonitoringRule rule, Action action) {
+        Parameter parameter = QosModels.getActionParameter(action, QosModels.METRIC_PARAM_NAME);
+        String outputMetric = parameter.getValue();
+
         logger.debug("Subscribing to rule[id='{}', actionName='{}', paramValue='{}']", 
-                rule.getId(), action.getName(), parameter.getValue());
+                rule.getId(), action.getName(), outputMetric);
 
         String url = getPostUrl(parameter);
         logger.debug("POST {}", url);
@@ -244,10 +244,10 @@ public class ViolationSubscriber {
         
         logger.debug("{} POST {}\n{}", response.getStatus(), url, response.getEntity(String.class));
         if (!isOk(response)) {
-            logger.warn("Could not attach observer to {}", parameter.getValue());
+            logger.warn("Could not attach observer to {}", outputMetric);
         }
         else {
-            logger.info("Successful attached callback={} to {}", callbackUrl, parameter.getValue());
+            logger.info("Successful attached callback={} to {}", callbackUrl, outputMetric);
         }
     }
     

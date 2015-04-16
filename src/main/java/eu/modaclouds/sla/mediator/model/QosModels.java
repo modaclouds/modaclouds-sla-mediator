@@ -26,8 +26,11 @@ public class QosModels {
     public static Logger logger = LoggerFactory.getLogger(QosModels.class);
     
     public static MonitoringRule NOT_FOUND_RULE = new MonitoringRule();
+    public static Parameter NOT_FOUND_PARAMETER = new Parameter();
     static {
         NOT_FOUND_RULE.setActions(new Actions());
+        NOT_FOUND_PARAMETER.setName("");
+        NOT_FOUND_PARAMETER.setValue("");
     }
     
     /**
@@ -35,17 +38,27 @@ public class QosModels {
      * empty string otherwise.
      */
     public static String getOutputMetric(MonitoringRule rule) {
+        String paramName = METRIC_PARAM_NAME;
         
         for (Action action : rule.getActions().getActions()) {
             if (OUTPUT_METRIC_ACTION.equalsIgnoreCase(action.getName())) {
-                for (Parameter param : action.getParameters()) {
-                    if (METRIC_PARAM_NAME.equals(param.getName())) {
-                        return param.getValue();
-                    }
-                }
+                Parameter param = getActionParameter(action, paramName);
+                return param.getValue();
             }
         }
         return "";
+    }
+
+    /**
+     * Returns the first parameter with attribute "name" equals to paramName; if not found, NOT_FOUND_PARAMETER. 
+     */
+    public static Parameter getActionParameter(Action action, String paramName) {
+        for (Parameter param : action.getParameters()) {
+            if (paramName.equals(param.getName())) {
+                return param;
+            }
+        }
+        return NOT_FOUND_PARAMETER;
     }
     
     /**
