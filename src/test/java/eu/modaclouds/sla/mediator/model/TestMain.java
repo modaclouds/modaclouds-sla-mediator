@@ -29,12 +29,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import eu.atos.sla.parser.data.wsag.Template;
-import eu.modaclouds.sla.mediator.ContextInfo;
 import eu.modaclouds.sla.mediator.Creator;
 import eu.modaclouds.sla.mediator.Creator.Factory;
-import eu.modaclouds.sla.mediator.TemplateGenerator;
+import eu.modaclouds.sla.mediator.ContextInfo;
 import eu.modaclouds.sla.mediator.Utils;
 import eu.modaclouds.sla.mediator.ViolationSubscriber;
+import eu.modaclouds.sla.mediator.generation.TemplateGenerator;
 import eu.modaclouds.sla.mediator.model.palladio.Model;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 

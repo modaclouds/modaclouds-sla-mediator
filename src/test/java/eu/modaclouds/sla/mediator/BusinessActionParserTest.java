@@ -31,6 +31,8 @@ import javax.xml.datatype.DatatypeFactory;
 import org.junit.Before;
 import org.junit.Test;
 
+import eu.modaclouds.sla.mediator.generation.BusinessActionParser;
+
 public class BusinessActionParserTest {
 
     DatatypeFactory dtFactory;

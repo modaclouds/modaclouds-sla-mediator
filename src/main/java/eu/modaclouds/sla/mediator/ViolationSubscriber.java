@@ -46,12 +46,12 @@ import eu.atos.sla.parser.data.wsag.Agreement;
 import eu.atos.sla.parser.data.wsag.GuaranteeTerm;
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
+import eu.modaclouds.sla.mediator.generation.TemplateGenerator;
+import eu.modaclouds.sla.mediator.model.QosModels;
 
 public class ViolationSubscriber {
     
     private static final String NAME = "name";
-
-    private static final String OUTPUT_METRIC = "OutputMetric";
 
     public static class Factory {
         
@@ -124,28 +124,12 @@ public class ViolationSubscriber {
                         getAgreementDescription(agreement), gt.getName());
                 continue;
             }
-            for (Action action : getActions(rule)) {
-                if (OUTPUT_METRIC.equals(action.getName())) {
-                    for (Parameter param : action.getParameters()) {
-                        process(gt, rule, action, param);
-                    }
+            for (Action action : QosModels.getActions(rule, QosModels.OUTPUT_METRIC_ACTION)) {
+                for (Parameter param : action.getParameters()) {
+                    process(gt, rule, action, param);
                 }
             }
         }
-    }
-
-    /**
-     * Wrapper to avoid a NPE
-     */
-    private List<Action> getActions(MonitoringRule rule) {
-        List<Action> result;
-        if (rule.getActions() != null && rule.getActions().getActions() != null) {
-            result = rule.getActions().getActions();
-        }
-        else {
-            result = Collections.<Action>emptyList();
-        }
-        return result;
     }
 
     /**
@@ -207,7 +191,7 @@ public class ViolationSubscriber {
         param.setValue(violation);
         
         Action action = new Action();
-        action.setName(OUTPUT_METRIC);
+        action.setName(QosModels.OUTPUT_METRIC_ACTION);
         action.getParameters().add(param);
         
         Actions actions = new Actions();

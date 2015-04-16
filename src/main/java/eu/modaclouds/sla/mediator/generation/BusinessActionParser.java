@@ -14,7 +14,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package eu.modaclouds.sla.mediator;
+package eu.modaclouds.sla.mediator.generation;
 
 import it.polimi.modaclouds.qos_models.schema.Action;
 import it.polimi.modaclouds.qos_models.schema.Parameter;
@@ -25,6 +25,8 @@ import javax.xml.datatype.Duration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import eu.modaclouds.sla.mediator.model.QosModels;
 
 /**
  * This class parses a Business Action of a MonitoringRule. 
@@ -91,7 +93,7 @@ public class BusinessActionParser {
     }
     
     public Result parse(Action action) {
-        if (!"Business".equalsIgnoreCase(action.getName())) {
+        if (!QosModels.BUSINESS_ACTION.equalsIgnoreCase(action.getName())) {
             throw new IllegalArgumentException(
                     String.format("Action[name=\"%s\"] is not a Business Action", action.getName()));
         }

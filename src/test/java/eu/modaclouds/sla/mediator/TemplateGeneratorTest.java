@@ -26,9 +26,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import eu.atos.sla.parser.data.wsag.Template;
-import eu.modaclouds.sla.mediator.model.palladio.Document;
+import eu.modaclouds.sla.mediator.generation.TemplateGenerator;
 import eu.modaclouds.sla.mediator.model.palladio.Model;
-import eu.modaclouds.sla.mediator.model.palladio.Model.RepositoryMapInitializer;
 import eu.modaclouds.sla.mediator.model.palladio.repository.Repository;
 
 public class TemplateGeneratorTest {

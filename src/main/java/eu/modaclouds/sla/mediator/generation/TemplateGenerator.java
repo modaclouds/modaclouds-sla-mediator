@@ -14,14 +14,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package eu.modaclouds.sla.mediator;
+package eu.modaclouds.sla.mediator.generation;
 
 import it.polimi.modaclouds.qos_models.schema.Action;
 import it.polimi.modaclouds.qos_models.schema.Constraint;
 import it.polimi.modaclouds.qos_models.schema.Constraints;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRule;
 import it.polimi.modaclouds.qos_models.schema.MonitoringRules;
-import it.polimi.modaclouds.qos_models.schema.Parameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,9 @@ import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
 import eu.atos.sla.parser.data.wsag.custom.CustomBusinessValue;
 import eu.atos.sla.parser.data.wsag.custom.Penalty;
-import eu.modaclouds.sla.mediator.model.ModelUtils;
+import eu.modaclouds.sla.mediator.ContextInfo;
+import eu.modaclouds.sla.mediator.MediatorException;
+import eu.modaclouds.sla.mediator.model.QosModels;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
 import eu.modaclouds.sla.mediator.model.palladio.IDocument;
 import eu.modaclouds.sla.mediator.model.palladio.Model;
@@ -129,8 +130,8 @@ public class TemplateGenerator {
         
         for (Constraint constraint : constraints.getConstraints()) {
             
-            MonitoringRule rule = ModelUtils.getRelatedRule(constraint, rules);
-            if (rule == ModelUtils.NOT_FOUND_RULE) {
+            MonitoringRule rule = QosModels.getRelatedRule(constraint, rules);
+            if (rule == QosModels.NOT_FOUND_RULE) {
                 logger.warn("Related rule not found: constraintId={}", constraint.getId());
                 continue;
             }
@@ -152,7 +153,7 @@ public class TemplateGenerator {
                 constraint.getId(), rule.getId(), document.getJAXBNode().getId());
 
         GuaranteeTerm gt = NULL_GUARANTEE_TERM;
-        String outputMetric = getOutputMetric(rule);
+        String outputMetric = QosModels.getOutputMetric(rule);
         ServiceScope serviceScope = new ServiceScoper().generate(constraint, document);
         TargetClass target = TargetClass.fromString(constraint.getTargetClass());
 
@@ -212,24 +213,10 @@ public class TemplateGenerator {
         return UUID.randomUUID().toString();
     }
     
-    private String getOutputMetric(MonitoringRule rule) {
-        
-        for (Action action : rule.getActions().getActions()) {
-            if ("OutputMetric".equalsIgnoreCase(action.getName())) {
-                for (Parameter param : action.getParameters()) {
-                    if ("metric".equals(param.getName())) {
-                        return param.getValue();
-                    }
-                }
-            }
-        }
-        return "";
-    }
-
     private GuaranteeTerm generateBusinessValueList(GuaranteeTerm gt, MonitoringRule rule) {
         
         for (Action action : rule.getActions().getActions()) {
-            if ("Business".equalsIgnoreCase(action.getName())) {
+            if (QosModels.BUSINESS_ACTION.equalsIgnoreCase(action.getName())) {
                 BusinessActionParser.Result data = businessActionParser.parse(action);
                 if (gt.getBusinessValueList() == null) {
                     gt.setBusinessValueList(new BusinessValueList());

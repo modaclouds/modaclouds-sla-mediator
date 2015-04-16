@@ -14,7 +14,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package eu.modaclouds.sla.mediator;
+package eu.modaclouds.sla.mediator.generation;
 
 import java.util.Date;
 import java.util.List;
@@ -31,6 +31,7 @@ import eu.atos.sla.parser.data.wsag.ServiceDescriptionTerm;
 import eu.atos.sla.parser.data.wsag.ServiceProperties;
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
+import eu.modaclouds.sla.mediator.ContextInfo;
 
 public class AgreementGenerator {
     

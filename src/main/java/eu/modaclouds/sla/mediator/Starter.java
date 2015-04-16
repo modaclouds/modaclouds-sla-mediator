@@ -37,27 +37,6 @@ import eu.atos.sla.parser.data.wsag.Agreement;
 
 public class Starter {
 
-//    public static class Factory {
-//        private final SlaCoreConfig slaCoreConfig;
-//        private final String metricsBaseUrl;
-//        private final String callbackBaseUrl;
-//
-//        public Factory(
-//                SlaCoreConfig slaCoreConfig,
-//                String metricsBaseUrl, 
-//                String callbackBaseUrl) {
-//
-//            this.slaCoreConfig = slaCoreConfig;
-//            this.metricsBaseUrl = metricsBaseUrl;
-//            this.callbackBaseUrl = callbackBaseUrl;
-//        }
-//        
-//        public Starter getEnforcement(ViolationSubscriber.Factory subscriberFactory) {
-//            
-//            return new Starter(slaCoreConfig, metricsBaseUrl, callbackBaseUrl, subscriberFactory);
-//        }
-//    }
-
     private final SlaClient client;
     private final String metricsBaseUrl;
     private final String callbackBaseUrl;

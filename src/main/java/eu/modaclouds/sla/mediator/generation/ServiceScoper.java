@@ -1,4 +1,4 @@
-package eu.modaclouds.sla.mediator;
+package eu.modaclouds.sla.mediator.generation;
 
 import it.polimi.modaclouds.qos_models.schema.Constraint;
 

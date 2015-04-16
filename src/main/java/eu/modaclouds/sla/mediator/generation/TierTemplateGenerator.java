@@ -14,7 +14,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package eu.modaclouds.sla.mediator;
+package eu.modaclouds.sla.mediator.generation;
 
 import it.polimi.modaclouds.qos_models.schema.Condition;
 import it.polimi.modaclouds.qos_models.schema.Constraint;
@@ -50,7 +50,8 @@ import eu.atos.sla.parser.data.wsag.ServiceProperties;
 import eu.atos.sla.parser.data.wsag.ServiceScope;
 import eu.atos.sla.parser.data.wsag.Template;
 import eu.atos.sla.parser.data.wsag.Terms;
-import eu.modaclouds.sla.mediator.model.ModelUtils;
+import eu.modaclouds.sla.mediator.ContextInfo;
+import eu.modaclouds.sla.mediator.model.QosModels;
 import eu.modaclouds.sla.mediator.model.constraints.TargetClass;
 import eu.modaclouds.sla.mediator.model.palladio.IReferrable;
 import eu.modaclouds.sla.mediator.model.palladio.Model;
@@ -112,7 +113,7 @@ public class TierTemplateGenerator {
         terms.getAllTerms().setGuaranteeTerms(gts);
         
         for (Constraint constraint: constraints.getConstraints()) {
-            MonitoringRule rule = ModelUtils.getRelatedRule(constraint, rules);
+            MonitoringRule rule = QosModels.getRelatedRule(constraint, rules);
             
             if (isSuitableRule(rule, model, tier)) {
                 GuaranteeTerm gt = generateGuaranteeTerm(constraint, rule, model);
@@ -206,7 +207,7 @@ public class TierTemplateGenerator {
                 rule.getId(), model.getRepository().getJAXBNode().getId());
         
         GuaranteeTerm gt;
-        String outputMetric = ModelUtils.getOutputMetric(rule);
+        String outputMetric = QosModels.getOutputMetric(rule);
         
         if ("".equals(outputMetric)) {
             logger.warn("OutputMetric is not defined. GuaranteeTerm cannot be added to agreement");
