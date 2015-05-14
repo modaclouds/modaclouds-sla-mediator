@@ -40,14 +40,13 @@ public class CreatorTest {
         Creator creator = new Creator(cfg, ctx, false);
         
         Creator.Result result = creator.runSla(
-                getInputStream("/ofbiz/constraint.xml"), 
-                getInputStream("/ofbiz/rules.xml"), 
+                getInputStream("/ofbiz/QosConstraints.xml"), 
+                getInputStream("/ofbiz/MonitoringRules.xml"), 
                 getInputStream("/ofbiz/default.repository"), 
                 getInputStream("/ofbiz/default.allocation"), 
                 getInputStream("/ofbiz/default.system"), 
                 getInputStream("/ofbiz/default.resourceenvironment"), 
-                getInputStream("/ofbiz/ContainerExtension.xml"), 
-                getInputStream("/ofbiz/Functionality2Tier.xml"),
+                getInputStream("/ofbiz/ResourceContainerExtension.xml"), 
                 getInputStream("/ofbiz/rules_s4c.xml"));
         
         assertNotNull(result.getHighId());
@@ -78,7 +77,6 @@ public class CreatorTest {
                 getInputStream(root + String.format("%s.system", prefix)), 
                 getInputStream(root + String.format("%s.resourceenvironment", prefix)), 
                 getInputStream(root + "ResourceContainerExtension.xml"), 
-                getInputStream(root + "Functionality2Tier.xml"),
                 getInputStream(root + "MonitoringRules_s4c.xml"));
         
         for (ResourceContainer container : result.getModel().getResourceContainers()) {
@@ -106,7 +104,6 @@ public class CreatorTest {
                 getInputStream(root + String.format("%s.system", prefix)), 
                 getInputStream(root + String.format("%s.resourceenvironment", prefix)), 
                 getInputStream(root + "ResourceContainerExtension.xml"), 
-                getInputStream(root + "Functionality2Tier.xml"),
                 getInputStream(root + "MonitoringRules_s4c.xml"));
         
         for (ResourceContainer container : result.getModel().getResourceContainers()) {
@@ -118,7 +115,29 @@ public class CreatorTest {
         }
     }
     
+    @Test
+    public final void testRunMic() {
+        ContextInfo ctx = new ContextInfo("modaclouds", "consumer", "mic", new Validity (1, 0, 0));
+        SlaCoreConfig cfg = new SlaCoreConfig("", "", "");
+        Creator creator = new Creator(cfg, ctx, false);
+        
+        String root = "/mic2/";
+        String prefix = "default";
+        Creator.Result result = creator.runSla(
+                getInputStream(root + "QoSConstraints.xml"), 
+                getInputStream(root + "MonitoringRules.xml"), 
+                getInputStream(root + String.format("%s.repository", prefix)), 
+                getInputStream(root + String.format("%s.allocation", prefix)), 
+                getInputStream(root + String.format("%s.system", prefix)), 
+                getInputStream(root + String.format("%s.resourceenvironment", prefix)), 
+                getInputStream(root + "ResourceContainerExtension.xml"), 
+                null);
+
+    }
+    
     private InputStream getInputStream(String path) {
         return this.getClass().getResourceAsStream(path);
     }
+    
+    
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<constraints xmlns="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.modaclouds.eu/xsd/1.0/qos_constraints_schema https://raw.githubusercontent.com/deib-polimi/modaclouds-qos-models/master/metamodels/qosconstraints/qos_constraints_schema.xsd">
+	<constraint
+		id="r1"
+		name="register">
+		<targetResourceIDRef>_sPjOMNhwEeSGjb1hTo3-zQ</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>4000</hasMaxValue>
+		</range>
+	</constraint>
+
+	<constraint
+		id="r2" name="Login percentile RT">
+		<targetResourceIDRef>_sPjOMNhwEeSGjb1hTo3-zQ</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Percentile">
+			<parameter name="thPercentile">95</parameter>
+		</metricAggregation>
+		<range>
+			<hasMaxValue>10000</hasMaxValue>
+		</range>
+	</constraint>
+
+	<constraint
+		id="r3" name="Answere Question Average">
+		<targetResourceIDRef>_GUDXEMdIEeSzTs-iRu8Llw</targetResourceIDRef>
+		<targetClass>Method</targetClass>
+		<metric>ResponseTime</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>10000</hasMaxValue>
+		</range>
+	</constraint>
+
+
+	<constraint id="3" name="Front End Minimum Ram">
+		<targetResourceIDRef>_JWHSgMdLEeSzTs-iRu8Llw</targetResourceIDRef>
+		<metric>RAM</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMinValue>2000</hasMinValue>
+		</range>
+	</constraint>
+	<constraint id="4" name="Min Ram">
+		<targetResourceIDRef>_JWHSgMdLEeSzTs-iRu8Llw</targetResourceIDRef>
+		<metric>RAM</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMinValue>2000</hasMinValue>
+		</range>
+	</constraint>
+	<constraint id="5" name="Max Utilization">
+		<targetResourceIDRef>_JWHSgMdLEeSzTs-iRu8Llw</targetResourceIDRef>
+		<metric>CPUUtilization</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<hasMaxValue>0.8</hasMaxValue>
+		</range>
+	</constraint>
+	<constraint
+		id="6"
+		name="MachineType">
+		<targetResourceIDRef>_JWHSgMdLEeSzTs-iRu8Llw</targetResourceIDRef>
+		<targetClass>VM</targetClass>
+		<metric>MachineType</metric>
+		<metricAggregation aggregateFunction="Average" />
+		<range>
+			<outSet>
+				<value>c3.large</value>
+			</outSet>
+		</range>
+	</constraint>
+</constraints>

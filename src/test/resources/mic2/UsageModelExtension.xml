@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<usageModelExtensions
+	xmlns="http://www.modaclouds.eu/xsd/2013/6/usage-model-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.modaclouds.eu/xsd/2013/6/usage-model-ext https://raw.githubusercontent.com/deib-polimi/modaclouds-qos-models/master/metamodels/s4cextension/usage_model_extension.xsd">
+	<usageModelExtension scenarioId="_sez6kMdLEeSzTs-iRu8Llw">
+		<closedWorkload>
+			<workloadElement hour="0" population="10" thinkTime="10" />
+			<workloadElement hour="1" population="10" thinkTime="10" />
+			<workloadElement hour="2" population="10" thinkTime="10" />
+			<workloadElement hour="3" population="10" thinkTime="10" />
+			<workloadElement hour="4" population="10" thinkTime="10" />
+			<workloadElement hour="5" population="10" thinkTime="10" />
+			<workloadElement hour="6" population="20" thinkTime="10" />
+			<workloadElement hour="7" population="20" thinkTime="10" />
+			<workloadElement hour="8" population="30" thinkTime="10" />
+			<workloadElement hour="9" population="120" thinkTime="10" />
+			<workloadElement hour="10" population="300" thinkTime="10" />
+			<workloadElement hour="11" population="500" thinkTime="10" />
+			<workloadElement hour="12" population="200" thinkTime="10" />
+			<workloadElement hour="13" population="250" thinkTime="10" />
+			<workloadElement hour="14" population="300" thinkTime="10" />
+			<workloadElement hour="15" population="400" thinkTime="10" />
+			<workloadElement hour="16" population="500" thinkTime="10" />
+			<workloadElement hour="17" population="300" thinkTime="10" />
+			<workloadElement hour="18" population="100" thinkTime="10" />
+			<workloadElement hour="19" population="40" thinkTime="10" />
+			<workloadElement hour="20" population="20" thinkTime="10" />
+			<workloadElement hour="21" population="10" thinkTime="10" />
+			<workloadElement hour="22" population="10" thinkTime="10" />
+			<workloadElement hour="23" population="10" thinkTime="10" />
+		</closedWorkload>
+	</usageModelExtension>
+</usageModelExtensions>

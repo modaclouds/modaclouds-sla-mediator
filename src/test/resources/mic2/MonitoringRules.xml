@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<monitoringRules xmlns="http://www.modaclouds.eu/xsd/1.0/monitoring_rules_schema">
+    <monitoringRule id="101f7828-7bca-45d8-882f-a4e07aa9286b" relatedQosConstraintId="r1" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget type="_sPjOMNhwEeSGjb1hTo3-zQ" class="Method"/>
+        </monitoredTargets>
+        <collectedMetric metricName="ResponseTime">
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition>METRIC &gt; 4000.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="metric">qosConstraint_r1_Violated</parameter>
+                <parameter name="value">METRIC</parameter>
+                <parameter name="resourceId">ID</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="e63b4516-cbb9-42de-9ad9-ab27b6921ec1" relatedQosConstraintId="r2" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget type="_sPjOMNhwEeSGjb1hTo3-zQ" class="Method"/>
+        </monitoredTargets>
+        <collectedMetric metricName="ResponseTime">
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Percentile">
+            <parameter name="thPercentile">95</parameter>
+        </metricAggregation>
+        <condition>METRIC &gt; 10000.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="metric">qosConstraint_r2_Violated</parameter>
+                <parameter name="value">METRIC</parameter>
+                <parameter name="resourceId">ID</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="9131727c-b06d-41f7-a918-dffdf48e553b" relatedQosConstraintId="r3" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget type="_GUDXEMdIEeSzTs-iRu8Llw" class="Method"/>
+        </monitoredTargets>
+        <collectedMetric metricName="ResponseTime">
+            <parameter name="samplingProbability">1</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition>METRIC &gt; 10000.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="metric">qosConstraint_r3_Violated</parameter>
+                <parameter name="value">METRIC</parameter>
+                <parameter name="resourceId">ID</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="5f858143-b632-4c5b-af39-648e8415ff07" relatedQosConstraintId="3" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget type="_JWHSgMdLEeSzTs-iRu8Llw"/>
+        </monitoredTargets>
+        <collectedMetric metricName="RAM"/>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition>METRIC &lt; 2000.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="metric">qosConstraint_3_Violated</parameter>
+                <parameter name="value">METRIC</parameter>
+                <parameter name="resourceId">ID</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="4ca765c2-2a93-4b06-bbab-a5d4560affba" relatedQosConstraintId="4" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget type="_JWHSgMdLEeSzTs-iRu8Llw"/>
+        </monitoredTargets>
+        <collectedMetric metricName="RAM"/>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition>METRIC &lt; 2000.0</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="metric">qosConstraint_4_Violated</parameter>
+                <parameter name="value">METRIC</parameter>
+                <parameter name="resourceId">ID</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="8266b4dc-7f0e-4322-8d2d-8bb8a32303be" relatedQosConstraintId="5" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget type="_JWHSgMdLEeSzTs-iRu8Llw"/>
+        </monitoredTargets>
+        <collectedMetric metricName="CPUUtilization">
+            <parameter name="samplingTime">60</parameter>
+        </collectedMetric>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition>METRIC &gt; 0.8</condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="metric">qosConstraint_5_Violated</parameter>
+                <parameter name="value">METRIC</parameter>
+                <parameter name="resourceId">ID</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+    <monitoringRule id="caaa17ef-24d8-459d-8799-5373cd16e67a" relatedQosConstraintId="6" startEnabled="true" timeStep="60" timeWindow="60">
+        <monitoredTargets>
+            <monitoredTarget type="_JWHSgMdLEeSzTs-iRu8Llw" class="VM"/>
+        </monitoredTargets>
+        <collectedMetric metricName="MachineType"/>
+        <metricAggregation aggregateFunction="Average"/>
+        <condition></condition>
+        <actions>
+            <action name="OutputMetric">
+                <parameter name="metric">qosConstraint_6_Violated</parameter>
+                <parameter name="value">METRIC</parameter>
+                <parameter name="resourceId">ID</parameter>
+            </action>
+        </actions>
+    </monitoringRule>
+</monitoringRules>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system:System xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:composition="http://sdq.ipd.uka.de/PalladioComponentModel/Core/Composition/5.0" xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0" xmlns:system="http://sdq.ipd.uka.de/PalladioComponentModel/System/5.0" id="_01egAMdKEeSzTs-iRu8Llw" entityName="defaultSystem">
+  <assemblyContexts__ComposedStructure id="_133xIMdKEeSzTs-iRu8Llw" entityName="Assembly_Web Server &lt;Web Server>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="default.repository#_ArxvsMc3EeSzTs-iRu8Llw"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_4RXYEMdKEeSzTs-iRu8Llw" entityName="Assembly_Database &lt;Database>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="default.repository#_jTXgsMc1EeSzTs-iRu8Llw"/>
+  </assemblyContexts__ComposedStructure>
+  <assemblyContexts__ComposedStructure id="_4uRWgMdKEeSzTs-iRu8Llw" entityName="Assembly_Similatiy Calculator &lt;Similatiy Calculator>">
+    <encapsulatedComponent__AssemblyContext xsi:type="repository:BasicComponent" href="default.repository#_RxTYIMc1EeSzTs-iRu8Llw"/>
+  </assemblyContexts__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="__09sYMdKEeSzTs-iRu8Llw" entityName="Connector Assembly_Web Server &lt;Web Server> -> Assembly_Database &lt;Database>" requiringAssemblyContext_AssemblyConnector="_133xIMdKEeSzTs-iRu8Llw" providingAssemblyContext_AssemblyConnector="_4RXYEMdKEeSzTs-iRu8Llw">
+    <providedRole_AssemblyConnector href="default.repository#_kUbVEMc1EeSzTs-iRu8Llw"/>
+    <requiredRole_AssemblyConnector href="default.repository#_EUuzYMc3EeSzTs-iRu8Llw"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_Bf3vAMdLEeSzTs-iRu8Llw" entityName="Connector Assembly_Web Server &lt;Web Server> -> Assembly_Similatiy Calculator &lt;Similatiy Calculator>" requiringAssemblyContext_AssemblyConnector="_133xIMdKEeSzTs-iRu8Llw" providingAssemblyContext_AssemblyConnector="_4uRWgMdKEeSzTs-iRu8Llw">
+    <providedRole_AssemblyConnector href="default.repository#_TMWZ0Mc1EeSzTs-iRu8Llw"/>
+    <requiredRole_AssemblyConnector href="default.repository#_DtemIMc3EeSzTs-iRu8Llw"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:AssemblyConnector" id="_CHPRAMdLEeSzTs-iRu8Llw" entityName="Connector Assembly_Similatiy Calculator &lt;Similatiy Calculator> -> Assembly_Database &lt;Database>" requiringAssemblyContext_AssemblyConnector="_4uRWgMdKEeSzTs-iRu8Llw" providingAssemblyContext_AssemblyConnector="_4RXYEMdKEeSzTs-iRu8Llw">
+    <providedRole_AssemblyConnector href="default.repository#_kUbVEMc1EeSzTs-iRu8Llw"/>
+    <requiredRole_AssemblyConnector href="default.repository#_T9GUwMdKEeSzTs-iRu8Llw"/>
+  </connectors__ComposedStructure>
+  <connectors__ComposedStructure xsi:type="composition:ProvidedDelegationConnector" id="_E5ZPkMdLEeSzTs-iRu8Llw" entityName="ProvDelegation Provided_MiC Interface -> Provided_MiC Interface_Web Server" outerProvidedRole_ProvidedDelegationConnector="_DKI4cMdLEeSzTs-iRu8Llw" assemblyContext_ProvidedDelegationConnector="_133xIMdKEeSzTs-iRu8Llw">
+    <innerProvidedRole_ProvidedDelegationConnector href="default.repository#_DTcVgMc3EeSzTs-iRu8Llw"/>
+  </connectors__ComposedStructure>
+  <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_DKI4cMdLEeSzTs-iRu8Llw" entityName="Provided_MiC Interface">
+    <providedInterface__OperationProvidedRole href="default.repository#_PnbeYMcxEeSzTs-iRu8Llw"/>
+  </providedRoles_InterfaceProvidingEntity>
+</system:System>
