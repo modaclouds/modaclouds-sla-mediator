@@ -74,6 +74,10 @@ public class Creator {
         public Creator getCreator(ContextInfo ctx) {
             return new Creator(slaCoreConfig, ctx);
         }
+
+        public Creator getCreator(ContextInfo ctx, boolean persist) {
+            return new Creator(slaCoreConfig, ctx, persist);
+        }
     }
     
     /**
@@ -137,6 +141,10 @@ public class Creator {
      * @param ctx info 
      */
     public Creator(SlaCoreConfig slaCoreConfig, ContextInfo ctx) {
+        this(slaCoreConfig, ctx, true);
+    }
+
+    public Creator(SlaCoreConfig slaCoreConfig, ContextInfo ctx, boolean persist) {
         this.slaCoreUrl = slaCoreConfig.getSlaCoreUrl();
         this.client = new SlaClient(
                 slaCoreUrl, 
@@ -146,11 +154,6 @@ public class Creator {
         );
         this.generator = new TemplateGenerator(ctx);
         this.ctx = ctx;
-        this.persist = false;   /* XXX: change when persist ready */
-    }
-
-    public Creator(SlaCoreConfig slaCoreConfig, ContextInfo ctx, boolean persist) {
-        this(slaCoreConfig, ctx);
         this.persist = persist;
     }
     
@@ -162,7 +165,6 @@ public class Creator {
             InputStream systemIs, 
             InputStream resourceEnvironmentIs,
             InputStream resourceModelExtensionIs,
-            InputStream functionality2TiersIs,
             InputStream s4cRulesIs) {
         
         Constraints constraints;
@@ -182,7 +184,7 @@ public class Creator {
             system = Utils.load(System.class, systemIs);
             resourceEnvironment = Utils.load(ResourceEnvironment.class, resourceEnvironmentIs);
             resourceModelExtension = Utils.load(ResourceModelExtension.class, resourceModelExtensionIs);
-            s4cRules = Utils.load(MonitoringRules.class, s4cRulesIs);
+            s4cRules = (s4cRulesIs == null)? new MonitoringRules() : Utils.load(MonitoringRules.class, s4cRulesIs);
         } catch (JAXBException e) {
             throw new MediatorException(e.getMessage(), e);
         }
@@ -250,15 +252,18 @@ public class Creator {
             agreements.put(tierName, a);
         }
         if (persist) {
-            /* 
-             * TODO
-             * Read model and find cloud providers: store providers
-             */
+
             for (ResourceContainer tier : model.getResourceContainers()) {
                 String tierId = tier.getId();
                 Template t = templates.get(tierId);
                 Agreement a = agreements.get(tierId);
 
+                String providerId = t.getContext().getAgreementResponder();
+                Provider p = loadProvider(providerId);
+                if (p == PROVIDER_NOT_FOUND) {
+                    storeProvider(providerId);
+                }
+                
                 storeTemplate(t);
                 storeAgreement(a);
             }
@@ -289,116 +294,6 @@ public class Creator {
             Agreement item = map.get(key);
             result.put(key, item.getAgreementId());
         }
-        return result;
-    }
-    
-    /**
-     * Generate and post a template. 
-     * 
-     * If the provider does not exists, the provider is also created in core.
-     *  
-     * @param constraintsIs InputStream where to obtain the constraints xml.
-     * @param rulesIs InputStream where to obtain the monitoring rules xml.
-     * @param repositoryIs InputStream where to obtain the repository.xml (Palladio model)
-     * @return TemplateId
-     */
-    @Deprecated
-    public String runTemplate(InputStream constraintsIs, InputStream rulesIs, InputStream repositoryIs,
-            InputStream allocationIs, InputStream systemIs, InputStream resourceEnvironmentIs) {
-        
-        Provider p = loadProvider(ctx.getProvider());
-        if (p == PROVIDER_NOT_FOUND) {
-            storeProvider(ctx.getProvider());
-        }
-        
-        Template t = generateTemplate(
-                constraintsIs, rulesIs, repositoryIs, allocationIs, systemIs, resourceEnvironmentIs);
-        logEntity("Generated template: {}", t);
-        
-        storeTemplate(t);
-        return t.getTemplateId();
-    }
-    
-    /**
-     * Generate and post an agreement.
-     * 
-     * @param templateId The agreement will be built from this template.
-     * @return AgreementId
-     */
-    @Deprecated
-    public String runAgreement(String templateId) {
-        
-        Template template = loadTemplate(templateId);
-        logEntity("Loaded template is {}", template);
-        
-        Agreement agreement = generateAgreement(template);
-        logEntity("Generated agreement: {}", agreement);
-
-        storeAgreement(agreement);
-        return agreement.getAgreementId();
-    }
-    
-    /**
-     * Generate a template based on the PCM, the defined constraints, and the monitoring rules.
-     * 
-     * @see #runTemplate(InputStream, InputStream, InputStream)
-     */
-    @Deprecated
-    public Template generateTemplate(InputStream constraintsIs, InputStream rulesIs, InputStream repositoryIs,
-            InputStream allocationIs, InputStream systemIs, InputStream resourceEnvironmentIs) {
-        Constraints constraints;
-        MonitoringRules rules;
-        Repository repository;
-        Allocation allocation;
-        eu.modaclouds.sla.mediator.model.palladio.system.System system;
-        ResourceEnvironment resourceEnvironment;
-        
-        try {
-            constraints = Utils.load(Constraints.class, constraintsIs);
-            rules = Utils.load(MonitoringRules.class, rulesIs);
-            repository = Utils.load(Repository.class, repositoryIs);
-            allocation = Utils.load(Allocation.class, allocationIs);
-            system = Utils.load(eu.modaclouds.sla.mediator.model.palladio.system.System.class, systemIs);
-            resourceEnvironment = Utils.load(ResourceEnvironment.class, resourceEnvironmentIs);
-        } catch (JAXBException e) {
-            throw new MediatorException(e.getMessage(), e);
-        }
-        
-        Model model = new Model(repository, system, allocation, resourceEnvironment, null);
-        
-        Template template = generator.generateTemplate(constraints, rules, model);
-
-        return template;
-    }
-
-    /**
-     * Generate an agreement based on a template.
-     * 
-     * @return POJO Agreement
-     * 
-     * @see #runAgreement(String)
-     */
-    @Deprecated
-    private Agreement generateAgreement(String templateId) {
-        Template template = loadTemplate(templateId);
-        
-        Agreement agreement = generateAgreement(template);
-        return agreement;
-    }
-    
-    /**
-     * Generate an agreement based on a template.
-     * 
-     * @return POJO Agreement
-     * 
-     * @see #runAgreement(String)
-     */
-    @Deprecated
-    public Agreement generateAgreement(Template template) {
-
-        AgreementGenerator generator = new AgreementGenerator(template, ctx);
-        Agreement result = generator.generateAgreement();
-        
         return result;
     }
     
@@ -488,6 +383,14 @@ public class Creator {
             InputStream systemIs = Utils.getInputStream(dir, parsedArgs.getPrefix() + ".system");
             InputStream resourceEnvironmentIs = 
                     Utils.getInputStream(dir, parsedArgs.getPrefix() + ".resourceenvironment");
+            InputStream resourceModelExtensionIs = Utils.getInputStream(dir, parsedArgs.getContainerExtension());
+            
+            InputStream s4cRulesIs;
+            try {
+                s4cRulesIs = Utils.getInputStream(dir, "s4c_rules.xml");
+            } catch (FileNotFoundException e) {
+                s4cRulesIs = null;
+            }
             
             String[] credentials = Utils.splitCredentials(parsedArgs.getCredentials());
             ContextInfo ctx = new ContextInfo(
@@ -496,18 +399,36 @@ public class Creator {
                     parsedArgs.getService(), 
                     parsedArgs.getDuration());
             Factory factory = new Factory(parsedArgs.getSlaCoreUrl(), credentials[0], credentials[1]);
-            Creator mediator = factory.getCreator(ctx);
+
+            Creator mediator = factory.getCreator(ctx, !parsedArgs.getDebug());
+
+            Creator.Result result = mediator.runSla(
+                    constraintsIs, 
+                    rulesIs,
+                    repositoryIs,
+                    allocationIs,
+                    systemIs,
+                    resourceEnvironmentIs,
+                    resourceModelExtensionIs,
+                    s4cRulesIs
+            );
             
-            String templateId = mediator.runTemplate(
-                    constraintsIs, rulesIs, repositoryIs, allocationIs, systemIs, resourceEnvironmentIs);
-            output = templateId;
-            if (!"".equals(parsedArgs.getConsumer())) {
-                
-                String agreementId = mediator.runAgreement(templateId);
-                output = agreementId;
-                Agreement agreement = mediator.loadAgreement(agreementId);
+            output = result.getHighId();
+
+            if (!parsedArgs.getDebug()) {
+                Agreement agreement = mediator.loadAgreement(result.getHighId());
                 logEntity("Loaded agreement: {}", agreement);
             }
+//            String templateId = mediator.runTemplate(
+//                    constraintsIs, rulesIs, repositoryIs, allocationIs, systemIs, resourceEnvironmentIs);
+//            output = templateId;
+//            if (!"".equals(parsedArgs.getConsumer())) {
+//                
+//                String agreementId = mediator.runAgreement(templateId);
+//                output = agreementId;
+//                Agreement agreement = mediator.loadAgreement(agreementId);
+//                logEntity("Loaded agreement: {}", agreement);
+//            }
             
             java.lang.System.out.print(output);
             
@@ -516,8 +437,18 @@ public class Creator {
             java.lang.System.exit(2);
         }
     }
+
+    private final static String DEFAULT_SERVICE = "modaclouds"; 
+    private final static String DEFAULT_DURATION = "P1Y";
+    private final static String DEFAULT_PREFIX = "default";
+    private final static String DEFAULT_CONSTRAINTS = "QoSConstraints.xml";
+    private final static String DEFAULT_RULES = "MonitoringRules.xml";
+    private final static String DEFAULT_CONTAINER_EXT = "ResourceContainerExtension.xml";
     
     public interface Arguments {
+        
+        @Option(longName="debug")
+        boolean getDebug();
         
         @Option(shortName="d", longName="dir", description="Directory where to find xml files")
         String getDirectory();
@@ -534,27 +465,30 @@ public class Creator {
         @Option(shortName="c", longName="consumer", description="Consumer identifier", defaultValue="")
         String getConsumer();
         
-        @Option(shortName="s", longName="service", description="Service Name. Default to 'modaclouds'", 
-                defaultValue="modaclouds")
+        @Option(shortName="s", longName="service", description="Service Name. Default to '" + DEFAULT_SERVICE + "'", 
+                defaultValue=DEFAULT_SERVICE)
         String getService();
         
-        @Option(longName="duration", description="xs:duration with the agreement validity. Default to 'P1Y'",
-                defaultValue="P1Y")
+        @Option(longName="duration", defaultValue=DEFAULT_DURATION,
+                description="xs:duration with the agreement validity. Default to '" + DEFAULT_DURATION + "'")
         String getDuration();
         
-        @Option(longName="prefix", defaultValue="default", 
+        @Option(longName="prefix", defaultValue=DEFAULT_PREFIX, 
                 description="PMC filenames have 'prefix.kind' format. This options specifies the prefix. "
                         + "Default to 'default'" )
         String getPrefix();
         
-        @Option(longName="rules", defaultValue="rules.xml",
-                description="Filename of xml containing the monitoring rules. Default to 'rules.xml'")
+        @Option(longName="rules", defaultValue=DEFAULT_RULES,
+                description="Filename of xml containing the monitoring rules. Default to '" + DEFAULT_RULES + "'")
         String getRules();
 
-        @Option(longName="constraints", defaultValue="constraint.xml", 
-                description="Filename of xml containing constraints. Default to 'constraint.xml'")
+        @Option(longName="constraints", defaultValue=DEFAULT_CONSTRAINTS, 
+                description="Filename of xml containing constraints. Default to '" + DEFAULT_CONSTRAINTS + "'")
         String getConstraints();
+        
+        @Option(longName="containerext", defaultValue=DEFAULT_CONTAINER_EXT, 
+                description="Filename of Resource Container Extension file. Default to '" + DEFAULT_CONTAINER_EXT+ "'")
+        String getContainerExtension();
     }
     
-
 }

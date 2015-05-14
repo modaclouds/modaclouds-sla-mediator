@@ -29,7 +29,7 @@ if [ "$0" != "bin/creator.sh" ]; then
         exit 1
 fi
 
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
         echo "Usage: $0 <directory> [--prefix <prefix>] [--rules <filename>] [--constraints <filename>]"
         exit 1
 fi

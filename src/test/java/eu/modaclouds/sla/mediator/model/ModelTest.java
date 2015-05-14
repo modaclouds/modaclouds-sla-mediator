@@ -49,7 +49,7 @@ public class ModelTest {
         resourceEnvironment = Utils.load(ResourceEnvironment.class, 
                 getInputStream("/ofbiz/default.resourceenvironment"));
         resourceModelExtension = Utils.load(it.polimi.modaclouds.qos_models.schema.ResourceModelExtension.class, 
-                getInputStream("/ofbiz/ContainerExtension.xml"));
+                getInputStream("/ofbiz/ResourceContainerExtension.xml"));
         model = new Model(repository, system, allocation, resourceEnvironment, resourceModelExtension);
     }
 

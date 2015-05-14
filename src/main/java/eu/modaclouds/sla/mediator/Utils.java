@@ -141,40 +141,4 @@ public class Utils {
                 combinedCredentials.substring(splitIndex + 1) };
     }
     
-//  private <E> RepositoryDocument loadWithBinder(Class<E> clazz, String path) throws JAXBException {
-//  
-//  JAXBContext jaxbContext;
-//
-//  File file = new File(this.getClass().getResource(path).getFile());
-//  Document document;
-//  try {
-//      document = db.parse(file);
-//  } catch (SAXException e1) {
-//      throw new JAXBException(e1);
-//  } catch (IOException e1) {
-//      throw new JAXBException(e1);
-//  }
-//
-//  Element root = document.getDocumentElement();
-//  System.out.println(String.format("{%s}%s local=%s prefix=%s baseuri=%s nodename=%s", 
-//          root.getNamespaceURI(), root.getTagName(), root.getLocalName(), root.getPrefix(),
-//          root.getBaseURI(), root.getNodeName() ) );
-////  Element comp = (Element)root.getElementsByTagName("components__Repository").item(0);
-////  System.out.println(String.format("{%s}%s", comp.getNamespaceURI(), comp.getNodeName() ) );
-//  jaxbContext = JAXBContext.newInstance(clazz);
-//  Binder<Node> binder = jaxbContext.createBinder();
-//  E e = (E) binder.unmarshal(document);
-//
-//  RepositoryDocument result = new RepositoryDocument(document, binder, (Repository) e);
-//  return result;
-//}
-    
-//  private <E> void save(E e, String path) throws JAXBException {
-//  JAXBContext jaxbContext;
-//  Marshaller jaxbMarshaller;
-//  
-//  jaxbContext = JAXBContext.newInstance(e.getClass());
-//  jaxbMarshaller = jaxbContext.createMarshaller();
-//}
-    
 }

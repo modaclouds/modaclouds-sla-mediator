@@ -17,11 +17,10 @@
 #
 
 #
-# Assume MP and sla-core are running at localhost in a clear state.
+# Assume sla-core is running at localhost in a clear state.
 #
 # The following ENV vars may be previously assigned:
 # SLA_URL (default: http://localhost:8080/sla-service)
-# MP_URL  (default: http://localhost:8170/v1)
 #
 #
 if [ "$0" != "bin/starter.sh" ]; then
@@ -36,18 +35,13 @@ fi
 
 CREDENTIALS=user:password
 SLA_URL=${SLA_URL:-http://localhost:8080/sla-service}
-MP_URL=${MP_URL:-http://localhost:8170/v1}
 
 AGREEMENT_ID="$1"
 
 #
 # Start agreement enforcement
 #
-java -cp target/sla-mediator-jar-with-dependencies.jar eu.modaclouds.sla.mediator.Starter\
-    -u "$CREDENTIALS"             \
-    --metrics "${MP_URL}/metrics" \
-    --sla "$SLA_URL"              \
-    --id "$AGREEMENT_ID"
+curl -X PUT $SLA_URL/modaclouds/$AGREEMENT_ID/start
 
 if [ "$?" != "0" ]; then 
     >&2 echo -e "\n\nError starting enforcement"
