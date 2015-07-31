@@ -278,10 +278,10 @@ public class Creator {
                 (ResourceContainerWrapper) model.getResourceModelExtension().getElementById(tierId);
         it.polimi.modaclouds.qos_models.schema.ResourceContainer container = wrapper.getWrapped();
         
-        String provider = container.getProvider() != null? container.getProvider() : "[unknown]";
+        String provider = container.getProvider() != null? container.getProvider() : "[unknown-provider]";
         String consumer = highCtx.getProvider();
-        String service = container.getCloudElement() != null? 
-                container.getCloudElement().getServiceName() : "";
+        String service = container.getCloudElement() != null && container.getCloudElement().getServiceName() != null? 
+                container.getCloudElement().getServiceName() : "[unknown-service-name]";
         ContextInfo result = new ContextInfo(provider, consumer, service, highCtx.getValidity());
         
         return result;
