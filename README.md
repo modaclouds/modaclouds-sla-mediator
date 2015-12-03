@@ -25,3 +25,9 @@ v0.2.1:
 v0.2.0:
 
 * Supports qos-models-2.1.4
+
+##License##
+
+Licensed under the [Apache License, Version 2.0][1]
+
+[1]: http://www.apache.org/licenses/LICENSE-2.0
